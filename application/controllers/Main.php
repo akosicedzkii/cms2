@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Administrator extends CI_Controller {
+class Main extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -26,15 +26,15 @@ class Administrator extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('administrator/template/header');
-		$this->load->view('administrator/main_view');
-		$this->load->view('administrator/template/footer');
+		$this->load->view('main/template/header');
+		$this->load->view('main/main_view');
+		$this->load->view('main/template/footer');
     }
 
     public function users()
     {
-		$this->load->view('administrator/template/header');
-		$this->load->view('administrator/users_view');
-		$this->load->view('administrator/template/footer');
-    }
+		$this->load->view('main/template/header');
+		$this->load->view('main/users_view');
+		$this->load->view('main/template/footer');
+	}
 }
