@@ -33,8 +33,9 @@ class Main extends CI_Controller {
 
     public function users()
     {
+		$module["module_name"] = $this->router->fetch_method();
 		$this->load->view('main/template/header');
-		$this->load->view('main/users_view');
+		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');
 	}
 }

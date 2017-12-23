@@ -2,15 +2,42 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->settings_model->get_settings();    
     }
-
+    
 	public function index()
 	{
-		$this->load->view('administrator/login_view');
-    }
+        if($this->session->userdata("username") == null)
+        {   
+            $this->load->view('main/login_view');
+        }
+        else
+        {
+            redirect(base_url()."welcome/test");
+        }
+	}
+
+	public function validate_login()
+	{
+        $username = $this->input->post("username");
+        $password = $this->input->post("password");
+        if($username == null || $password == null)
+        {
+            echo "Complete all fields";
+        }
+        else
+        {
+            $this->load->model("login_model");
+            $this->login_model->username = $username;
+            $this->login_model->password = $password;
+            $return = $this->login_model->validate_login();
+            if($return)
+            {
+                echo $return;
+            }
+        }
+	}
 }

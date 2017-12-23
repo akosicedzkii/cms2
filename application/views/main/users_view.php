@@ -3,451 +3,56 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-    Dashboard
-    <small>Control panel</small>
+    <?php echo ucfirst($module_name);?>
+    <small>Management</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Dashboard</li>
+    <li class="active"><?php echo ucfirst($module_name);?></li>
     </ol>
 </section>
-<button class="btn btn-success btn-circle btn-lg fix-btn" id="addBtn">
+<button class="btn btn-success btn-circle btn-lg fix-btn" id="addBtn"  data-toggle="tooltip" title="Add New">
     <span class="glyphicon glyphicon-plus"></span>
 </button>
 <!-- Main content -->
 <section class="content">
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title">Data Table With Full Features</h3>
+        <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="userList" class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Rendering engine</th>
-            <th>Browser</th>
-            <th>Platform(s)</th>
-            <th>Engine version</th>
-            <th>CSS grade</th>
+            <th>Username</th>
+            <th>Username</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Usertype</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Trident</td>
-            <td>Internet
-            Explorer 4.0
+        <!--<tr>
+            <td>Cedzkii</td>
+            <td>Cederic Ferrer Martinez</td>
+            <td>Admin</td>
+            <td>
+                <a href="#" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>
+                <a href="#" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
+                <a href="#" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>
             </td>
-            <td>Win 95+</td>
-            <td> 4</td>
-            <td>X</td>
-        </tr>
-        <tr>
-            <td>Trident</td>
-            <td>Internet
-            Explorer 5.0
-            </td>
-            <td>Win 95+</td>
-            <td>5</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Trident</td>
-            <td>Internet
-            Explorer 5.5
-            </td>
-            <td>Win 95+</td>
-            <td>5.5</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Trident</td>
-            <td>Internet
-            Explorer 6
-            </td>
-            <td>Win 98+</td>
-            <td>6</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Trident</td>
-            <td>Internet Explorer 7</td>
-            <td>Win XP SP2+</td>
-            <td>7</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Trident</td>
-            <td>AOL browser (AOL desktop)</td>
-            <td>Win XP</td>
-            <td>6</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Firefox 1.0</td>
-            <td>Win 98+ / OSX.2+</td>
-            <td>1.7</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Firefox 1.5</td>
-            <td>Win 98+ / OSX.2+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Firefox 2.0</td>
-            <td>Win 98+ / OSX.2+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Firefox 3.0</td>
-            <td>Win 2k+ / OSX.3+</td>
-            <td>1.9</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Camino 1.0</td>
-            <td>OSX.2+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Camino 1.5</td>
-            <td>OSX.3+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Netscape 7.2</td>
-            <td>Win 95+ / Mac OS 8.6-9.2</td>
-            <td>1.7</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Netscape Browser 8</td>
-            <td>Win 98SE+</td>
-            <td>1.7</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Netscape Navigator 9</td>
-            <td>Win 98+ / OSX.2+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.0</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.1</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.1</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.2</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.2</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.3</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.3</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.4</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.4</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.5</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.5</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.6</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>1.6</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.7</td>
-            <td>Win 98+ / OSX.1+</td>
-            <td>1.7</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Mozilla 1.8</td>
-            <td>Win 98+ / OSX.1+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Seamonkey 1.1</td>
-            <td>Win 98+ / OSX.2+</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Gecko</td>
-            <td>Epiphany 2.20</td>
-            <td>Gnome</td>
-            <td>1.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>Safari 1.2</td>
-            <td>OSX.3</td>
-            <td>125.5</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>Safari 1.3</td>
-            <td>OSX.3</td>
-            <td>312.8</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>Safari 2.0</td>
-            <td>OSX.4+</td>
-            <td>419.3</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>Safari 3.0</td>
-            <td>OSX.4+</td>
-            <td>522.1</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>OmniWeb 5.5</td>
-            <td>OSX.4+</td>
-            <td>420</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>iPod Touch / iPhone</td>
-            <td>iPod</td>
-            <td>420.1</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Webkit</td>
-            <td>S60</td>
-            <td>S60</td>
-            <td>413</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 7.0</td>
-            <td>Win 95+ / OSX.1+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 7.5</td>
-            <td>Win 95+ / OSX.2+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 8.0</td>
-            <td>Win 95+ / OSX.2+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 8.5</td>
-            <td>Win 95+ / OSX.2+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 9.0</td>
-            <td>Win 95+ / OSX.3+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 9.2</td>
-            <td>Win 88+ / OSX.3+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera 9.5</td>
-            <td>Win 88+ / OSX.3+</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Opera for Wii</td>
-            <td>Wii</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Nokia N800</td>
-            <td>N800</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Presto</td>
-            <td>Nintendo DS browser</td>
-            <td>Nintendo DS</td>
-            <td>8.5</td>
-            <td>C/A<sup>1</sup></td>
-        </tr>
-        <tr>
-            <td>KHTML</td>
-            <td>Konqureror 3.1</td>
-            <td>KDE 3.1</td>
-            <td>3.1</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>KHTML</td>
-            <td>Konqureror 3.3</td>
-            <td>KDE 3.3</td>
-            <td>3.3</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>KHTML</td>
-            <td>Konqureror 3.5</td>
-            <td>KDE 3.5</td>
-            <td>3.5</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Tasman</td>
-            <td>Internet Explorer 4.5</td>
-            <td>Mac OS 8-9</td>
-            <td>-</td>
-            <td>X</td>
-        </tr>
-        <tr>
-            <td>Tasman</td>
-            <td>Internet Explorer 5.1</td>
-            <td>Mac OS 7.6-9</td>
-            <td>1</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Tasman</td>
-            <td>Internet Explorer 5.2</td>
-            <td>Mac OS 8-X</td>
-            <td>1</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>NetFront 3.1</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>NetFront 3.4</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>Dillo 0.8</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>X</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>Links</td>
-            <td>Text only</td>
-            <td>-</td>
-            <td>X</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>Lynx</td>
-            <td>Text only</td>
-            <td>-</td>
-            <td>X</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>IE Mobile</td>
-            <td>Windows Mobile 6</td>
-            <td>-</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Misc</td>
-            <td>PSP browser</td>
-            <td>PSP</td>
-            <td>-</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>Other browsers</td>
-            <td>All others</td>
-            <td>-</td>
-            <td>-</td>
-            <td>U</td>
-        </tr>
+        </tr>-->
         </tbody>
         <tfoot>
         <tr>
-            <th>Rendering engine</th>
-            <th>Browser</th>
-            <th>Platform(s)</th>
-            <th>Engine version</th>
-            <th>CSS grade</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Full Name</th>
+            <th>Full Name</th>
+            <th>Usertype</th>
+            <th>Actions</th>
         </tr>
         </tfoot>
         </table>
@@ -467,53 +72,91 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
+             <h3 class="modal-title">Add User</h3>
             </div>
             <div class="modal-body">
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Horizontal Form</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal">
+                <div>
+                    <form class="form-horizontal" id="AddUserForm" data-toggle="validator">
                         <div class="box-body">
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                            <label for="inputUsername" class="col-sm-2 control-label">Username</label>
 
                             <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                            <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username" data-remote="<?php echo base_url()."users/check_username_exist?method=add";?>" required>
+                            <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
 
                             <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                            <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                <input type="checkbox"> Remember me
-                                </label>
+                            <label for="inputPassword2" class="col-sm-2 control-label">Validate Password</label>
+
+                            <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword2"  data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Password" required>
+                            <div class="help-block with-errors"></div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFirstname" class="col-sm-2 control-label">Firstname</label>
+
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputFirstname" placeholder="Firstname" required>
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputMiddlename" class="col-sm-2 control-label">Middlename</label>
+
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputMiddlename" placeholder="Middlename">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLastname" class="col-sm-2 control-label">Lastname</label>
+
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputLastname" placeholder="Lastname"  required>
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputContact" class="col-sm-2 control-label">Contact Number</label>
+
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputContact" placeholder="Contact Number">
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+
+                            <div class="col-sm-10">
+                            <textarea class="form-control" id="inputAddress" placeholder="Address" style="resize:none"></textarea>
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="col-sm-2 control-label">User Type</label>
+
+                            <div class="col-sm-10">
+                            <select class="form-control" name="state" id="userType" required></select>
+                            <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                        <button type="submit" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-info pull-right">Sign in</button>
-                        </div>
-                        <!-- /.box-footer -->
                     </form>
                     </div>
 
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" id="saveUser">Save User</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -524,9 +167,48 @@
 
 <script>
     var main = function(){
+        $('#userList').DataTable({  
+            'autoWidth'   : true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "<?php echo base_url()."users/get_user_list";?>"
+        });
         $("#addBtn").click(function(){
             $("#addModal").modal("show");
         });
+
+        $("#saveUser").click(function(){
+            $("#AddUserForm").submit();
+        });
+        $("#AddUserForm").submit(function(e){
+            e.preventDefault();
+            
+            var password = $("#inputPassword").val();
+            var password2 = $("#inputPassword2").val();
+            if( password != password2 )
+            {
+                alert.show();
+                $(".alert").html("Passwords are not same!");
+            }
+        });
+        $('#userType').select2({
+            dropdownAutoWidth : true,
+            width: 'auto',
+            placeholder: '--- Select Item ---',
+            ajax: {
+            url: '<?php echo base_url()."users/get_user_roles";?>',
+            dataType: 'json',
+            delay: 250,
+            type: "post",
+            processResults: function (data) {
+                return {
+                results: data
+                };
+            },
+            cache: true
+            }
+        });
+
     };
     $(document).ready(main);
 </script>

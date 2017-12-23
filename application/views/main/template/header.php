@@ -71,19 +71,9 @@
 
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 
-<script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true
-    })
-  })
-</script>
+<link href="<?php echo base_url();?>assets/select2/select2.min.css" rel="stylesheet" />
+<script src="<?php echo base_url();?>assets/select2/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
 <style>
 
 .btn-circle {
@@ -118,6 +108,12 @@
     right: 30px; /* Place the button 30px from the right */
     z-index: 999;
 }
+
+.select2-container--default .select2-selection--single {
+    height: 34px;
+    border-radius: 0px;
+}
+
 </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
