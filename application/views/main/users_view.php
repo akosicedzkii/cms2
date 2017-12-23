@@ -25,10 +25,11 @@
         <table id="userList" class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Username</th>
+            <th>ID</th>
             <th>Username</th>
             <th>Full Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
             <th>Usertype</th>
             <th>Actions</th>
         </tr>
@@ -45,16 +46,6 @@
             </td>
         </tr>-->
         </tbody>
-        <tfoot>
-        <tr>
-            <th>Username</th>
-            <th>Full Name</th>
-            <th>Full Name</th>
-            <th>Full Name</th>
-            <th>Usertype</th>
-            <th>Actions</th>
-        </tr>
-        </tfoot>
         </table>
     </div>
     <!-- /.box-body -->
@@ -65,7 +56,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="addModal">
+<div class="modal fade" id="userModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -76,76 +67,86 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="AddUserForm" data-toggle="validator">
+                    <form class="form-horizontal" id="UserForm" data-toggle="validator">
                         <div class="box-body">
                         <div class="form-group">
-                            <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                            <label for="inputUsername" class="col-sm-4 control-label">Username</label>
 
-                            <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username" data-remote="<?php echo base_url()."users/check_username_exist?method=add";?>" required>
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputUsername" data-minlength="5" name="username" placeholder="Username" data-remote="<?php echo base_url()."users/check_username_exist?method=add";?>" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                            <label for="inputPassword" class="col-sm-4 control-label">Password</label>
 
-                            <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                            <div class="col-sm-8">
+                            <input type="password" class="form-control" data-minlength="8" id="inputPassword" placeholder="Password" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword2" class="col-sm-2 control-label">Validate Password</label>
+                            <label for="inputPassword2" class="col-sm-4 control-label">Validate Password</label>
 
-                            <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword2"  data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Password" required>
+                            <div class="col-sm-8">
+                            <input type="password" class="form-control" data-minlength="8" id="inputPassword2"  data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Password" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputFirstname" class="col-sm-2 control-label">Firstname</label>
+                            <label for="inputFirstname" class="col-sm-4 control-label">Firstname</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputFirstname" placeholder="Firstname" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputMiddlename" class="col-sm-2 control-label">Middlename</label>
+                            <label for="inputMiddlename" class="col-sm-4 control-label">Middlename</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputMiddlename" placeholder="Middlename">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputLastname" class="col-sm-2 control-label">Lastname</label>
+                            <label for="inputLastname" class="col-sm-4 control-label">Lastname</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputLastname" placeholder="Lastname"  required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputContact" class="col-sm-2 control-label">Contact Number</label>
+                            <label for="inputContact" class="col-sm-4 control-label">Contact Number</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputContact" placeholder="Contact Number">
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                            <label for="inputEmail" class="col-sm-4 control-label">Email Address</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email Address">
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="col-sm-4 control-label">Address</label>
+
+                            <div class="col-sm-8">
                             <textarea class="form-control" id="inputAddress" placeholder="Address" style="resize:none"></textarea>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputAddress" class="col-sm-2 control-label">User Type</label>
+                            <label for="userRole" class="col-sm-4 control-label">User Role</label>
 
-                            <div class="col-sm-10">
-                            <select class="form-control" name="state" id="userType" required></select>
+                            <div class="col-sm-8">
+                            <select class="form-control" id="inputRole" required>
+                                <option></option>
+                            </select>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -167,34 +168,99 @@
 
 <script>
     var main = function(){
-        $('#userList').DataTable({  
+        var table = $('#userList').DataTable({  
             'autoWidth'   : true,
-            "processing": true,
-            "serverSide": true,
-            "ajax": "<?php echo base_url()."users/get_user_list";?>"
+            "processing" : true,
+            "serverSide" : true, 
+            "ajax" : "<?php echo base_url()."users/get_user_list";?>",
+            "initComplete": function(settings,json){
+                $('[data-toggle="tooltip"]').tooltip()
+            }
+            ,"columnDefs": [
+            {
+                "render": function ( data, type, row ) {
+                    return data +' '+ row[3]+' '+row[4];
+                },
+                "targets": 2
+            },
+            { "visible": false,  "targets": [ 3 ] },
+            { "visible": false,  "targets": [ 4 ] },
+            { "visible": false,  "targets": [ 0 ] }
+        ]
         });
         $("#addBtn").click(function(){
-            $("#addModal").modal("show");
+            $("#userModal .modal-title").html("Add <?php echo rtrim(ucfirst($module_name),"s");?>");
+            $('#UserForm').validator();
+            $("#userModal").modal("show");
         });
 
         $("#saveUser").click(function(){
-            $("#AddUserForm").submit();
+            $("#UserForm").submit();
         });
-        $("#AddUserForm").submit(function(e){
-            e.preventDefault();
+        $("#UserForm").validator().on('submit', function (e) {
             
-            var password = $("#inputPassword").val();
-            var password2 = $("#inputPassword2").val();
-            if( password != password2 )
-            {
-                alert.show();
-                $(".alert").html("Passwords are not same!");
+            var btn = $("#saveUser");
+            btn.button("loading");
+            if (e.isDefaultPrevented()) {
+                btn.button("reset");
+                alert("asd");
+            } else {
+                e.preventDefault();
+                var username = $("#inputUsername").val();
+                var password = $("#inputPassword2").val();
+                var first_name = $("#inputFirstname").val();
+                var middle_name = $("#inputMiddlename").val();
+                var last_name = $("#inputLastname").val();
+                var email_address = $("#inputEmail").val();
+                var contact_number = $("#inputContact").val();
+                var address = $("#inputAddress").val();
+                var role = $("#inputRole").val();
+                
+
+                var data = {
+                    "username" : username,
+                    "password" : password,
+                    "first_name" : first_name,
+                    "middle_name" : middle_name,
+                    "last_name" :  last_name,
+                    "email_address" : email_address,
+                    "contact_number" : contact_number,
+                    "address" : address,
+                    "role" : role
+                };
+                $.ajax({
+                        data: data,
+                        type: "post",
+                        url: "<?php echo base_url()."users/add_user";?>",
+                        success: function(data){
+                            //alert("Data Save: " + data);
+                            btn.button("reset");
+                            table.draw();
+                            $("#UserForm").validator('destroy');
+                            $("#userModal").modal("hide");
+                            $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
+                            $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
+                            $("#inputRole").select2("val", "null");
+                             $("#UserForm").unbind("submit");
+                        }
+                });
             }
+               return false;
         });
-        $('#userType').select2({
+        $('#userModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+        });
+
+        $('#inputRole').select2({
             dropdownAutoWidth : true,
             width: 'auto',
-            placeholder: '--- Select Item ---',
+            placeholder: "--- Select Item ---",
             ajax: {
             url: '<?php echo base_url()."users/get_user_roles";?>',
             dataType: 'json',
@@ -208,7 +274,22 @@
             cache: true
             }
         });
-
+        function resetForm($form) {
+            $form.find('input:text, input:password, input:file, textarea').val('');
+            $form.find('input:radio, input:checkbox')
+                .removeAttr('checked').removeAttr('selected');
+        }
+      
     };
+    function edit(id)
+    {
+        $("#userModal .modal-title").html("Edit <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#userModal").modal("show");
+    }
+    function delete(id)
+    {
+        $("#userModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#userModal").modal("show");
+    }
     $(document).ready(main);
 </script>

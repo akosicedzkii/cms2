@@ -4,6 +4,7 @@ class Users_model extends CI_Model {
     
         public $username;
         public $password;
+        public $email;
         public $salt;
         public $date_created;
         public $lastname;
@@ -11,7 +12,7 @@ class Users_model extends CI_Model {
         public $middlename;
         public $contact_number;
         public $address;
-        public $usertype;
+        public $role;
         public $user_id;
 
         public function get_last_ten_entries()
@@ -22,24 +23,27 @@ class Users_model extends CI_Model {
 
         public function insert_user()
         {
-                $data["username"] = hash ( "sha256", $this->username ); 
+                $data["username"] = $this->username ; 
+                $this->salt = hash ( "sha256", $this->username ); 
                 $data["password"] =  hash ( "sha256",  $this->salt.$this->password );
                 $data["date_created"] = date("Y-m-d h:i:s A");
-                $data["created_by"] = $this->session->userdata("USERID");
+                $data["role_id"] = $this->role;
+                $data["created_by"] = 1;
                 $result = $this->db->insert('user_accounts', $data);
 
                 $this->db->where("username",$this->username);
                 $result = $this->db->get("user_accounts");
 
                 $data_profile["user_id"] =   $result->row()->id;
-                $data_profile["last_name"] = $this->first_name; 
-                $data_profile["first_name"] = $this->last_name;
+                $data_profile["last_name"] = $this->last_name; 
+                $data_profile["first_name"] = $this->first_name;
                 $data_profile["middle_name"] = $this->middle_name; 
-                $data_profile["contact"] = $this->contact;
+                $data_profile["contact_number"] = $this->contact_number;
+                $data_profile["email_address"] = $this->email_address;
                 $data_profile["address"] = $this->address; 
-                $data_profile["created_by"] = $this->session->userdata("USERID");
+                $data_profile["created_by"] = 1;
                 $data_profile["date_created"] = date("Y-m-d h:i:s A");
-                echo $result = $this->db->insert('user_profile', $data_profile);
+                echo $result = $this->db->insert('user_profiles', $data_profile);
         }
 
         public function update_user()
