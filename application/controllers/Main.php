@@ -30,15 +30,16 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('main/template/header');
-		$this->load->view('main/main_view');
+		$module["module_name"] = $this->router->fetch_method();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/main_view',$module);
 		$this->load->view('main/template/footer');
     }
 
     public function users()
     {
 		$module["module_name"] = $this->router->fetch_method();
-		$this->load->view('main/template/header');
+		$this->load->view('main/template/header',$module);
 		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');
 	}

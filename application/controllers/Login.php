@@ -12,7 +12,7 @@ class Login extends CI_Controller {
 	{
         if($this->session->userdata("USERNM") == null)
         {   
-            $this->load->view('login');
+            $this->load->view('main/login_view');
         }
         else
         {

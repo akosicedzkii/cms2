@@ -26,6 +26,12 @@ class Login_model extends CI_Model {
                     
                     $this->session->set_userdata("USERNM",$username);
                     $this->session->set_userdata("USERID",$user_id);
+
+                    $this->db->where("user_id",$this->session->userdata("USERID"));
+                    $result = $this->db->get("user_profiles");
+                    $result = $result->row();
+                    $full_name = str_replace("  "," ",ucwords($result->first_name." ".$result->middle_name." ".$result->last_name));
+                    $this->session->set_userdata("FULLNM",$full_name);
                     $this->logs->log = "Logged in";
                     $this->logs->created_by = $this->session->userdata("USERID");
                     $this->logs->insert_log();

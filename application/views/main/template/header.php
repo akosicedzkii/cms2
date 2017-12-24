@@ -14,7 +14,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
@@ -370,33 +370,15 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $this->session->userdata("FULLNM");?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <!--<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                <?php echo $this->session->userdata("FULLNM");?>
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -404,15 +386,12 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?php echo base_url()."logout";?>" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+         
         </ul>
       </div>
     </nav>
@@ -421,18 +400,8 @@
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <!--<form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -440,13 +409,19 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form>-->
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>        
         <li><a href="https://adminlte.io/docs"><i class="fa fa-camera"></i><span>Site Preview</span></a></li>
-        <li class="active treeview">
+        <li><a href="https://adminlte.io/docs"><i class="glyphicon glyphicon-picture"></i><span>Banners</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-th-list"></i><span>News</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-list-alt"></i><span>Updates</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-tags"></i><span>Products</span></a></li>
+        <li class="<?php if($module_name == "roles" || $module_name == "users" || $module_name == "site_settings"){echo 'active ';}?>treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>System Administrator</span>
             <span class="pull-right-container">
@@ -454,9 +429,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="index.html"><i class="fa fa-user"></i> Roles</a></li>
-            <li><a href="index2.html"><i class="fa fa-users"></i> Users</a></li>
-            <li><a href="index2.html"><i class="fa fa-gear"></i> Site Settings</a></li>
+            <li <?php if($module_name == "roles"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/roles"?>"><i class="fa fa-user"></i> Roles</a></li>
+            <li <?php if($module_name == "users"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/users"?>"><i class="fa fa-users"></i> Users</a></li>
+            <li <?php if($module_name == "site_settings"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/site_settings"?>"><i class="fa fa-gear"></i> Site Settings</a></li>
           </ul>
         </li>
       </ul>

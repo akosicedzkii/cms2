@@ -123,6 +123,9 @@
                     else if(response == "true")
                     {
                       toastr.success("Login successful");
+                      setTimeout(function() {
+                        window.location = "";
+                      }, 200);
                     }
                     //window.location = "";
                 },
