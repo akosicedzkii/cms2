@@ -21,7 +21,11 @@ class Main extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->settings_model->get_settings();    
+		$this->settings_model->get_settings();    
+		if($this->session->userdata("USERID") == null)
+        {   
+            $this->load->view('login');
+        }
     }
 
 	public function index()

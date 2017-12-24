@@ -18,6 +18,7 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/iCheck/square/blue.css">
 
+  <link href="<?php echo base_url();?>assets/toastr/toastr.min.css" rel="stylesheet" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -37,22 +38,18 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form id="login_form">
+    <form id="formLogin">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Username">
+        <input type="text" class="form-control" placeholder="Username" id="inputUsername" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Password" id="inputPassword" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Remember Me
-            </label>
-          </div>
+         
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
@@ -63,8 +60,8 @@
     </form>
 
 
-    <a href="#">I forgot my password</a><br>
-    <a href="register.html" class="text-center">Register a new membership</a>
+    <!--<a href="#">I forgot my password</a><br>
+    <a href="register.html" class="text-center">Register a new membership</a>-->
 
   </div>
   <!-- /.login-box-body -->
@@ -77,14 +74,67 @@
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="<?php echo base_url();?>assets/plugins/iCheck/icheck.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+
 <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-left",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+</script>
+<script>
+    var main = function()
+    {   
+        $("#formLogin").submit(function(e){
+            e.preventDefault();
+            var username = $("#inputUsername").val();
+            var password = $("#inputPassword").val();
+            var values = { "username" : username , "password" : password };
+            $.ajax({
+                url: "<?php echo base_url();?>login/validate_login",
+                type: "post",
+                data: values ,
+                success: function (response) {
+                  
+                    if(response == "User not found")
+                    {
+                      toastr.error("Username/Password not found");
+                    }
+                    else if(response == "false")
+                    {
+                      toastr.error("Invalid password");
+                    }
+                    else if(response == "true")
+                    {
+                      toastr.success("Login successful");
+                    }
+                    //window.location = "";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+                }
+
+
+            });
+        });
+    };
+    $(document).ready(main);
 </script>
 </body>
 </html>

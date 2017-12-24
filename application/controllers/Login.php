@@ -10,13 +10,13 @@ class Login extends CI_Controller {
     
 	public function index()
 	{
-        if($this->session->userdata("username") == null)
+        if($this->session->userdata("USERNM") == null)
         {   
-            $this->load->view('main/login_view');
+            $this->load->view('login');
         }
         else
         {
-            redirect(base_url()."welcome/test");
+            redirect(base_url()."main");
         }
 	}
 

@@ -6,21 +6,14 @@ class Users extends CI_Controller {
     {
         parent::__construct();
         $this->settings_model->get_settings();   
-		$this->load->model("users_model"); 
+        $this->load->model("users_model"); 
+        
+        if($this->session->userdata("USERID") == null)
+        {
+                echo "Sorry you are not logged in";
+                die();
+        }
     }
-	public function index()
-	{
-		$this->load->view('welcome_message');
-	}
-
-	public function test()
-	{
-		$plain_text = 'This is a plain-text message!';
-		echo $ciphertext = $this->encryption->encrypt($plain_text);
-		
-		// Outputs: This is a plain-text message!
-		echo $this->encryption->decrypt($ciphertext);
-	}
 
 	public function add_user()
 	{
@@ -33,9 +26,6 @@ class Users extends CI_Controller {
         $this->users_model->address = $this->input->post("address");
         $this->users_model->role = $this->input->post("role");
         $this->users_model->email_address = $this->input->post("email_address");
-        
-        
-        
 		$existing =  $this->users_model->check_username_exist("add");
 		if(!$existing)
 		{
@@ -49,21 +39,59 @@ class Users extends CI_Controller {
 
 	public function edit_user()
 	{
-
+        $this->users_model->username = $this->input->post("username");
+        $this->users_model->first_name = $this->input->post("first_name");
+        $this->users_model->middle_name = $this->input->post("middle_name");
+        $this->users_model->last_name = $this->input->post("last_name");
+        $this->users_model->contact_number = $this->input->post("contact_number");
+        $this->users_model->address = $this->input->post("address");
+        $this->users_model->role = $this->input->post("role");
+        $this->users_model->email_address = $this->input->post("email_address");
+        $existing =  $this->users_model->check_username_exist("add");
+        $this->users_model->user_id = $this->input->post("user_id");
+		if(!$existing)
+		{
+			echo $this->users_model->update_user();
+		}
+		else
+		{
+			echo "username is existing";
+		}
 	}
 
 	public function delete_user()
 	{
-        $this->db->where("user_id",$this->input->post("id"));
-        $result = $this->db->delete("user_profile");
+        
+        $id = $this->input->post("id");
+        $this->db->where("user_id",$id);
+        $data_profile = $this->db->get("user_profiles");
+        $this->db->where("user_id",$id);
+        $result = $this->db->delete("user_profiles");
         if($result)
         {
-            $this->db->where("id",$this->input->post("id"));
+            $this->db->where("id",$id);
             echo $result = $this->db->delete("user_accounts");
+            $data = json_encode($data_profile->row());
+            $this->logs->log = "Delete User: ". $data ;
+            $this->logs->created_by = $this->session->userdata("USERID");
+            $this->logs->insert_log();
         }
-        
 	}
 
+    public function get_user_data()
+    {
+        $id = $this->input->post("id");
+        $this->db->where("user_id",$id);
+        $result = $this->db->get("user_profiles");
+        $user_profile = $result->row();
+        $this->db->select("id,username,role_id,date_created,date_modified,created_by,modified_by");
+        $this->db->where("id",$id);
+        $result = $this->db->get("user_accounts");
+        $user_account = $result->row();
+        $return["user_profile"] = $user_profile;
+        $return["user_account"] = $user_account;
+        echo json_encode($return); 
+    }
 	public function deactivate_user()
 	{
 
@@ -78,8 +106,12 @@ class Users extends CI_Controller {
     {
         $method = $this->input->get("method");
         
-		$this->users_model->username = $this->input->get("username");
-        $existing =  $this->users_model->check_username_exist("add");
+        $this->users_model->username = $this->input->get("username");
+        if($method == "edit")
+        {
+            $this->users_model->user_id = $this->input->get("user_id");
+        }
+        $existing =  $this->users_model->check_username_exist($method);
         if(!$existing)
         {
             header("Status: 200");
@@ -91,8 +123,8 @@ class Users extends CI_Controller {
     public function get_user_list()
     {
         $this->load->model("data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name");  
-        $select_columns = array("id","username","first_name","middle_name","last_name","role_name");  
+        $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created");  
+        $select_columns = array("id","username","first_name","middle_name","last_name","role_name","date_created");  
         $this->dt_model->table = "user_accounts as t1 inner join user_profiles as t2 on t2.user_id = t1.id  inner join roles as t3 on t3.id = t1.role_id";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -112,9 +144,9 @@ class Users extends CI_Controller {
                     }
             }
             
-            $btns = '<a href="#" onclick="view('.$aRow['id'].')" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>
-            <a href="#" onclick="edit('.$aRow['id'].')" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
-            <a href="#" onclick="delete('.$aRow['id'].')" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
+            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].')" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
+            <a href="#" onclick="_edit('.$aRow['id'].')" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
+            <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow['username'].'\')" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
             array_push($row,$btns);
             $output['data'][] = $row;
         }

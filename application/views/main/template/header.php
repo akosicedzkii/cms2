@@ -73,7 +73,32 @@
 
 <link href="<?php echo base_url();?>assets/select2/select2.min.css" rel="stylesheet" />
 <script src="<?php echo base_url();?>assets/select2/select2.min.js"></script>
+
+<link href="<?php echo base_url();?>assets/toastr/toastr.min.css" rel="stylesheet" />
+<script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+
+<script>
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-left",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+</script>
+
 <style>
 
 .btn-circle {

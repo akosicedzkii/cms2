@@ -31,6 +31,7 @@
             <th>Middle Name</th>
             <th>Last Name</th>
             <th>Usertype</th>
+            <th>Date Created</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -64,20 +65,22 @@
                 <span aria-hidden="true">&times;</span></button>
            
              <h3 class="modal-title">Add User</h3>
+             <input type="hidden" id="action">
+             <input type="hidden" id="userID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="UserForm" data-toggle="validator">
+                    <form class="form-horizontal" id="userForm" data-toggle="validator">
                         <div class="box-body">
                         <div class="form-group">
                             <label for="inputUsername" class="col-sm-4 control-label">Username</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputUsername" data-minlength="5" name="username" placeholder="Username" data-remote="<?php echo base_url()."users/check_username_exist?method=add";?>" required>
+                            <input type="text" class="form-control" id="inputUsername" data-minlength="5" name="username" placeholder="Username" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group add">
                             <label for="inputPassword" class="col-sm-4 control-label">Password</label>
 
                             <div class="col-sm-8">
@@ -85,10 +88,10 @@
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group add">
                             <label for="inputPassword2" class="col-sm-4 control-label">Validate Password</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-8 add">
                             <input type="password" class="form-control" data-minlength="8" id="inputPassword2"  data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Password" required>
                             <div class="help-block with-errors"></div>
                             </div>
@@ -153,11 +156,34 @@
                         </div>
                     </form>
                     </div>
-
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" id="saveUser">Save User</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+
+<!-- /.modal -->
+<div class="modal fade" id="deleteUserModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Delete User</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deleteKey">
+                <center><h4>Are you sure to delete <label id="deleteItem"></label></h4></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="deleteUser">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -190,20 +216,23 @@
         });
         $("#addBtn").click(function(){
             $("#userModal .modal-title").html("Add <?php echo rtrim(ucfirst($module_name),"s");?>");
-            $('#UserForm').validator();
+            $("#action").val("add");
+            $("#inputUsername").attr("data-remote","<?php echo base_url()."users/check_username_exist?method=add";?>");
+            $(".add").show();     
+            $('#userForm').validator();
             $("#userModal").modal("show");
         });
 
         $("#saveUser").click(function(){
-            $("#UserForm").submit();
+            $("#userForm").submit();
         });
-        $("#UserForm").validator().on('submit', function (e) {
-            
+        $("#userForm").validator().on('submit', function (e) {
+           
             var btn = $("#saveUser");
+            var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
-                btn.button("reset");
-                alert("asd");
+                btn.button("reset"); alert("asd");
             } else {
                 e.preventDefault();
                 var username = $("#inputUsername").val();
@@ -215,9 +244,10 @@
                 var contact_number = $("#inputContact").val();
                 var address = $("#inputAddress").val();
                 var role = $("#inputRole").val();
-                
+                var user_id = $("#userID").val();
 
                 var data = {
+                    "user_id" : user_id,
                     "username" : username,
                     "password" : password,
                     "first_name" : first_name,
@@ -228,33 +258,70 @@
                     "address" : address,
                     "role" : role
                 };
+                
+                var url = "<?php echo base_url()."users/add_user";?>";
+                var message = "New user successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."users/edit_user";?>";
+                    message = "User successfully updated";
+                }
                 $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."users/add_user";?>",
+                        url: url ,
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#UserForm").validator('destroy');
+                            toastr.success(message);
+                            $("#userForm").validator('destroy');
                             $("#userModal").modal("hide");
                             $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
                             $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
                             $("#inputRole").select2("val", "null");
-                             $("#UserForm").unbind("submit");
+                           
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
                         }
                 });
             }
                return false;
         });
+
+        $("#deleteUser").click(function(){
+            var btn = $(this);
+            var id = $("#deleteKey").val();
+            var deleteItem = $("#deleteItem").html();
+            var data = { "id" : id };
+            btn.button("loading");
+
+            $.ajax({
+                        data: data,
+                        type: "post",
+                        url: "<?php echo base_url()."users/delete_user";?>",
+                        success: function(data){
+                            //alert("Data Save: " + data);
+                            btn.button("reset");
+                            table.draw();
+                            $("#deleteUserModal").modal("hide");
+                            toastr.error('User ' + deleteItem + ' successfully deleted');
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                });
+        });
+
         $('#userModal').on('hidden.bs.modal', function (e) {
-        $(this)
-            .find("input,textarea,select")
-            .val('')
-            .end()
-            .find("input[type=checkbox], input[type=radio]")
-            .prop("checked", "")
-            .end();
+            $(this)
+                .find("input,textarea,select")
+                .val('')
+                .end()
+                .find("input[type=checkbox], input[type=radio]")
+                .prop("checked", "")
+                .end();
         });
 
         $('#inputRole').select2({
@@ -281,15 +348,43 @@
         }
       
     };
-    function edit(id)
+    function _edit(id)
     {
         $("#userModal .modal-title").html("Edit <?php echo rtrim(ucfirst($module_name),"s");?>");
-        $("#userModal").modal("show");
+        $(".add").hide();        
+        $("#action").val("edit");
+        $("#inputUsername").attr("data-remote","<?php echo base_url()."users/check_username_exist?method=edit&user_id=";?>" + id);
+        var data = { "id" : id }
+        $.ajax({
+                data: data,
+                type: "post",
+                url: "<?php echo base_url()."users/get_user_data";?>",
+                success: function(data){
+                    data = JSON.parse(data);
+                    $("#userID").val(data.user_account.id);
+                    $("#inputUsername").val(data.user_account.username);
+                    $("#inputPassword").val("this is not the real password");
+                    $("#inputPassword2").val("this is not the real password");
+                    $("#inputFirstname").val(data.user_profile.first_name);
+                    $("#inputMiddlename").val(data.user_profile.middle_name);
+                    $("#inputLastname").val(data.user_profile.last_name);
+                    $("#inputEmail").val(data.user_profile.email_address);
+                    $("#inputContact").val(data.user_profile.contact_number);
+                    $("#inputAddress").val(data.user_profile.address);
+                    $("#inputRole").val(data.user_account.role_id).trigger("change");
+                    $("#userModal").modal("show");
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+        });
     }
-    function delete(id)
+    function _delete(id,item)
     {
-        $("#userModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
-        $("#userModal").modal("show");
+        $("#deleteUserModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteItem").html(item);
+        $("#deleteKey").val(id);
+        $("#deleteUserModal").modal("show");
     }
     $(document).ready(main);
 </script>
