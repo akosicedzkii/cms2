@@ -18,19 +18,22 @@ class Main extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	private $user_access;
     public function __construct()
     {
         parent::__construct();
 		$this->settings_model->get_settings();    
 		if($this->session->userdata("USERID") == null)
         {   
-            $this->load->view('login');
-        }
+            redirect(base_url()."login");
+		}
+		$this->user_access = $this->settings_model->get_user_access();
     }
 
 	public function index()
 	{
 		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/main_view',$module);
 		$this->load->view('main/template/footer');
@@ -39,8 +42,91 @@ class Main extends CI_Controller {
     public function users()
     {
 		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');
 	}
+
+	public function roles()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/roles_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function site_settings()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function banners()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function fuel_prices()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function store_location()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function news()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function updates()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function products()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function logs()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/users_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
 }

@@ -5,6 +5,7 @@ class Data_table_model extends CI_Model {
     public $select_columns;
     public $table;
     public $index_column;
+    public $where;
 
     public function __construct() {
         
@@ -15,6 +16,7 @@ class Data_table_model extends CI_Model {
         * you want to insert a non-database field (for example a counter or static image)
         */
         $aColumns = $this->select_columns;
+        $aWhere = $this->where;
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = $this->index_column;
 
@@ -82,8 +84,8 @@ class Data_table_model extends CI_Model {
         $sSearchVal = $arr['search[value]'];
         if (isset($sSearchVal) && $sSearchVal != '') {
             $sWhere = "WHERE (";
-            for ($i = 0; $i < count($aColumns); $i++) {
-                $sWhere .= $aColumns[$i] . " LIKE '%" . $this->db->escape_like_str($sSearchVal) . "%' OR ";
+            for ($i = 0; $i < count($aWhere); $i++) {
+                $sWhere .= $aWhere[$i] . " LIKE '%" . $this->db->escape_like_str($sSearchVal) . "%' OR ";
             }
             $sWhere = substr_replace($sWhere, "", -3);
             $sWhere .= ')';

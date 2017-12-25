@@ -72,7 +72,7 @@ class Users extends CI_Controller {
             $this->db->where("id",$id);
             echo $result = $this->db->delete("user_accounts");
             $data = json_encode($data_profile->row());
-            $this->logs->log = "Delete User: ". $data ;
+            $this->logs->log = "Deleted User: ". $data ;
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }
@@ -123,7 +123,7 @@ class Users extends CI_Controller {
     public function get_user_list()
     {
         $this->load->model("data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created");  
+        $this->dt_model->where = $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created");  
         $select_columns = array("id","username","first_name","middle_name","last_name","role_name","date_created");  
         $this->dt_model->table = "user_accounts as t1 inner join user_profiles as t2 on t2.user_id = t1.id  inner join roles as t3 on t3.id = t1.role_id";  
         $this->dt_model->index_column = "t1.id";

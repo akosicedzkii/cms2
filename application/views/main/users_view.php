@@ -232,7 +232,7 @@
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
-                btn.button("reset"); alert("asd");
+                btn.button("reset");
             } else {
                 e.preventDefault();
                 var username = $("#inputUsername").val();

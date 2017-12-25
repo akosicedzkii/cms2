@@ -413,28 +413,100 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>        
+        <li class="header">MAIN NAVIGATION</li>  
+
         <li><a href="https://adminlte.io/docs"><i class="fa fa-camera"></i><span>Site Preview</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="glyphicon glyphicon-picture"></i><span>Banners</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-th-list"></i><span>News</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-list-alt"></i><span>Updates</span></a></li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-tags"></i><span>Products</span></a></li>
-        <li class="<?php if($module_name == "roles" || $module_name == "users" || $module_name == "site_settings"){echo 'active ';}?>treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>System Administrator</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li <?php if($module_name == "roles"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/roles"?>"><i class="fa fa-user"></i> Roles</a></li>
-            <li <?php if($module_name == "users"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/users"?>"><i class="fa fa-users"></i> Users</a></li>
-            <li <?php if($module_name == "site_settings"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/site_settings"?>"><i class="fa fa-gear"></i> Site Settings</a></li>
-          </ul>
-        </li>
+        <?php 
+          if (in_array("banners", $menu)) {
+             ?>
+              <li <?php if($module_name == "banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Banners</span></a></li>
+             <?php
+          } 
+        ?>
+
+        <?php 
+          if (in_array("fuel_prices", $menu)) {
+             ?>
+              <li <?php if($module_name == "fuel_prices"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/fuel_prices"?>"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
+           <?php
+          } 
+        ?>
+
+        <?php 
+          if (in_array("store_location", $menu)) {
+             ?>
+              <li <?php if($module_name == "store_location"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/store_location"?>"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
+            <?php
+          } 
+        ?>
+
+        <?php 
+          if (in_array("news", $menu)) {
+             ?>
+             <li <?php if($module_name == "news"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/news"?>"><i class="fa fa-th-list"></i><span>News</span></a></li>
+          <?php
+          } 
+        ?>
+
+        <?php 
+          if (in_array("updates", $menu)) {
+             ?>
+              <li <?php if($module_name == "updates"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/updates"?>"><i class="fa fa-list-alt"></i><span>Updates</span></a></li>
+             <?php
+          } 
+        ?>
+
+        <?php 
+          if (in_array("products", $menu)) {
+             ?>
+             <li <?php if($module_name == "products"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/products"?>"><i class="fa fa-tags"></i><span>Products</span></a></li>
+            <?php
+          } 
+        ?>
+        <?php 
+          if (in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
+             ?>
+              <li class="<?php if($module_name == "roles" || $module_name == "users" || $module_name == "site_settings" || $module_name == "logs"){echo 'active ';}?>treeview">
+                <a href="#">
+                  <i class="fa fa-dashboard"></i> <span>System Administrator</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <?php 
+                    if (in_array("roles", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "roles"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/roles"?>"><i class="fa fa-user"></i> Roles</a></li>
+                     <?php
+                     } 
+                  ?>
+                  <?php 
+                    if (in_array("users", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "users"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/users"?>"><i class="fa fa-users"></i> Users</a></li>
+                     <?php
+                     } 
+                  ?>
+                  <?php 
+                    if (in_array("site_settings", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "site_settings"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/site_settings"?>"><i class="fa fa-gear"></i> Site Settings</a></li>
+                     <?php
+                     } 
+                  ?>
+                  <?php 
+                    if (in_array("logs", $menu)) {
+                     ?>
+                         <li <?php if($module_name == "logs"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/logs"?>"><i class="fa fa-gear"></i> Logs</a></li>
+                     <?php
+                     } 
+                  ?>
+                </ul>
+              </li>
+        <?php
+          } 
+        ?>
       </ul>
     </section>
-    <!-- /.sidebar -->
   </aside>
