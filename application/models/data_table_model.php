@@ -73,7 +73,7 @@ class Data_table_model extends CI_Model {
         $sOrderDir = $arr['order[0][dir]'];
         $bSortable_ = $arr_columns['columns[' . $sOrderIndex . '][orderable]'];
         if ($bSortable_ == "true") {
-            $sOrder .= $aColumns[$sOrderIndex] .
+            $sOrder .= $aWhere[$sOrderIndex] .
                     ($sOrderDir === 'asc' ? ' asc' : ' desc');
         }
 
@@ -85,7 +85,7 @@ class Data_table_model extends CI_Model {
         if (isset($sSearchVal) && $sSearchVal != '') {
             $sWhere = "WHERE (";
             for ($i = 0; $i < count($aWhere); $i++) {
-                $sWhere .= $aWhere[$i] . " LIKE '%" . $this->db->escape_like_str($sSearchVal) . "%' OR ";
+                $sWhere .= $aWhere[$i] . " LIKE '%" . addslashes(urldecode($sSearchVal)) . "%' OR ";
             }
             $sWhere = substr_replace($sWhere, "", -3);
             $sWhere .= ')';
@@ -102,7 +102,7 @@ class Data_table_model extends CI_Model {
                 } else {
                     $sWhere .= " AND ";
                 }
-                $sWhere .= $aColumns[$i] . " LIKE '%" . $this->db->escape_like_str($search_val) . "%' ";
+                $sWhere .= $aColumns[$i] . " LIKE '%" . addslashes(urldecode($search_val)). "%' ";
             }
         }
 

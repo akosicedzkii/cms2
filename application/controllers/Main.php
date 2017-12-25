@@ -43,6 +43,7 @@ class Main extends CI_Controller {
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
+		$module["roles"] = $this->db->get("roles")->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');

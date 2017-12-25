@@ -32,6 +32,9 @@
             <th>Last Name</th>
             <th>Usertype</th>
             <th>Date Created</th>
+            <th>Created By</th>
+            <th>Date Modified</th>
+            <th>Modified By</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -148,7 +151,16 @@
 
                             <div class="col-sm-8">
                             <select class="form-control" id="inputRole" required>
-                                <option></option>
+                                <option value=""></option>
+                                <?php 
+                                    if($roles != null){
+                                        foreach($roles as $row){
+                                            ?>
+                                                <option value="<?php echo $row->id;?>"><?php echo $row->role_name;?></option>
+                                            <?php
+                                        }
+                                    }
+                                  ?>
                             </select>
                             <div class="help-block with-errors"></div>
                             </div>
@@ -193,7 +205,15 @@
 <!-- /.modal -->
 
 <script>
+
+    var inputRoleConfig = {
+        dropdownAutoWidth : true,
+        width: 'auto',
+        placeholder: "--- Select Item ---"
+    };
+
     var main = function(){
+
         var table = $('#userList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
@@ -232,7 +252,7 @@
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
-                btn.button("reset");
+                btn.button("reset"); 
             } else {
                 e.preventDefault();
                 var username = $("#inputUsername").val();
@@ -324,23 +344,7 @@
                 .end();
         });
 
-        $('#inputRole').select2({
-            dropdownAutoWidth : true,
-            width: 'auto',
-            placeholder: "--- Select Item ---",
-            ajax: {
-            url: '<?php echo base_url()."users/get_user_roles";?>',
-            dataType: 'json',
-            delay: 250,
-            type: "post",
-            processResults: function (data) {
-                return {
-                results: data
-                };
-            },
-            cache: true
-            }
-        });
+        $('#inputRole').select2(inputRoleConfig);
         function resetForm($form) {
             $form.find('input:text, input:password, input:file, textarea').val('');
             $form.find('input:radio, input:checkbox')
@@ -351,7 +355,8 @@
     function _edit(id)
     {
         $("#userModal .modal-title").html("Edit <?php echo rtrim(ucfirst($module_name),"s");?>");
-        $(".add").hide();        
+        $(".add").hide();    
+        $('#userForm').validator();    
         $("#action").val("edit");
         $("#inputUsername").attr("data-remote","<?php echo base_url()."users/check_username_exist?method=edit&user_id=";?>" + id);
         var data = { "id" : id }
@@ -371,7 +376,7 @@
                     $("#inputEmail").val(data.user_profile.email_address);
                     $("#inputContact").val(data.user_profile.contact_number);
                     $("#inputAddress").val(data.user_profile.address);
-                    $("#inputRole").val(data.user_account.role_id).trigger("change");
+                    $("#inputRole").select2(inputRoleConfig).val(data.user_account.role_id).trigger("change");
                     $("#userModal").modal("show");
                 },
                 error: function (request, status, error) {

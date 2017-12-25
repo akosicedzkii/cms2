@@ -47,8 +47,8 @@ class Users extends CI_Controller {
         $this->users_model->address = $this->input->post("address");
         $this->users_model->role = $this->input->post("role");
         $this->users_model->email_address = $this->input->post("email_address");
-        $existing =  $this->users_model->check_username_exist("add");
         $this->users_model->user_id = $this->input->post("user_id");
+        $existing =  $this->users_model->check_username_exist("edit");
 		if(!$existing)
 		{
 			echo $this->users_model->update_user();
@@ -123,9 +123,10 @@ class Users extends CI_Controller {
     public function get_user_list()
     {
         $this->load->model("data_table_model","dt_model");  
-        $this->dt_model->where = $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created");  
-        $select_columns = array("id","username","first_name","middle_name","last_name","role_name","date_created");  
-        $this->dt_model->table = "user_accounts as t1 inner join user_profiles as t2 on t2.user_id = t1.id  inner join roles as t3 on t3.id = t1.role_id";  
+        $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created","t4.username as created_by","t1.date_modified","t5.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created","t4.username","t1.date_modified","t5.username");  
+        $select_columns = array("id","username","first_name","middle_name","last_name","role_name","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->table = "user_accounts AS t1 LEFT JOIN user_profiles AS t2 ON t2.user_id = t1.id  LEFT JOIN roles AS t3 ON t3.id = t1.role_id LEFT JOIN user_accounts AS t4 ON t4.id = t1.created_by LEFT JOIN user_accounts AS t5 ON t5.id = t1.modified_by";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];
