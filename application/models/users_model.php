@@ -6,7 +6,6 @@ class Users_model extends CI_Model {
         public $password;
         public $email;
         public $salt;
-        public $date_created;
         public $lastname;
         public $firstname;
         public $middlename;
@@ -14,12 +13,6 @@ class Users_model extends CI_Model {
         public $address;
         public $role;
         public $user_id;
-
-        public function get_last_ten_entries()
-        {
-                $query = $this->db->get('entries', 10);
-                return $query->result();
-        }
 
         public function insert_user()
         {
