@@ -103,6 +103,7 @@
     {   
         $("#formLogin").submit(function(e){
             e.preventDefault();
+            $("#formLogin button").button("loading");
             var username = $("#inputUsername").val();
             var password = $("#inputPassword").val();
             var values = { "username" : username , "password" : password };
@@ -115,14 +116,17 @@
                     if(response == "User not found")
                     {
                       toastr.error("Username/Password not found");
+                      $("#formLogin button").button("reset");
                     }
                     else if(response == "false")
                     {
                       toastr.error("Invalid password");
+                      $("#formLogin button").button("reset");
                     }
                     else if(response == "true")
                     {
                       toastr.success("Login successful");
+                      $("#formLogin button").button("reset");
                       setTimeout(function() {
                         window.location = "";
                       }, 200);
@@ -131,6 +135,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown);
+                $("#formLogin button").button("reset");
                 }
 
 

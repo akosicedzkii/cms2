@@ -15,13 +15,18 @@ class Login_model extends CI_Model {
             }
             else
             {
+                
                 $username = $query->row()->username;
                 $password = $query->row()->password;
                 $user_id = $query->row()->id;
                 $salt = $query->row()->salt;
-                
+                if($username != $this->username)
+                {
+                    echo "User not found";
+                    die();
+                }
                 $combined_password =  hash ( "sha256",  $salt.$this->password );
-                if($combined_password == $password )
+                if($combined_password == $password)
                 {
                     
                     $this->session->set_userdata("USERNM",$username);
