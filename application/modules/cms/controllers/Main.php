@@ -25,7 +25,7 @@ class Main extends CI_Controller {
 		$this->settings_model->get_settings();    
 		if($this->session->userdata("USERID") == null)
         {   
-            redirect(base_url()."login");
+            redirect(base_url()."cms/login");
 		}
 		$this->user_access = $this->settings_model->get_user_access();
     }

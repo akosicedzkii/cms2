@@ -6,7 +6,7 @@ class Roles extends CI_Controller {
     {
         parent::__construct();
         $this->settings_model->get_settings();   
-        $this->load->model("roles_model"); 
+        $this->load->model("cms/roles_model"); 
         
         if($this->session->userdata("USERID") == null)
         {
@@ -17,7 +17,7 @@ class Roles extends CI_Controller {
 
     public function get_roles_list()
     {
-        $this->load->model("data_table_model","dt_model");  
+        $this->load->model("cms/data_table_model","dt_model");  
         $this->dt_model->select_columns  = array("id","role_name","description","date_created","(SELECT username from user_accounts where id = t1.created_by) as created_by","date_modified","(SELECT username from user_accounts where id = t1.modified_by) as modified_by");  
         $this->dt_model->where = $select_columns = array("id","role_name","description","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "roles as t1";  

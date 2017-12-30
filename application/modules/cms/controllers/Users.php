@@ -6,7 +6,7 @@ class Users extends CI_Controller {
     {
         parent::__construct();
         $this->settings_model->get_settings();   
-        $this->load->model("users_model"); 
+        $this->load->model("cms/users_model"); 
         
         if($this->session->userdata("USERID") == null)
         {
@@ -122,7 +122,7 @@ class Users extends CI_Controller {
 
     public function get_user_list()
     {
-        $this->load->model("data_table_model","dt_model");  
+        $this->load->model("cms/data_table_model","dt_model");  
         $this->dt_model->select_columns = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created","t4.username as created_by","t1.date_modified","t5.username as modified_by");  
         $this->dt_model->where  = array("t1.id","t1.username","t2.first_name","t2.middle_name","t2.last_name","t3.role_name","t1.date_created","t4.username","t1.date_modified","t5.username");  
         $select_columns = array("id","username","first_name","middle_name","last_name","role_name","date_created","created_by","date_modified","modified_by");  

@@ -198,7 +198,7 @@
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."roles/get_roles_list";?>",
+            "ajax" : "<?php echo base_url()."cms/roles/get_roles_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -243,11 +243,11 @@
                     "role_modules" : role_modules
                 };
                 
-                var url = "<?php echo base_url()."roles/add_role";?>";
+                var url = "<?php echo base_url()."cms/roles/add_role";?>";
                 var message = "New role successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."roles/edit_role";?>";
+                    url =  "<?php echo base_url()."cms/roles/edit_role";?>";
                     message = "Role successfully updated";
                 }
                 $.ajax({
@@ -284,7 +284,7 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."roles/delete_role";?>",
+                        url: "<?php echo base_url()."cms/roles/delete_role";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
@@ -322,7 +322,7 @@
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."roles/get_role_data";?>",
+                url: "<?php echo base_url()."cms/roles/get_role_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
                     $("#roleID").val(data.roles.id);

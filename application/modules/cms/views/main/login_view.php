@@ -108,7 +108,7 @@
             var password = $("#inputPassword").val();
             var values = { "username" : username , "password" : password };
             $.ajax({
-                url: "<?php echo base_url();?>login/validate_login",
+                url: "<?php echo base_url();?>cms/login/validate_login",
                 type: "post",
                 data: values ,
                 success: function (response) {

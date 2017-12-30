@@ -73,11 +73,16 @@
 
 <link href="<?php echo base_url();?>assets/select2/select2.min.css" rel="stylesheet" />
 <script src="<?php echo base_url();?>assets/select2/select2.min.js"></script>
-
+<!--toastr-->
 <link href="<?php echo base_url();?>assets/toastr/toastr.min.css" rel="stylesheet" />
 <script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+
+
+<!--ckeditor-->
+<script src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
+
 
 <script>
   toastr.options = {
@@ -386,7 +391,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="<?php echo base_url()."logout";?>" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?php echo base_url()."cms/logout";?>" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -419,7 +424,7 @@
         <?php 
           if (in_array("banners", $menu)) {
              ?>
-              <li <?php if($module_name == "banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Banners</span></a></li>
+              <li <?php if($module_name == "banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Banners</span></a></li>
              <?php
           } 
         ?>
@@ -427,7 +432,7 @@
         <?php 
           if (in_array("fuel_prices", $menu)) {
              ?>
-              <li <?php if($module_name == "fuel_prices"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/fuel_prices"?>"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
+              <li <?php if($module_name == "fuel_prices"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/fuel_prices"?>"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
            <?php
           } 
         ?>
@@ -435,7 +440,7 @@
         <?php 
           if (in_array("store_location", $menu)) {
              ?>
-              <li <?php if($module_name == "store_location"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/store_location"?>"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
+              <li <?php if($module_name == "store_location"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/store_location"?>"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
             <?php
           } 
         ?>
@@ -443,7 +448,7 @@
         <?php 
           if (in_array("news", $menu)) {
              ?>
-             <li <?php if($module_name == "news"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/news"?>"><i class="fa fa-th-list"></i><span>News</span></a></li>
+             <li <?php if($module_name == "news"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/news"?>"><i class="fa fa-th-list"></i><span>News</span></a></li>
           <?php
           } 
         ?>
@@ -451,7 +456,7 @@
         <?php 
           if (in_array("updates", $menu)) {
              ?>
-              <li <?php if($module_name == "updates"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/updates"?>"><i class="fa fa-list-alt"></i><span>Updates</span></a></li>
+              <li <?php if($module_name == "updates"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/updates"?>"><i class="fa fa-list-alt"></i><span>Updates</span></a></li>
              <?php
           } 
         ?>
@@ -459,7 +464,7 @@
         <?php 
           if (in_array("products", $menu)) {
              ?>
-             <li <?php if($module_name == "products"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/products"?>"><i class="fa fa-tags"></i><span>Products</span></a></li>
+             <li <?php if($module_name == "products"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/products"?>"><i class="fa fa-tags"></i><span>Products</span></a></li>
             <?php
           } 
         ?>
@@ -477,28 +482,28 @@
                   <?php 
                     if (in_array("roles", $menu)) {
                      ?>
-                        <li <?php if($module_name == "roles"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/roles"?>"><i class="fa fa-user"></i> Roles</a></li>
+                        <li <?php if($module_name == "roles"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/roles"?>"><i class="fa fa-user"></i> Roles</a></li>
                      <?php
                      } 
                   ?>
                   <?php 
                     if (in_array("users", $menu)) {
                      ?>
-                        <li <?php if($module_name == "users"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/users"?>"><i class="fa fa-users"></i> Users</a></li>
+                        <li <?php if($module_name == "users"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/users"?>"><i class="fa fa-users"></i> Users</a></li>
                      <?php
                      } 
                   ?>
                   <?php 
                     if (in_array("site_settings", $menu)) {
                      ?>
-                        <li <?php if($module_name == "site_settings"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/site_settings"?>"><i class="fa fa-gear"></i> Site Settings</a></li>
+                        <li <?php if($module_name == "site_settings"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/site_settings"?>"><i class="fa fa-gear"></i> Site Settings</a></li>
                      <?php
                      } 
                   ?>
                   <?php 
                     if (in_array("logs", $menu)) {
                      ?>
-                         <li <?php if($module_name == "logs"){echo 'class="active"';}?>><a href="<?php echo base_url()."main/logs"?>"><i class="fa fa-gear"></i> Logs</a></li>
+                         <li <?php if($module_name == "logs"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/logs"?>"><i class="fa fa-gear"></i> Logs</a></li>
                      <?php
                      } 
                   ?>

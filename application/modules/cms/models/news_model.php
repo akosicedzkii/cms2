@@ -3,22 +3,24 @@
 class News_model extends CI_Model {
     
         public $id;
-        public $name;
+        public $title;
         public $description;
         public $content;
-        public $banner_image;
+        public $cover_image;
+        public $status;
 
         public function insert_news()
         {
-                $data["name"] = $this->name ; 
+                $data["title"] = $this->title ; 
                 $data["description"] = $this->description;
                 $data["content"] = $this->content;
                 $data["date_created"] = date("Y-m-d h:i:s A");
-                $data["role_id"] = $this->role;
+                $data["cover_image"] = $this->cover_image;
+                $data["status"] = $this->status;
                 $data["created_by"] =  $this->session->userdata("USERID");
-                echo $result = $this->db->insert('user_accounts', $data);
-                
-                $data = json_encode($data_profile);
+                echo $result = $this->db->insert('news', $data);
+                unset($data["content"]);
+                $data = json_encode($data);
                 $this->logs->log = "Created News: ". $data ;
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
@@ -26,16 +28,22 @@ class News_model extends CI_Model {
 
         public function update_news()
         {
-                $data["name"] = $this->name ; 
+                $data["title"] = $this->title ; 
                 $data["description"] = $this->description;
                 $data["content"] = $this->content;
-                $data["date_created"] = date("Y-m-d h:i:s A");
-                $data["role_id"] = $this->role;
-                $data["created_by"] =  $this->session->userdata("USERID");
+                $data["date_modified"] = date("Y-m-d h:i:s A");
+                if($this->cover_image != null)
+                {
+                     $data["cover_image"] = $this->cover_image;
+                }
+                $data["status"] = $this->status;
+                $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);
-                echo $result = $this->db->insert('user_accounts', $data);
+                echo $result = $this->db->update('news', $data);
                 
-                $data = json_encode($data_profile);
+                unset($data["content"]);
+
+                $data = json_encode($data);
                 $this->logs->log = "Updated News: ". $data ;
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();

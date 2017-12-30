@@ -22,12 +22,15 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="newsList" class="table table-bordered table-striped">
+        <table id="userList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Usertype</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -36,6 +39,16 @@
         </tr>
         </thead>
         <tbody>
+        <!--<tr>
+            <td>Cedzkii</td>
+            <td>Cederic Ferrer Martinez</td>
+            <td>Admin</td>
+            <td>
+                <a href="#" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>
+                <a href="#" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
+                <a href="#" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>
+            </td>
+        </tr>-->
         </tbody>
         </table>
     </div>
@@ -47,26 +60,26 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="newsModal">
+<div class="modal fade" id="userModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add News</h3>
+             <h3 class="modal-title">Add User</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="newsID">
+             <input type="hidden" id="userID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="newsForm" data-toggle="validator">
+                    <form class="form-horizontal" id="userForm" data-toggle="validator">
                         <div class="box-body">
                         <div class="form-group">
-                            <label for="inputNewsname" class="col-sm-4 control-label">Newsname</label>
+                            <label for="inputUsername" class="col-sm-4 control-label">Username</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputNewsname" data-minlength="5" name="newsname" placeholder="Newsname" required>
+                            <input type="text" class="form-control" id="inputUsername" data-minlength="5" name="username" placeholder="Username" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -134,7 +147,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="newsRole" class="col-sm-4 control-label">News Role</label>
+                            <label for="userRole" class="col-sm-4 control-label">User Role</label>
 
                             <div class="col-sm-8">
                             <select class="form-control" id="inputRole" required>
@@ -158,7 +171,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveNews">Save News</button>
+            <button type="button" class="btn btn-primary" id="saveUser">Save User</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -167,14 +180,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteNewsModal">
+<div class="modal fade" id="deleteUserModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete News</h3>
+             <h3 class="modal-title">Delete User</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -182,7 +195,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteNews">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteUser">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -201,40 +214,48 @@
 
     var main = function(){
 
-        var table = $('#newsList').DataTable({  
+        var table = $('#userList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."news/get_news_list";?>",
+            "ajax" : "<?php echo base_url()."cms/users/get_user_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
+            {
+                "render": function ( data, type, row ) {
+                    return data +' '+ row[3]+' '+row[4];
+                },
+                "targets": 2
+            },
+            { "visible": false,  "targets": [ 3 ] },
+            { "visible": false,  "targets": [ 4 ] },
             { "visible": false,  "targets": [ 0 ] }
         ]
         });
         $("#addBtn").click(function(){
-            $("#newsModal .modal-title").html("Add <?php echo rtrim(ucfirst($module_name),"s");?>");
+            $("#userModal .modal-title").html("Add <?php echo rtrim(ucfirst($module_name),"s");?>");
             $("#action").val("add");
-            $("#inputNewsname").attr("data-remote","<?php echo base_url()."news/check_newsname_exist?method=add";?>");
+            $("#inputUsername").attr("data-remote","<?php echo base_url()."cms/users/check_username_exist?method=add";?>");
             $(".add").show();     
-            $('#newsForm').validator();
-            $("#newsModal").modal("show");
+            $('#userForm').validator();
+            $("#userModal").modal("show");
         });
 
-        $("#saveNews").click(function(){
-            $("#newsForm").submit();
+        $("#saveUser").click(function(){
+            $("#userForm").submit();
         });
-        $("#newsForm").validator().on('submit', function (e) {
+        $("#userForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveNews");
+            var btn = $("#saveUser");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var newsname = $("#inputNewsname").val();
+                var username = $("#inputUsername").val();
                 var password = $("#inputPassword2").val();
                 var first_name = $("#inputFirstname").val();
                 var middle_name = $("#inputMiddlename").val();
@@ -243,11 +264,11 @@
                 var contact_number = $("#inputContact").val();
                 var address = $("#inputAddress").val();
                 var role = $("#inputRole").val();
-                var news_id = $("#newsID").val();
+                var user_id = $("#userID").val();
 
                 var data = {
-                    "news_id" : news_id,
-                    "newsname" : newsname,
+                    "user_id" : user_id,
+                    "username" : username,
                     "password" : password,
                     "first_name" : first_name,
                     "middle_name" : middle_name,
@@ -258,12 +279,12 @@
                     "role" : role
                 };
                 
-                var url = "<?php echo base_url()."news/add_news";?>";
-                var message = "New news successfully added";
+                var url = "<?php echo base_url()."cms/users/add_user";?>";
+                var message = "New user successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."news/edit_news";?>";
-                    message = "News successfully updated";
+                    url =  "<?php echo base_url()."cms/users/edit_user";?>";
+                    message = "User successfully updated";
                 }
                 $.ajax({
                         data: data,
@@ -274,8 +295,8 @@
                             btn.button("reset");
                             table.draw();
                             toastr.success(message);
-                            $("#newsForm").validator('destroy');
-                            $("#newsModal").modal("hide");
+                            $("#userForm").validator('destroy');
+                            $("#userModal").modal("hide");
                             $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
                             $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
                             $("#inputRole").select2("val", "null");
@@ -289,7 +310,7 @@
                return false;
         });
 
-        $("#deleteNews").click(function(){
+        $("#deleteUser").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -299,13 +320,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."news/delete_news";?>",
+                        url: "<?php echo base_url()."cms/users/delete_user";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteNewsModal").modal("hide");
-                            toastr.error('News ' + deleteItem + ' successfully deleted');
+                            $("#deleteUserModal").modal("hide");
+                            toastr.error('User ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -313,7 +334,7 @@
                 });
         });
 
-        $('#newsModal').on('hidden.bs.modal', function (e) {
+        $('#userModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -333,30 +354,30 @@
     };
     function _edit(id)
     {
-        $("#newsModal .modal-title").html("Edit <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#userModal .modal-title").html("Edit <?php echo rtrim(ucfirst($module_name),"s");?>");
         $(".add").hide();    
-        $('#newsForm').validator();    
+        $('#userForm').validator();    
         $("#action").val("edit");
-        $("#inputNewsname").attr("data-remote","<?php echo base_url()."news/check_newsname_exist?method=edit&news_id=";?>" + id);
+        $("#inputUsername").attr("data-remote","<?php echo base_url()."cms/users/check_username_exist?method=edit&user_id=";?>" + id);
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."news/get_news_data";?>",
+                url: "<?php echo base_url()."cms/users/get_user_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#newsID").val(data.news_account.id);
-                    $("#inputNewsname").val(data.news_account.newsname);
+                    $("#userID").val(data.user_account.id);
+                    $("#inputUsername").val(data.user_account.username);
                     $("#inputPassword").val("this is not the real password");
                     $("#inputPassword2").val("this is not the real password");
-                    $("#inputFirstname").val(data.news_profile.first_name);
-                    $("#inputMiddlename").val(data.news_profile.middle_name);
-                    $("#inputLastname").val(data.news_profile.last_name);
-                    $("#inputEmail").val(data.news_profile.email_address);
-                    $("#inputContact").val(data.news_profile.contact_number);
-                    $("#inputAddress").val(data.news_profile.address);
-                    $("#inputRole").select2(inputRoleConfig).val(data.news_account.role_id).trigger("change");
-                    $("#newsModal").modal("show");
+                    $("#inputFirstname").val(data.user_profile.first_name);
+                    $("#inputMiddlename").val(data.user_profile.middle_name);
+                    $("#inputLastname").val(data.user_profile.last_name);
+                    $("#inputEmail").val(data.user_profile.email_address);
+                    $("#inputContact").val(data.user_profile.contact_number);
+                    $("#inputAddress").val(data.user_profile.address);
+                    $("#inputRole").select2(inputRoleConfig).val(data.user_account.role_id).trigger("change");
+                    $("#userModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -365,10 +386,10 @@
     }
     function _delete(id,item)
     {
-        $("#deleteNewsModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteUserModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteNewsModal").modal("show");
+        $("#deleteUserModal").modal("show");
     }
     $(document).ready(main);
 </script>

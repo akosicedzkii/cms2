@@ -16,7 +16,7 @@ class Login extends CI_Controller {
         }
         else
         {
-            redirect(base_url()."main");
+            redirect(base_url()."cms/main");
         }
 	}
 
