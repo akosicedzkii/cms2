@@ -90,15 +90,15 @@
 
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" id="modules" value="fuel_prices">
-                                        Fuel Prices
+                                        <input type="checkbox" id="modules" value="branches">
+                                        Branches
                                         </label>
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" id="modules" value="store_location">
-                                        Store Locations
+                                        <input type="checkbox" id="modules" value="station_location">
+                                        Station Locations
                                         </label>
                                     </div>
                                     
@@ -122,7 +122,7 @@
                                         Products
                                         </label>
                                     </div>
-
+                                    
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="roles">

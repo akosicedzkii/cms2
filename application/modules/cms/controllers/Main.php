@@ -76,7 +76,7 @@ class Main extends CI_Controller {
 		$this->load->view('main/template/footer');
 	}
 
-	public function fuel_prices()
+	public function fuels()
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
@@ -85,10 +85,22 @@ class Main extends CI_Controller {
 		$this->load->view('main/template/footer');
 	}
 
-	public function store_location()
+	public function station_location()
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
+		$module["branches"] = $this->db->get("branches")->result();
+		$module["fuel_list"] = $this->db->get("fuels")->result();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/stations_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function branches()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$module["branches"] = $this->db->get("branches")->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');
@@ -108,7 +120,7 @@ class Main extends CI_Controller {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
-		$this->load->view('main/users_view',$module);
+		$this->load->view('main/updates_view',$module);
 		$this->load->view('main/template/footer');
 	}
 

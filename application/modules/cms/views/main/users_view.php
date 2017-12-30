@@ -217,7 +217,7 @@
         var table = $('#userList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
-            "serverSide" : true, 
+            "serverSide" : true, responsive: true,
             "ajax" : "<?php echo base_url()."cms/users/get_user_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()

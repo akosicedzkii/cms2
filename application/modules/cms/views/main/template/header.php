@@ -75,6 +75,7 @@
 <script src="<?php echo base_url();?>assets/select2/select2.min.js"></script>
 <!--toastr-->
 <link href="<?php echo base_url();?>assets/toastr/toastr.min.css" rel="stylesheet" />
+<!--toastr-->
 <script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
@@ -429,18 +430,18 @@
           } 
         ?>
 
-        <?php 
-          if (in_array("fuel_prices", $menu)) {
+       <?php 
+          if (in_array("branches", $menu)) {
              ?>
-              <li <?php if($module_name == "fuel_prices"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/fuel_prices"?>"><i class="fa fa-tint"></i><span>Fuel Price</span></a></li>
-           <?php
+              <li <?php if($module_name == "branches"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/branches"?>"><i class="fa fa-building-o"></i><span>Branches</span></a></li>
+            <?php
           } 
         ?>
 
         <?php 
-          if (in_array("store_location", $menu)) {
+          if (in_array("station_location", $menu)) {
              ?>
-              <li <?php if($module_name == "store_location"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/store_location"?>"><i class="fa fa-map-marker"></i><span>Store Location</span></a></li>
+              <li <?php if($module_name == "station_location"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/station_location"?>"><i class="fa fa-map-marker"></i><span>Station Location</span></a></li>
             <?php
           } 
         ?>
@@ -461,13 +462,44 @@
           } 
         ?>
 
-        <?php 
-          if (in_array("products", $menu)) {
+       <?php 
+          if (in_array("products", $menu) ) {
              ?>
-             <li <?php if($module_name == "products"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/products"?>"><i class="fa fa-tags"></i><span>Products</span></a></li>
-            <?php
+              <li class="<?php if($module_name == "fuels" || $module_name == "lubricants" || $module_name == "asphalts" ){echo 'active ';}?>treeview">
+                <a href="#">
+                  <i class="fa fa-tags"></i> <span>Products</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <?php 
+                    if (in_array("fuels", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "fuels"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/fuels"?>"><i class="fa fa-user"></i> Fuels</a></li>
+                     <?php
+                     } 
+                  ?>
+                  <?php 
+                    if (in_array("lubricants", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "lubricants"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/lubricants"?>"><i class="fa fa-users"></i> Lubricants</a></li>
+                     <?php
+                     } 
+                  ?>
+                  <?php 
+                    if (in_array("asphalts", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "asphalts"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/asphalts"?>"><i class="fa fa-gear"></i> Asphalts</a></li>
+                     <?php
+                     } 
+                  ?>
+                </ul>
+              </li>
+        <?php
           } 
         ?>
+
         <?php 
           if (in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
              ?>
