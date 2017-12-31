@@ -58,21 +58,12 @@ class Main extends CI_Controller {
 		$this->load->view('main/template/footer');
 	}
 
-	public function site_settings()
-    {
-		$module["module_name"] = $this->router->fetch_method();
-		$module["menu"] = $this->user_access;
-		$this->load->view('main/template/header',$module);
-		$this->load->view('main/users_view',$module);
-		$this->load->view('main/template/footer');
-	}
-
 	public function banners()
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
-		$this->load->view('main/users_view',$module);
+		$this->load->view('main/banners_view',$module);
 		$this->load->view('main/template/footer');
 	}
 
@@ -100,9 +91,9 @@ class Main extends CI_Controller {
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
-		$module["branches"] = $this->db->get("branches")->result();
+		$module["branches"] = $this->db->get("branches")->order_by("branch_name")->result();
 		$this->load->view('main/template/header',$module);
-		$this->load->view('main/users_view',$module);
+		$this->load->view('main/branches_view',$module);
 		$this->load->view('main/template/footer');
 	}
 
@@ -141,5 +132,17 @@ class Main extends CI_Controller {
 		$this->load->view('main/users_view',$module);
 		$this->load->view('main/template/footer');
 	}
+
+	
+	public function site_settings()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$module["site_settings"] = $this->db->get("site_settings")->row();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/site_settings_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
 
 }

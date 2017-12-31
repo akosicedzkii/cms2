@@ -16,18 +16,18 @@
 </button>
 <!-- Main content -->
 <section class="content">
-<div class="box">
+<div class="box"  style="overflow-x: auto">
     <div class="box-header">
         <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="updatesList" class="table table-bordered table-striped">
+        <table id="bannersList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Cover Image</th>
+            <th>Banner</th>
             <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
@@ -48,26 +48,26 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="updatesModal">
+<div class="modal fade" id="bannersModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Updates</h3>
+             <h3 class="modal-title">Add Banners</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="updatesID">
+             <input type="hidden" id="bannersID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="updatesForm" data-toggle="validator">
+                    <form class="form-horizontal" id="bannersForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputUpdatesTitle" class="col-sm-2 control-label">Title</label>
+                                <label for="inputBannersTitle" class="col-sm-2 control-label">Title</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputUpdatesTitle" placeholder="Title" required>
+                                <input type="text" class="form-control" id="inputBannersTitle" placeholder="Title" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -81,10 +81,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputCoverImage" class="col-sm-2 control-label">Cover Image</label>
+                                <label for="inputBannerImage" class="col-sm-2 control-label">Cover Image</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputCoverImage" placeholder="Cover Image" style="resize:none" required>
+                                <input type="file" class="form-control" id="inputBannerImage" placeholder="Cover Image" style="resize:none" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveUpdates">Save Updates</button>
+            <button type="button" class="btn btn-primary" id="saveBanners">Save Banners</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -124,14 +124,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteUpdatesModal">
+<div class="modal fade" id="deleteBannersModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Updates</h3>
+             <h3 class="modal-title">Delete Banners</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -139,7 +139,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteUpdates">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteBanners">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -156,7 +156,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Updates Cover Image Preview</h3>
+             <h3 class="modal-title">Banner Image Preview</h3>
             </div>
             <div class="modal-body">
                 <center><img src="" id="imgPreview" style="width:100%;"></center>
@@ -182,11 +182,12 @@
     var editor = CKEDITOR.replace('inputContent');
 
     var main = function(){
-        var table = $('#updatesList').DataTable({  
+        var table = $('#bannersList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/updates/get_updates_list";?>",
+            "responsive" : true,
+            "ajax" : "<?php echo base_url()."cms/banners/get_banners_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -196,39 +197,39 @@
         ]
         });
         $("#addBtn").click(function(){
-            $("#updatesModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#bannersModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
-            $("#inputCoverImage").attr("required","required");
-            $('#updatesForm').validator();
-            $("#updatesModal").modal("show");
+            $("#inputBannerImage").attr("required","required");
+            $('#bannersForm').validator();
+            $("#bannersModal").modal("show");
         });
 
-        $("#saveUpdates").click(function(){
-            $("#updatesForm").submit();
+        $("#saveBanners").click(function(){
+            $("#bannersForm").submit();
         });
-        $("#updatesForm").validator().on('submit', function (e) {
+        $("#bannersForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveUpdates");
+            var btn = $("#saveBanners");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var title = $("#inputUpdatesTitle").val();
+                var title = $("#inputBannersTitle").val();
                 var description = $("#inputDescription").val();
                 var content = editor.getData();;
                 var status = $("#inputStatus").val();
-                var updates_id = $("#updatesID").val();
+                var banners_id = $("#bannersID").val();
 
                 var formData = new FormData();
-                formData.append('id', updates_id);
+                formData.append('id', banners_id);
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('content', content);
                 formData.append('status', status);
                 // Attach file
-                formData.append('cover_image', $('#inputCoverImage').prop("files")[0]);
+                formData.append('banner_image', $('#inputBannerImage').prop("files")[0]);
                 var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
 
                 if( !messageLength ) {
@@ -237,12 +238,12 @@
                     return false;
                 }
 
-                var url = "<?php echo base_url()."cms/updates/add_updates";?>";
-                var message = "New updates successfully added";
+                var url = "<?php echo base_url()."cms/banners/add_banner";?>";
+                var message = "New banners successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/updates/edit_updates";?>";
-                    message = "Updates successfully updated";
+                    url =  "<?php echo base_url()."cms/banners/edit_banner";?>";
+                    message = "Banners successfully updated";
                 }
                 $.ajax({
                         data: formData,
@@ -263,8 +264,8 @@
                                 table.draw();
                                 toastr.success(message);
                                 editor.setData('');
-                                $("#updatesForm").validator('destroy');
-                                $("#updatesModal").modal("hide");     
+                                $("#bannersForm").validator('destroy');
+                                $("#bannersModal").modal("hide");     
                             }
                            
                         },
@@ -276,7 +277,7 @@
                return false;
         });
 
-        $("#deleteUpdates").click(function(){
+        $("#deleteBanners").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -286,13 +287,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/updates/delete_updates";?>",
+                        url: "<?php echo base_url()."cms/banners/delete_banner";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteUpdatesModal").modal("hide");
-                            toastr.error('Updates ' + deleteItem + ' successfully deleted');
+                            $("#deleteBannersModal").modal("hide");
+                            toastr.error('Banners ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -300,7 +301,7 @@
                 });
         });
 
-        $('#updatesModal').on('hidden.bs.modal', function (e) {
+        $('#bannersModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -310,7 +311,7 @@
                 .end();
             editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $("#updatesForm").validator('destroy');
+            $("#bannersForm").validator('destroy');
         });
 
         $('#inputStatus').select2(inputRoleConfig);
@@ -323,25 +324,24 @@
     };
     function _edit(id)
     {
-        $("#updatesModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#bannersModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#updatesForm').validator();    
+        $('#bannersForm').validator();    
         $("#action").val("edit");
-        $("#inputCoverImage").removeAttr("required");
-        $("#inputUpdatesname").attr("data-remote","<?php echo base_url()."updates/check_updatesname_exist?method=edit&updates_id=";?>" + id);
+        $("#inputBannerImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/updates/get_updates_data";?>",
+                url: "<?php echo base_url()."cms/banners/get_banner_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputUpdatesTitle").val(data.updates.title);
-                    $("#inputDescription").val(data.updates.description);
-                    editor.setData(data.updates.content);
-                    $("#inputStatus").val(data.updates.status).trigger('change');
-                    $("#updatesID").val(data.updates.id);
-                    $("#updatesModal").modal("show");
+                    $("#inputBannersTitle").val(data.banners.title);
+                    $("#inputDescription").val(data.banners.description);
+                    editor.setData(data.banners.content);
+                    $("#inputStatus").val(data.banners.status).trigger('change');
+                    $("#bannersID").val(data.banners.id);
+                    $("#bannersModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -350,17 +350,15 @@
     }
     function _delete(id,item)
     {
-        $("#deleteUpdatesModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteBannersModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteUpdatesModal").modal("show");
+        $("#deleteBannersModal").modal("show");
     }
-    
     function img_preview(img_src)
     {
-        $("#imgPreview").attr("src","<?php echo base_url()."uploads/updates/"?>"+img_src);
+        $("#imgPreview").attr("src","<?php echo base_url()."uploads/banners/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
     }
     $(document).ready(main);
-
 </script>

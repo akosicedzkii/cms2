@@ -27,6 +27,8 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Cover Image</th>
+            <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -145,6 +147,28 @@
 <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<!-- /.modal -->
+<div class="modal fade" id="imgPreviewModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">News Cover Image Preview</h3>
+            </div>
+            <div class="modal-body">
+                <center><img src="" id="imgPreview" style="width:100%;"></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script>
 
@@ -166,7 +190,8 @@
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
-            { "visible": false,  "targets": [ 0 ] }
+            { "visible": false,  "targets": [ 0 ] },
+            { "width": "20%",  "targets": [ 1 ] }
         ]
         });
         $("#addBtn").click(function(){
@@ -302,12 +327,11 @@
         $('#newsForm').validator();    
         $("#action").val("edit");
         $("#inputCoverImage").removeAttr("required");
-        $("#inputNewsname").attr("data-remote","<?php echo base_url()."news/check_newsname_exist?method=edit&news_id=";?>" + id);
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."news/get_news_data";?>",
+                url: "<?php echo base_url()."cms/news/get_news_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
                     $("#inputNewsTitle").val(data.news.title);
@@ -328,6 +352,12 @@
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
         $("#deleteNewsModal").modal("show");
+    }
+    
+    function img_preview(img_src)
+    {
+        $("#imgPreview").attr("src","<?php echo base_url()."uploads/news/"?>"+img_src);
+        $("#imgPreviewModal").modal("show");
     }
     $(document).ready(main);
 </script>

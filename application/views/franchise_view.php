@@ -28,7 +28,7 @@
                 <div class="process-item animate from-left-offscreen" data-group="steps">
                     <div class="content-container">
                         <p>Submit your Letter of Intent and accomplished application form</p>
-                        <a href="./franchise-application.html" class="ghost-btn white">SUBMIT APPLICATION</a>
+                        <a href="<?php echo base_url()."franchise_application";?>" class="ghost-btn white">SUBMIT APPLICATION</a>
                     </div>
                 </div>
                 <div class="process-item animate from-left-offscreen" data-group="steps">

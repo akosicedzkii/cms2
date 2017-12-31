@@ -14,7 +14,7 @@ class News_model extends CI_Model {
                 $data["title"] = $this->title ; 
                 $data["description"] = $this->description;
                 $data["content"] = $this->content;
-                $data["date_created"] = date("Y-m-d h:i:s A");
+                $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["cover_image"] = $this->cover_image;
                 $data["status"] = $this->status;
                 $data["created_by"] =  $this->session->userdata("USERID");
@@ -31,7 +31,7 @@ class News_model extends CI_Model {
                 $data["title"] = $this->title ; 
                 $data["description"] = $this->description;
                 $data["content"] = $this->content;
-                $data["date_modified"] = date("Y-m-d h:i:s A");
+                $data["date_modified"] = date("Y-m-d H:i:s A");
                 if($this->cover_image != null)
                 {
                      $data["cover_image"] = $this->cover_image;

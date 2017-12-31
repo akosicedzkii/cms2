@@ -22,12 +22,12 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="stationList" class="table table-bordered table-striped">
+        <table id="branchList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Station Name</th>
             <th>Branch Name</th>
+            <th>Details</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -47,82 +47,45 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="stationModal">
+<div class="modal fade" id="branchModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Station</h3>
+             <h3 class="modal-title">Add Branch</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="stationID">
+             <input type="hidden" id="branchID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="stationForm" data-toggle="validator">
+                    <form class="form-horizontal" id="branchForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputStationName" class="col-sm-2 control-label">Station Name</label>
+                                <label for="inputBranchName" class="col-sm-2 control-label">Branch Name</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputStationName" placeholder="Station Name" required>
-                                <div class="help-block with-errors"></div>
+                                    <input type="text" class="form-control" id="inputBranchName" placeholder="Branch Name" required>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputMapUrl" class="col-sm-2 control-label">Map URL</label>
+                                <label for="inputDetails" class="col-sm-2 control-label">Details</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputMapUrl" placeholder="Map URL" style="resize:none" required></textarea>
-                                <div class="help-block with-errors"></div>
+                                    <textarea class="form-control" id="inputDetails" placeholder="Details" style="resize:none" required></textarea>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                              </div>
-                            <div class="form-group">
-                                <label for="inputBranch" class="col-sm-2 control-label">Branch</label>
-
-                                <div class="col-sm-10">
-                                <select class="form-control" id="inputBranch" placeholder="Content" style="resize:none" required>
-                                    <option value=""></option>
-                                    <?php 
-                                        if($branches != null){
-                                            foreach($branches as $row){
-                                                ?>
-                                                    <option value="<?php echo $row->id;?>"><?php echo $row->branch_name;?></option>
-                                                <?php
-                                            }
-                                        }
-                                    ?>
-                                </select>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div id="fuelTextbox">
-                                <?php 
-                                        if($fuel_list != null){
-                                            foreach($fuel_list as $row){
-                                                ?>
-                                                    <div class="form-group">
-                                                        <label for="fuel_<?php echo $row->id;?>" class="col-sm-2 control-label"><?php echo ucfirst($row->fuel_name);?></label>
-
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="fuel_<?php echo $row->id;?>" placeholder="<?php echo ucfirst($row->fuel_name);?>" pattern="^\d+(\.\d{1,2})?$">
-                                                            <div class="help-block with-errors"></div>
-                                                        </div>
-                                                    </div>
-                                                <?php
-                                            }
-                                        }
-                                    ?>
-                            </div>
                         </div>
                     </form>
-                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveStation">Save Station</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveBranch">Save Branch</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -131,22 +94,23 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteStationModal">
+<div class="modal fade" id="deleteBranchModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Station</h3>
+             <h3 class="modal-title">Delete Branch</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
                 <center><h4>Are you sure to delete <label id="deleteItem"></label></h4></center>
+                <center><h5>* Note: Station and Gas Prices will also be deleted</h5></center>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteStation">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteBranch">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -165,11 +129,11 @@
 
 
     var main = function(){
-        var table = $('#stationList').DataTable({  
+        var table = $('#branchList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/stations/get_stations_list";?>",
+            "ajax" : "<?php echo base_url()."cms/branches/get_branches_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -178,46 +142,40 @@
         ]
         });
         $("#addBtn").click(function(){
-            $("#stationModal .modal-title").html("Add <?php echo ucwords(str_replace("_"," ",$module_name));?>");
+            $("#branchModal .modal-title").html("Add <?php echo ucwords(str_replace("_"," ",$module_name));?>");
             $("#action").val("add");
             $("#inputCoverImage").attr("required","required");
-            $('#stationForm').validator();
-            $("#stationModal").modal("show");
+            $('#branchForm').validator();
+            $("#branchModal").modal("show");
         });
 
-        $("#saveStation").click(function(){
-            $("#stationForm").submit();
+        $("#saveBranch").click(function(){
+            $("#branchForm").submit();
         });
-        $("#stationForm").validator().on('submit', function (e) {
-           fuel_price = "";
-            $('#fuelTextbox input[type=text]').each(function (){
-                fuel_price += $(this).attr('id') + "||" + $(this).val() + "__";//used || __ as delimiter
-            });
-            var btn = $("#saveStation");
+        $("#branchForm").validator().on('submit', function (e) {
+           
+            var btn = $("#saveBranch");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var station_name = $("#inputStationName").val();
-                var map_url = $("#inputMapUrl").val();
-                var branch_id = $("#inputBranch").val();
-                var id = $("#stationID").val();
+                var branch_name = $("#inputBranchName").val();
+                var details = $("#inputDetails").val();
+                var id = $("#branchID").val();
                 var data = {
                     "id" : id,
-                    "station_name" : station_name,
-                    "fuel_price" : fuel_price,
-                    "map_url" : map_url,
-                    "branch_id" : branch_id
+                    "branch_name" : branch_name,
+                    "details" : details
                 }
 
-                var url = "<?php echo base_url()."cms/stations/add_station";?>";
-                var message = "New station successfully added";
+                var url = "<?php echo base_url()."cms/branches/add_branch";?>";
+                var message = "New branch successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/stations/edit_station";?>";
-                    message = "Station successfully updated";
+                    url =  "<?php echo base_url()."cms/branches/edit_branch";?>";
+                    message = "Branch successfully updated";
                 }
                 $.ajax({
                         data: data,
@@ -235,8 +193,8 @@
                                 btn.button("reset");
                                 table.draw();
                                 toastr.success(message);
-                                $("#stationForm").validator('destroy');
-                                $("#stationModal").modal("hide");     
+                                $("#branchForm").validator('destroy');
+                                $("#branchModal").modal("hide");     
                             }
                            
                         },
@@ -248,7 +206,7 @@
                return false;
         });
 
-        $("#deleteStation").click(function(){
+        $("#deleteBranch").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -258,13 +216,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/stations/delete_station";?>",
+                        url: "<?php echo base_url()."cms/branches/delete_branch";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteStationModal").modal("hide");
-                            toastr.error('Station ' + deleteItem + ' successfully deleted');
+                            $("#deleteBranchModal").modal("hide");
+                            toastr.error('Branch ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -272,7 +230,7 @@
                 });
         });
 
-        $('#stationModal').on('hidden.bs.modal', function (e) {
+        $('#branchModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -280,7 +238,7 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            $("#stationForm").validator('destroy');
+            $("#branchForm").validator('destroy');
         });
 
         $('#inputBranch').select2(inputRoleConfig);
@@ -293,28 +251,21 @@
     };
     function _edit(id)
     {
-        $("#stationModal .modal-title").html("Edit <?php echo ucwords(str_replace("_"," ",$module_name));?>");
-        $('#stationForm').validator();    
+        $("#branchModal .modal-title").html("Edit <?php echo ucwords(str_replace("_"," ",$module_name));?>");
+        $('#branchForm').validator();    
         $("#action").val("edit");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/stations/get_stations_data";?>",
+                url: "<?php echo base_url()."cms/branches/get_branches_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
                     console.log(data);
-                    $("#inputStationName").val(data.stations.station_name);
-                    $("#inputMapUrl").val(data.stations.map_url);
-                    $("#inputBranch").val(data.stations.branch_id).trigger("change");
-                    data_station_prices = JSON.parse( data.stations_fuel_prices );
-                    for(var key in data_station_prices) {
-                        if (data_station_prices.hasOwnProperty(key)) {
-                            $("#fuel_" + data_station_prices[key].fuel_id).val(data_station_prices[key].price);
-                        }
-                    }
-                    $("#stationID").val(data.stations.id);
-                    $("#stationModal").modal("show");
+                    $("#inputBranchName").val(data.branches.branch_name);
+                    $("#inputDetails").val(data.branches.details);
+                    $("#branchID").val(data.branches.id);
+                    $("#branchModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -323,10 +274,10 @@
     }
     function _delete(id,item)
     {
-        $("#deleteStationModal .modal-title").html("Delete <?php echo rtrim(ucwords(str_replace("_"," ",$module_name)),"s");?>");
+        $("#deleteBranchModal .modal-title").html("Delete <?php echo rtrim(ucwords(str_replace("_"," ",$module_name)),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteStationModal").modal("show");
+        $("#deleteBranchModal").modal("show");
     }
     $(document).ready(main);
 </script>

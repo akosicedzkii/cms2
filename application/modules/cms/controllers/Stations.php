@@ -69,10 +69,10 @@ class Stations extends CI_Controller {
     public function get_stations_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.station_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.station_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","station_name","date_created","created_by","date_modified","modified_by");  
-        $this->dt_model->table = "stations AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
+        $this->dt_model->select_columns = array("t1.id","t1.station_name","t4.branch_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.station_name","t4.branch_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","station_name","branch_name","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->table = "stations AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN branches as t4 ON t4.id = t1.branch_id";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];
@@ -91,9 +91,9 @@ class Stations extends CI_Controller {
                     }
             }
             
-            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].')" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
-            <a href="#" onclick="_edit('.$aRow['id'].')" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
-            <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow["station_name"].'\')" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
+            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].');return false;" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
+            <a href="#" onclick="_edit('.$aRow['id'].');return false;" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
+            <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow["station_name"].'\');return false;" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
             array_push($row,$btns);
             $output['data'][] = $row;
         }

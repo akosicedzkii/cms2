@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>HOME - Unioil</title>
+    <title><?php echo $title;?></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/theme.css">
     <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/scroll-events.css">
+
     <?php if($module_name == "home"){?>
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/index.css">
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/store-locator.css">
@@ -15,9 +16,18 @@
     <?php if($module_name == "about_us"){?>
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/about-us.css">
     <?php }?>
-    <?php if($module_name == "home"){?>
+    <?php if($module_name == "franchise"){?>
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/franchise.css">
     <?php }?>
+    
+    <?php if($module_name == "franchise_application"){?>
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/franchise-application.css">
+    <?php }?>
+
+    <?php if($module_name == "news_and_updates"){?>
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/news.css">
+    <?php }?>
+
 </head>
 
 <body id="index">

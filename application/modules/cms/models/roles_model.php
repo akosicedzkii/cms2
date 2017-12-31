@@ -14,7 +14,7 @@ class Roles_model extends CI_Model {
     {
             $data["role_name"] = $this->role_name ; 
             $data["description"] = $this->description;
-            $data["date_created"] = date("Y-m-d h:i:s A");
+            $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
             $result = $this->db->insert('roles', $data);
 
@@ -36,7 +36,7 @@ class Roles_model extends CI_Model {
     {
         $data["role_name"] = $this->role_name ; 
         $data["description"] = $this->description;
-        $data["date_modified"] = date("Y-m-d h:i:s A");
+        $data["date_modified"] = date("Y-m-d H:i:s A");
         $data["modified_by"] =  $this->session->userdata("USERID");
         $this->db->where("id",$this->id);
         $result = $this->db->update('roles', $data);

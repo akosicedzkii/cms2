@@ -20,7 +20,7 @@ class Users_model extends CI_Model {
                 $this->salt = hash ( "sha256", $this->username ); 
                 $data["salt"] = $this->salt;
                 $data["password"] =  hash ( "sha256",  $this->salt.$this->password );
-                $data["date_created"] = date("Y-m-d h:i:s A");
+                $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["role_id"] = $this->role;
                 $data["created_by"] =  $this->session->userdata("USERID");
                 $result = $this->db->insert('user_accounts', $data);
@@ -36,7 +36,7 @@ class Users_model extends CI_Model {
                 $data_profile["email_address"] = $this->email_address;
                 $data_profile["address"] = $this->address; 
                 $data_profile["created_by"] = $this->session->userdata("USERID");
-                $data_profile["date_created"] = date("Y-m-d h:i:s A");
+                $data_profile["date_created"] = date("Y-m-d H:i:s A");
                 echo $result = $this->db->insert('user_profiles', $data_profile);
                 
                 $data = json_encode($data_profile);
@@ -49,7 +49,7 @@ class Users_model extends CI_Model {
         public function update_user()
         {
                 $data["username"] = $this->username ; 
-                $data["date_modified"] = date("Y-m-d h:i:s A");
+                $data["date_modified"] = date("Y-m-d H:i:s A");
                 $data["role_id"] = $this->role;
                 $data["modified_by"] = $this->session->userdata("USERID");
                 $this->db->where("id",$this->user_id);
@@ -61,7 +61,7 @@ class Users_model extends CI_Model {
                 $data_profile["contact_number"] = $this->contact_number;
                 $data_profile["email_address"] = $this->email_address;
                 $data_profile["address"] = $this->address; 
-                $data["date_modified"] = date("Y-m-d h:i:s A");
+                $data["date_modified"] = date("Y-m-d H:i:s A");
                 $data["modified_by"] = $this->session->userdata("USERID");
                 $this->db->where("user_id",$this->user_id);
                 echo $result = $this->db->update('user_profiles', $data_profile);

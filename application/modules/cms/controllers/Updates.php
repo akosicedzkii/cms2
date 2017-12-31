@@ -116,9 +116,9 @@ class Updates extends CI_Controller {
     public function get_updates_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.title","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.title","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","title","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.title","t1.cover_image","IF(t1.status=1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.title","t1.cover_image","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","title","cover_image","status","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "updates AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -132,15 +132,19 @@ class Updates extends CI_Controller {
                     {
                         $row[] = $aRow[$col];
                     }
+                    else if($col == "cover_image")
+                    {
+                        $row[] = "<a href=\"#\" onclick='return false;'><img class='img-thumbnail' src='".base_url()."uploads/updates/".$aRow[$col]."' style='height:70px;' onclick='img_preview(\"".$aRow[$col]."\");return false;'></a>";
+                    }
                     else
                     {
                         $row[] = ucfirst( $aRow[$col] );
                     }
             }
             
-            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].')" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
-            <a href="#" onclick="_edit('.$aRow['id'].')" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
-            <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow["title"].'\')" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
+            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].');return false;" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
+            <a href="#" onclick="_edit('.$aRow['id'].');return false;" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
+            <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow["title"].'\');return false;" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
             array_push($row,$btns);
             $output['data'][] = $row;
         }

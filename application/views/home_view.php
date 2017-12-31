@@ -1,36 +1,34 @@
 
+                    
     <section id="page-content">
         <a class="anchor" id="home"></a>
         <header id="header-carousel-container">
             <div id="main-carousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#main-carousel" data-slide-to="1"></li>
-                    <li data-target="#main-carousel" data-slide-to="2"></li>
-                    <li data-target="#main-carousel" data-slide-to="3"></li>
-                    <li data-target="#main-carousel" data-slide-to="4"></li>
+                <?php if($banners != null)
+                {
+                    $increment = 0;
+                    foreach($banners as $row)
+                    {?>
+                        <li data-target="#main-carousel" data-slide-to="<?php echo $increment;?>" <?php if($increment==0){ echo 'class="active"';}?>></li>
+                     <?php 
+                        $increment++;
+                    }
+                }?>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 1a.png">
-                        <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 1b.png">
-                        <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 1c.png">
-                        <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 1d.png">
-                         <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 1e.png">
-                         <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
-                    </div>
+                    <?php if($banners != null)
+                    {
+                        $increment = 0;
+                        foreach($banners as $row)
+                        {?>
+                            <div class="carousel-item<?php if($increment==0){ echo ' active';}?>">
+                                <img class="carousel-bg" src="<?php echo base_url()."uploads/banners/".$row->banner_image;?>">
+                                <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
+                            </div>
+                    <?php 
+                         $increment++;   }
+                     }?>
                 </div>
                 <a class="carousel-control-prev" href="#main-carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a>
                 <a class="carousel-control-next" href="#main-carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>
@@ -177,7 +175,7 @@
             </div>
         </section>
         <section id="news-updates-ribbon" class="animate fade-in">
-            <a href="<?php echo base_url()."assets_site/"?>news.html">
+            <a href="<?php echo base_url()."news_and_updates"?>">
                 <div class="ribbon-container">
                     <p>SEE ALL NEWS &amp; UPDATES</p>
                 </div>

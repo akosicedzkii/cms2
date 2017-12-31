@@ -15,7 +15,7 @@ class Stations_model extends CI_Model {
             $data["station_name"] = $this->station_name; 
             $data["map_url"] = $this->map_url; 
             $data["branch_id"] = $this->branch_id; 
-            $data["date_created"] = date("Y-m-d h:i:s A");
+            $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
             $result = $this->db->insert('stations', $data);
             $data = json_encode($data);
@@ -36,20 +36,20 @@ class Stations_model extends CI_Model {
                 }
             }
             echo $result;
-            $this->logs->log = "Created Store: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
+            $this->logs->log = "Created Station: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }
 
         public function update_station($fuel_price)
         {
-            $fuel_price = rtrim($fuel_price,"__");
+            $fuel_price = rtrim($fuel_price,"__"); // right trim of __
             $fuel_price = explode("__",$fuel_price);
 
             $data["station_name"] = $this->station_name; 
             $data["map_url"] = $this->map_url; 
             $data["branch_id"] = $this->branch_id; 
-            $data["date_modified"] = date("Y-m-d h:i:s A");
+            $data["date_modified"] = date("Y-m-d H:i:s A");
             $data["modified_by"] =  $this->session->userdata("USERID");
             $this->db->where("id",$this->id);
             $result = $this->db->update('stations', $data);
@@ -70,7 +70,8 @@ class Stations_model extends CI_Model {
                     array_push($data_fuel_log,$data_fuel);
                 }
             }
-            $this->logs->log = "Updated Store: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
+            echo $result;
+            $this->logs->log = "Updated Station: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }
