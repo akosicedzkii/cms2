@@ -20,8 +20,12 @@ class Updates_model extends CI_Model {
                 $data["created_by"] =  $this->session->userdata("USERID");
                 echo $result = $this->db->insert('updates', $data);
                 unset($data["content"]);
+                $insertId = $this->db->insert_id();
+                $data["id"] = $insertId;
                 $data = json_encode($data);
-                $this->logs->log = "Created Updates: ". $data ;
+                $this->logs->log = "Created Updates - ID:". $insertId .", Updates Title: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "updates";
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
         }
@@ -41,10 +45,12 @@ class Updates_model extends CI_Model {
                 $this->db->where("id",$this->id);
                 echo $result = $this->db->update('updates', $data);
                 
-                unset($data["content"]);
-
+                $data["id"] = $this->id;
                 $data = json_encode($data);
-                $this->logs->log = "Updated Updates: ". $data ;
+                $this->logs->log = "Updated Updates - ID:". $this->id .", Updates Title: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "updates";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
 

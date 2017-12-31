@@ -26,6 +26,7 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Map Url</th>
             <th>Station Name</th>
             <th>Branch Name</th>
             <th>Date Created</th>
@@ -155,6 +156,29 @@
 </div>
 <!-- /.modal -->
 
+<!-- /.modal -->
+<div class="modal fade" id="stationMap">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Station Map</h3>
+            </div>
+            <div class="modal-body">
+                <center><iframe id="stationMapFrame" style="width:100%;"></iframe></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
 
     var inputRoleConfig = {
@@ -174,7 +198,8 @@
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
-            { "visible": false,  "targets": [ 0 ] }
+            { "visible": false,  "targets": [ 0 ] },            
+            { "visible": false,  "targets": [ 1 ] }
         ]
         });
         $("#addBtn").click(function(){
@@ -327,6 +352,12 @@
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
         $("#deleteStationModal").modal("show");
+    }
+    function _showMap(mapUrl)
+    {
+        alert(mapUrl);
+        $("#stationMapFrame").attr("src",mapUrl);
+        $("#stationMap").modal("show");
     }
     $(document).ready(main);
 </script>

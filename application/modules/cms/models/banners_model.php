@@ -19,8 +19,13 @@ class Banners_model extends CI_Model {
                 $data["content"] = $this->content;
                 $data["created_by"] =  $this->session->userdata("USERID");
                 echo $result = $this->db->insert('banners', $data);
+                
+                $data["id"] = $insertId;
                 $data = json_encode($data);
-                $this->logs->log = "Created Banners: ". $data ;
+                $this->logs->log = "Created Banner - ID:". $insertId .", Banner Name: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "banners";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
         }
@@ -42,7 +47,10 @@ class Banners_model extends CI_Model {
                 
 
                 $data = json_encode($data);
-                $this->logs->log = "Updated Banners: ". $data ;
+                $this->logs->log = "Updated Banner - ID:". $this->id .", Banner Name: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "banners";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
 

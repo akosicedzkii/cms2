@@ -3,6 +3,8 @@
 class Logs_model extends CI_Model {
     
         public $log;
+        public $module;
+        public $details;
         public $created_by;
         public $date_created;
 

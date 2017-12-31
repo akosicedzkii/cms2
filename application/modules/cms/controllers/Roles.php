@@ -67,8 +67,8 @@ class Roles extends CI_Controller {
 	{
         
         $id = $this->input->post("id");
-        $this->db->where("role_id",$id);
-        $data_roles = $this->db->get("role_modules");
+        $this->db->where("id",$id);
+        $data_roles = $this->db->get("roles");
         $this->db->where("role_id",$id);
         $result = $this->db->delete("role_modules");
         if($result)
@@ -76,7 +76,9 @@ class Roles extends CI_Controller {
             $this->db->where("id",$id);
             echo $result = $this->db->delete("roles");
             $data = json_encode($data_roles->row());
-            $this->logs->log = "Deleted Role: ". $data ;
+            $this->logs->log = "Deleted Role - ID:". $data_roles->row()->id .", Role Name: ".$data_roles->row()->role_name ;
+            $this->logs->details = json_encode($data);
+            $this->logs->module = "roles";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }

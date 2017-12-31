@@ -97,7 +97,9 @@ class News extends CI_Controller {
         echo $result = $this->db->delete("news");
         unlink($dir.$data_news->row()->cover_image);
         $data = json_encode($data_news->row());
-        $this->logs->log = "Deleted User: ". $data ;
+        $this->logs->log = "Deleted News - ID:". $data_news->row()->id .", News Title: ".$data_news->row()->title ;
+        $this->logs->details = json_encode($data);
+        $this->logs->module = "news";
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         

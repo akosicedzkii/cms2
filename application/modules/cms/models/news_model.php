@@ -19,9 +19,13 @@ class News_model extends CI_Model {
                 $data["status"] = $this->status;
                 $data["created_by"] =  $this->session->userdata("USERID");
                 echo $result = $this->db->insert('news', $data);
-                unset($data["content"]);
+                $insertId = $this->db->insert_id();
+                $data["id"] = $insertId;
                 $data = json_encode($data);
-                $this->logs->log = "Created News: ". $data ;
+                $this->logs->log = "Created News - ID:". $insertId .", News Title: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "news";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
         }
@@ -41,10 +45,13 @@ class News_model extends CI_Model {
                 $this->db->where("id",$this->id);
                 echo $result = $this->db->update('news', $data);
                 
-                unset($data["content"]);
-
+                
+                $data["id"] = $this->id;
                 $data = json_encode($data);
-                $this->logs->log = "Updated News: ". $data ;
+                $this->logs->log = "Updated News - ID:". $this->id .", News Title: ".$this->title ;
+                $this->logs->details = json_encode($data);
+                $this->logs->module = "news";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
 

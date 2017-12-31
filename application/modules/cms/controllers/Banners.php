@@ -92,12 +92,14 @@ class Banners extends CI_Controller {
         $dir = './uploads/banners/'; 
         $id = $this->input->post("id");
         $this->db->where("id",$id);
-        $data_banners = $this->db->get("banners");
+        
+        $this->db->select("id,title,description,banner_image,created_by,date_created,date_modified,modified_by,content,status");
+         $data_banners = $this->db->get("banners");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("banners");
         unlink($dir.$data_banners->row()->banner_image);
         $data = json_encode($data_banners->row());
-        $this->logs->log = "Deleted User: ". $data ;
+        $this->logs->log = "Deleted Banner: ". $data ;
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         

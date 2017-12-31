@@ -18,7 +18,6 @@ class Stations_model extends CI_Model {
             $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
             $result = $this->db->insert('stations', $data);
-            $data = json_encode($data);
             $data_fuel_log = array();
             
             $insertId = $this->db->insert_id();
@@ -36,7 +35,9 @@ class Stations_model extends CI_Model {
                 }
             }
             echo $result;
-            $this->logs->log = "Created Station: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
+            $this->logs->log = "Created Station - ID: ". $insertId . ", Station Name: ".$data["station_name"]  ; 
+            $this->logs->details = json_encode($data) . ", Fuel Prices: " . json_encode( $data_fuel_log );
+            $this->logs->module = "stations";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }
@@ -53,7 +54,6 @@ class Stations_model extends CI_Model {
             $data["modified_by"] =  $this->session->userdata("USERID");
             $this->db->where("id",$this->id);
             $result = $this->db->update('stations', $data);
-            $data = json_encode($data);
             $data_fuel_log = array();
             
             $this->db->where("station_id",$this->id);
@@ -71,7 +71,9 @@ class Stations_model extends CI_Model {
                 }
             }
             echo $result;
-            $this->logs->log = "Updated Station: ". $data ." Fuel Prices: ". json_encode($data_fuel_log );
+            $this->logs->log = "Updated Station - ID: ". $this->id . ", Station Name: ".$data["station_name"]  ; 
+            $this->logs->details = json_encode($data) . ", Fuel Prices: " . json_encode( $data_fuel_log );
+            $this->logs->module = "stations";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }

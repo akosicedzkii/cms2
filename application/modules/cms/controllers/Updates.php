@@ -92,12 +92,15 @@ class Updates extends CI_Controller {
         $dir = './uploads/updates/'; 
         $id = $this->input->post("id");
         $this->db->where("id",$id);
+        
         $data_updates = $this->db->get("updates");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("updates");
         unlink($dir.$data_updates->row()->cover_image);
         $data = json_encode($data_updates->row());
-        $this->logs->log = "Deleted User: ". $data ;
+        $this->logs->log = "Deleted Updates - ID:". $data_updates->row()->id .", Updates Title: ".$data_updates->row()->title ;
+        $this->logs->details = json_encode($data);
+        $this->logs->module = "updates";
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         

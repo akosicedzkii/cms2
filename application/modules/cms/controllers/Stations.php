@@ -45,7 +45,9 @@ class Stations extends CI_Controller {
         $this->db->where("id",$id);
         echo $result = $this->db->delete("stations");
         $data = json_encode($data_stations->row());
-        $this->logs->log = "Deleted Stations: ". $data ;
+        $this->logs->log = "Deleted Station - ID:". $data_stations->row()->id .", Station Name: ".$data_stations->row()->station_name ;
+        $this->logs->details = json_encode($data);
+        $this->logs->module = "stations";
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         
@@ -69,9 +71,9 @@ class Stations extends CI_Controller {
     public function get_stations_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.station_name","t4.branch_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.station_name","t4.branch_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","station_name","branch_name","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.map_url","t1.station_name","t4.branch_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.map_url","t1.station_name","t4.branch_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","map_url","station_name","branch_name","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "stations AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN branches as t4 ON t4.id = t1.branch_id";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -91,7 +93,7 @@ class Stations extends CI_Controller {
                     }
             }
             
-            $btns = '<!--<a href="#" onclick="_view('.$aRow['id'].');return false;" class="glyphicon glyphicon-search text-orange" data-toggle="tooltip" title="View Details"></a>-->
+            $btns = '<a href="#" onclick="_showMap(\''.$aRow['map_url'].'\');return false;" class="glyphicon glyphicon-map-marker text-orange" data-toggle="tooltip" title="View Map"></a>
             <a href="#" onclick="_edit('.$aRow['id'].');return false;" class="glyphicon glyphicon-edit text-blue" data-toggle="tooltip" title="Edit"></a>
             <a href="#" onclick="_delete('.$aRow['id'].',\''.$aRow["station_name"].'\');return false;" class="glyphicon glyphicon-remove text-red" data-toggle="tooltip" title="Delete"></a>';
             array_push($row,$btns);

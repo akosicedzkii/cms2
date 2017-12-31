@@ -43,7 +43,10 @@ class Branches extends CI_Controller {
         $this->db->where("id",$id);
         echo $result = $this->db->delete("branches");
         $data = json_encode($data_branches->row());
-        $this->logs->log = "Deleted Branch: ". $data ." Station: " . $data_station . " Fuel Prices: " . $data_fuel_price;
+        
+        $this->logs->log = "Deleted Branch - ID: ". $data_branches->row()->id .", Branch Name: ".$data_branches->row()->branch_name ;
+        $this->logs->details = json_encode($data);
+        $this->logs->module = "branches";
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         

@@ -49,5 +49,11 @@ class Site_settings extends CI_Controller {
         $data["twitter_url"] = $this->input->post("twitter_url");
         $data["instagram_url"] = $this->input->post("instagram_url");
         echo $this->db->update("site_settings",$data);
+        $this->logs->log = "Updated Site Settings";
+        $this->logs->details = json_encode($data);
+        $this->logs->module = "site_settings";
+        $this->logs->created_by = $this->session->userdata("USERID");
+        $this->logs->insert_log();
+        
     }
 }
