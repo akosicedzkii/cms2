@@ -13,9 +13,13 @@ class Branches_model extends CI_Model {
             $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
             echo $result = $this->db->insert('branches', $data);
+
+            $insertId = $this->db->insert_id();
+            $data["id"] = $insertId;
             $data = json_encode($data);
-           
-            $this->logs->log = "Created Branch: ". $data ;
+            $this->logs->log = "Created Branch - ID:". $insertIdd .", Branch Name: ".$this->branch_name ;
+            $this->logs->details = json_encode($data);
+            $this->logs->module = "branch";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }
@@ -28,9 +32,12 @@ class Branches_model extends CI_Model {
             $data["modified_by"] =  $this->session->userdata("USERID");
             $this->db->where("id",$this->id);
             echo $result = $this->db->update('branches', $data);
-            $data = json_encode($data);
             
-            $this->logs->log = "Updated Branch: ". $data ;
+            $data["id"] = $this->id;
+            $data = json_encode($data);
+            $this->logs->log = "Updated Branch - ID:". $this->id .", Branch Name: ".$this->branch_name ;
+            $this->logs->details = json_encode($data);
+            $this->logs->module = "branch";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }

@@ -69,10 +69,16 @@ class Users extends CI_Controller {
         $result = $this->db->delete("user_profiles");
         if($result)
         {
+            $this->db->select("id,username,role_id,date_created,date_modified,created_by,modified_by");
+            $this->db->where("id",$id);
+            $data_account = $this->db->get("user_accounts");
+
             $this->db->where("id",$id);
             echo $result = $this->db->delete("user_accounts");
             $data = json_encode($data_profile->row());
-            $this->logs->log = "Deleted User: ". $data ;
+            $this->logs->log = "Deleted User - ID: ". $data_account->row()->id .", Username: ".$data_account->row()->username ;
+            $this->logs->details = json_encode($data) . " User Details: ".json_encode( $data_account->row() );
+            $this->logs->module = "users";
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
         }

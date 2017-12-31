@@ -40,7 +40,17 @@ class Users_model extends CI_Model {
                 echo $result = $this->db->insert('user_profiles', $data_profile);
                 
                 $data = json_encode($data_profile);
-                $this->logs->log = "Created User: ". $data ;
+               
+                $this->db->select("id,username,role_id,date_created,date_modified,created_by,modified_by");
+                $this->db->where("id",$this->user_id);
+                $data_account = $this->db->get("user_accounts");
+                $this->db->where("user_id",$this->user_id);
+                echo $result = $this->db->update('user_profiles', $data_profile);
+                $data = json_encode($data_profile);
+                $this->logs->log = "Created User - ID: ". $this->user_id .", Username: ".$this->username ;
+                $this->logs->details = json_encode($data) . " User Details: ".json_encode( $data_account->row() );
+                $this->logs->module = "users";
+
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
 
@@ -63,10 +73,15 @@ class Users_model extends CI_Model {
                 $data_profile["address"] = $this->address; 
                 $data["date_modified"] = date("Y-m-d H:i:s A");
                 $data["modified_by"] = $this->session->userdata("USERID");
+                $this->db->select("id,username,role_id,date_created,date_modified,created_by,modified_by");
+                $this->db->where("id",$this->user_id);
+                $data_account = $this->db->get("user_accounts");
                 $this->db->where("user_id",$this->user_id);
                 echo $result = $this->db->update('user_profiles', $data_profile);
                 $data = json_encode($data_profile);
-                $this->logs->log = "Updated User: ". $data ;
+                $this->logs->log = "Updated User - ID: ". $this->user_id .", Username: ".$this->username ;
+                $this->logs->details = json_encode($data) . " User Details: ".json_encode( $data_account->row() );
+                $this->logs->module = "users";
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
 

@@ -355,7 +355,6 @@
     }
     function _showMap(mapUrl)
     {
-        alert(mapUrl);
         $("#stationMapFrame").attr("src",mapUrl);
         $("#stationMap").modal("show");
     }
