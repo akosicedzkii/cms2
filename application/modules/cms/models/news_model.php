@@ -18,7 +18,8 @@ class News_model extends CI_Model {
                 $data["cover_image"] = $this->cover_image;
                 $data["status"] = $this->status;
                 $data["created_by"] =  $this->session->userdata("USERID");
-                echo $result = $this->db->insert('news', $data);
+                $data["content_type"] =  "news";
+                echo $result = $this->db->insert('news_and_updates', $data);
                 $insertId = $this->db->insert_id();
                 $data["id"] = $insertId;
                 $data = json_encode($data);
@@ -43,7 +44,7 @@ class News_model extends CI_Model {
                 $data["status"] = $this->status;
                 $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);
-                echo $result = $this->db->update('news', $data);
+                echo $result = $this->db->update('news_and_updates', $data);
                 
                 
                 $data["id"] = $this->id;

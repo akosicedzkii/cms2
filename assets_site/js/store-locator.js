@@ -271,6 +271,19 @@ var setResults = function() {
 	$('#step-3 .selected-area').html(stores[area]['name']);
 	$('#step-3 .selected-branch').html(stores[area]['branches'][branch]['name']);
 	$('#step-3 .branch-map').attr('src', stores[area]['branches'][branch]['map-url']);
+
+	var data = { "station_name" : stores[area]['branches'][branch]['name'] , "branch_name" : stores[area]['name'] };
+	$.ajax({
+		data: data,
+		type: "post",
+		url: "./home/get_gas_price",
+		success: function(data){
+			$("#tbl-price").html(data);
+		},
+		error: function (request, status, error) {
+			alert(request.responseText);
+		}
+	});
 	changePriceValue($('.price-container'));
 };
 

@@ -28,6 +28,13 @@
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/news.css">
     <?php }?>
 
+
+    <?php if($module_name == "products"){?>
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/fuel.css">
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/asphalt.css">
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/lubricants.css">
+    <?php }?>
+
 </head>
 
 <body id="index">
@@ -38,7 +45,7 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#"><img src="<?php echo base_url()."assets_site/";?>images/unioil-header-logo.png" alt=""></a>
+        <a class="navbar-brand" href="#"><img src="<?php echo base_url()."uploads/site_logo/".SITE_LOGO;?>" alt=""></a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li id="home-link" class="nav-item<?php if($module_name=="home"){ echo " active";}?>">
@@ -53,9 +60,9 @@
                 <li id="products-link" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUCTS</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="<?php echo base_url()."assets_site/"?>lubricants.html">LUBRICANT</a>
-                        <a class="dropdown-item" href="<?php echo base_url()."assets_site/"?>fuel.html">FUEL</a>
-                        <a class="dropdown-item" href="<?php echo base_url()."assets_site/"?>asphalt.html">ASPHALT</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>lubricants">LUBRICANT</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>fuel">FUEL</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>asphalt">ASPHALT</a>
                     </div>
                 </li>
                 <li id="opportunities-link" class="nav-item dropdown">

@@ -92,9 +92,9 @@ class News extends CI_Controller {
         $dir = './uploads/news/'; 
         $id = $this->input->post("id");
         $this->db->where("id",$id);
-        $data_news = $this->db->get("news");
+        $data_news = $this->db->get("news_and_updates");
         $this->db->where("id",$id);
-        echo $result = $this->db->delete("news");
+        echo $result = $this->db->delete("news_and_updates");
         unlink($dir.$data_news->row()->cover_image);
         $data = json_encode($data_news->row());
         $this->logs->log = "Deleted News - ID:". $data_news->row()->id .", News Title: ".$data_news->row()->title ;
@@ -109,7 +109,7 @@ class News extends CI_Controller {
     {
         $id = $this->input->post("id");
         $this->db->where("id",$id);
-        $result = $this->db->get("news");
+        $result = $this->db->get("news_and_updates");
         $news = $result->row();
         $return["news"] = $news;
         echo json_encode($return); 
@@ -121,8 +121,9 @@ class News extends CI_Controller {
         $this->dt_model->select_columns = array("t1.id","t1.title","t1.cover_image","IF(t1.status=1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
         $this->dt_model->where  = array("t1.id","t1.title","t1.cover_image","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
         $select_columns = array("id","title","cover_image","status","date_created","created_by","date_modified","modified_by");  
-        $this->dt_model->table = "news AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
+        $this->dt_model->table = "news_and_updates AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
         $this->dt_model->index_column = "t1.id";
+        $this->dt_model->staticWhere = "t1.content_type = 'news'";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];
         $rResult = $result["rResult"];

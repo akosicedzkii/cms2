@@ -91,7 +91,7 @@ class Main extends CI_Controller {
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
-		$module["branches"] = $this->db->get("branches")->order_by("branch_name")->result();
+		$module["branches"] = $this->db->order_by("branch_name")->get("branches")->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/branches_view',$module);
 		$this->load->view('main/template/footer');

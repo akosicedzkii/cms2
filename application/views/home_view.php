@@ -107,27 +107,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6 my-auto">
-                            <table class="price-grid mx-auto">
-                                <tbody>
-                                    <tr>
-                                        <td>EuroIV Gasoline</td>
-                                        <td>
-                                            <div id="gasoline-price" class="price-container" data-price="41.00"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>EuroIV Diesel</td>
-                                        <td>
-                                            <div id="diesel-price" class="price-container" data-price="31.55"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>AutoGAS</td>
-                                        <td>
-                                            <div id="autogas-price" class="price-container" data-price="00.00"></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            <table class="price-grid mx-auto" id="tbl-price">
+                                
                             </table>
                         </div>
                     </div>
@@ -160,7 +141,7 @@
                         <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 2.png">
                         <div class="carousel-content-container">
                             <h3 class="animate fade-in" data-group="fb-banner">Instantly see updates and promos!</h3>
-                            <a href="https://www.facebook.com/unioil/"><img class="fb-img-btn animate fade-in" data-group="fb-banner" src="<?php echo base_url()."assets_site/"?>images/unioil-fb-button.png" alt="" /></a>
+                            <a href="<?php echo FACEBOOK_URL;?>"><img class="fb-img-btn animate fade-in" data-group="fb-banner" src="<?php echo base_url()."assets_site/"?>images/unioil-fb-button.png" alt="" /></a>
                         </div>
                     </div>
                     <!--<div class="carousel-item">

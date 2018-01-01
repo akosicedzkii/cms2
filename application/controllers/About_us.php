@@ -2,7 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class About_us extends CI_Controller {
-
+	public function __construct()
+    {
+        parent::__construct();
+        $this->settings_model->get_settings();  
+	}
 	public function index()
 	{
 		$data["module_name"] = strtolower($this->router->fetch_class());

@@ -85,7 +85,7 @@
 
                                 <div class="col-sm-10">
                                 <input type="file" class="form-control" id="inputCoverImage" placeholder="Cover Image" style="resize:none" required>
-                                <div class="help-block with-errors"></div>
+                                <div class="help-block with-errors" id="coverError"></div>
                                 </div>
                             </div>
 
@@ -235,42 +235,85 @@
                     btn.button("reset"); 
                     return false;
                 }
+                var fileUpload = document.getElementById("inputCoverImage");
+                
+                //Check whether the file is valid Image.
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+                
+                if (regex.test(fileUpload.value.toLowerCase())) {
 
-                var url = "<?php echo base_url()."cms/news/add_news";?>";
-                var message = "New news successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/news/edit_news";?>";
-                    message = "News successfully updated";
-                }
-                $.ajax({
-                        data: formData,
-                        type: "post",
-                        processData: false,
-                        contentType: false,
-                        url: url ,
-                        success: function(data){
-                            if(!data)
-                            {
-                                btn.button("reset");
-                                toastr.error(data);
-                            }
-                            else
-                            {
-                                //alert("Data Save: " + data);
-                                btn.button("reset");
-                                table.draw();
-                                toastr.success(message);
-                                editor.setData('');
-                                $("#newsForm").validator('destroy');
-                                $("#newsModal").modal("hide");     
-                            }
-                           
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
+                    //Check whether HTML5 is supported.
+                    if (typeof (fileUpload.files) != "undefined") {
+                        //Initiate the FileReader object.
+                        var reader = new FileReader();
+                        //Read the contents of Image File.
+                        reader.readAsDataURL(fileUpload.files[0]);
+                        reader.onload = function (e) {
+                            //Initiate the JavaScript Image object.
+                            var image = new Image();
+
+                            //Set the Base64 string return from FileReader as source.
+                            image.src = e.target.result;
+                                    
+                            //Validate the File Height and Width.
+                            image.onload = function () {
+                                if(this.width != "582" || this.height != "498")
+                                {
+                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 582x498</span>");                    
+                                    btn.button("reset"); 
+                                    return false;
+                                }
+                                else
+                                {
+                                    var url = "<?php echo base_url()."cms/news/add_news";?>";
+                                    var message = "New news successfully added";
+                                    if(action == "edit")
+                                    {
+                                        url =  "<?php echo base_url()."cms/news/edit_news";?>";
+                                        message = "News successfully updated";
+                                    }
+                                    $.ajax({
+                                            data: formData,
+                                            type: "post",
+                                            processData: false,
+                                            contentType: false,
+                                            url: url ,
+                                            success: function(data){
+                                                if(!data)
+                                                {
+                                                    btn.button("reset");
+                                                    toastr.error(data);
+                                                }
+                                                else
+                                                {
+                                                    //alert("Data Save: " + data);
+                                                    btn.button("reset");
+                                                    table.draw();
+                                                    toastr.success(message);
+                                                    editor.setData('');
+                                                    $("#newsForm").validator('destroy');
+                                                    $("#newsModal").modal("hide");     
+                                                }
+                                            
+                                            },
+                                            error: function (request, status, error) {
+                                                alert(request.responseText);
+                                            }
+                                    });
+                                }
+                            };
+
                         }
-                });
+                    } else {
+                        alert("This browser does not support HTML5.");
+                        btn.button("reset"); 
+                        return false;
+                    }
+                } else {
+                    alert("Please select a valid Image file.");
+                    btn.button("reset"); 
+                    return false;
+                }
             }
                return false;
         });

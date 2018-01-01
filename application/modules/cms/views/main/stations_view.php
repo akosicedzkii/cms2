@@ -262,6 +262,7 @@
                                 toastr.success(message);
                                 $("#stationForm").validator('destroy');
                                 $("#stationModal").modal("hide");     
+                                $('#inputBranch').select2("val","").tigger("change");   
                             }
                            
                         },

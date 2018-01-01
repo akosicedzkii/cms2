@@ -6,6 +6,7 @@ class Data_table_model extends CI_Model {
     public $table;
     public $index_column;
     public $where;
+    public $staticWhere;
 
     public function __construct() {
         
@@ -17,6 +18,7 @@ class Data_table_model extends CI_Model {
         */
         $aColumns = $this->select_columns;
         $aWhere = $this->where;
+        $staticWhere = $this->staticWhere;
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = $this->index_column;
 
@@ -106,7 +108,17 @@ class Data_table_model extends CI_Model {
             }
         }
 
-
+        if($sWhere == "")
+        {
+            if($staticWhere != "")
+            {
+                 $sWhere = " WHERE ".$staticWhere;
+            }
+        }
+        else
+        {
+            $sWhere .= " AND " .$staticWhere;
+        }
         /*
         * SQL queries
         * Get data to display

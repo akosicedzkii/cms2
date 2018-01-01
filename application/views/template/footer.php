@@ -38,28 +38,30 @@
                 <div class="col-12 col-md-3 col-lg-3 col-xl-3">
                     <div class="contact-detail">
                         <img src="<?php echo base_url()."assets_site"?>/images/unioil-thumbnail-pin.png" class="contact-detail-thumbnail" alt="">
-                        <p class="contact-detail-info">2702A West Tower building, PSE Exchange Center, Exchange Road, Ortigas Center, Pasig City 1600 </p>
+                        <p class="contact-detail-info">
+                            <?php echo nl2br(COMPANY_ADDRESS);?> </p>
                     </div>
                     <div class="contact-detail">
                         <img src="<?php echo base_url()."assets_site"?>/images/unioil-thumbnail-phone.png" class="contact-detail-thumbnail" alt="">
                         <p class="contact-detail-info">
                             <span class="bold-text">Tel. no.</span>
-                            <br> (632) 687 8877 loc. 269
+                            <br>
+                            <?php echo nl2br(CONTACT_NUMBER);?>
                             <br>
                             <br>
                             <span class="bold-text">Fax No.</span>
-                            <br> Customer Service / Sales Ordering - (632) 857 2275
-                            <br> Retail and Marketing - (632) 661 5617
+                            <br>
+                            <?php echo nl2br(FAX_NUMBER);?>
                         </p>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="social-media-container">
-                                <a href="https://www.facebook.com/unioil/">
+                                <a href="<?php echo FACEBOOK_URL;?>">
                                     <img src="<?php echo base_url()."assets_site"?>/images/unioil-thumbnail-facebook.png" class="social-media-link" alt=""></a>
-                                <a href="https://twitter.com/unioil">
+                                <a href="<?php echo TWITTER_URL;?>">
                                     <img src="<?php echo base_url()."assets_site"?>/images/unioil-thumbnail-twitter.png" class="social-media-link" alt=""></a>
-                                <a href="https://www.instagram.com/unioilph/">
+                                <a href="<?php echo INSTAGRAM_URL;?>">
                                     <img src="<?php echo base_url()."assets_site"?>/images/unioil-thumbnail-instagram.png" class="social-media-link" alt=""></a>
                             </div>
                         </div>
@@ -136,11 +138,36 @@
     
     <?php if($module_name == "home"){?>
         <script src="<?php echo base_url()."assets_site/"?>js/index.js"></script>
-        <script src="<?php echo base_url()."assets_site/"?>js/stores.js"></script>
+        <script>
+            var stores = null;
+            $("#store-area").attr("disabled","disabled");
+                $.ajax({
+                        type: "get",
+                        url: "<?php echo base_url()."home/get_all_station";?>",
+                        success: function(data){
+                            data = JSON.parse(data);
+                            stores = data;
+                            stores = JSON.parse(stores);
+                            $("#store-area").removeAttr("disabled");
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                });
+        </script>
         <script src="<?php echo base_url()."assets_site/"?>js/store-locator.js"></script>
     <?php }?>
     <script src="<?php echo base_url()."assets_site/"?>js/careers.js"></script>
     <script src="<?php echo base_url()."assets_site/"?>js/franchise-application.js"></script>
+    <!--Start of Zendesk Chat Script-->
+    <script type="text/javascript">
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+    $.src="https://v2.zopim.com/?5LqYeuqy9uK5S0ynsMKQgxfF9uESZO23";z.t=+new Date;$.
+    type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+    </script>
+    <!--End of Zendesk Chat Script-->
 </body>
 
 </html>
