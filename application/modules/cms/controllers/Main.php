@@ -32,6 +32,10 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
+		/*if (in_array("branches", $menu)) 
+		{
+
+		}*/
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
