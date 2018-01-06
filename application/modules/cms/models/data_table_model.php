@@ -116,8 +116,11 @@ class Data_table_model extends CI_Model {
             }
         }
         else
-        {
-            $sWhere .= " AND " .$staticWhere;
+        { 
+            if($staticWhere != "")
+            {
+                $sWhere .= " AND " .$staticWhere;
+            }
         }
         /*
         * SQL queries

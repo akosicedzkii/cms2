@@ -17,10 +17,10 @@ class Banners extends CI_Controller {
 
 	public function add_banner()
 	{
+        $upload_path = './uploads/banners/'; 
         if(isset($_FILES["banner_image"]["name"]))  
         {  
             
-           $upload_path = './uploads/banners/'; 
             if (!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             } 
@@ -37,6 +37,23 @@ class Banners extends CI_Controller {
             else  
             {  
                 $data = $this->upload->data();
+                if (!empty($_FILES['inner_banner_image']['name']))
+                {
+                    $config_inner['upload_path'] = $upload_path;  
+                    $config_inner['allowed_types'] = 'jpg|jpeg|png|gif';  
+                    $new_filename_inner = str_replace(" ","_",$this->input->post("title"))."_inner_".date("YmdHisU");
+                    $config_inner['file_name']= $new_filename_inner ;
+                    $this->load->library('upload', $config_inner); 
+                    if(!$this->upload->do_upload('inner_banner_image',$new_filename_inner))  
+                    {  
+                        echo $this->upload->display_errors(); 
+                        die(); 
+                    }else{
+                        $data_inner = $this->upload->data();
+                        $this->banners_model->inner_banner_image = $data_inner["file_name"];
+                    }
+                }
+                
                 $this->banners_model->title = $this->input->post("title");
                 $this->banners_model->description = $this->input->post("description");
                 $this->banners_model->content = $this->input->post("content");
@@ -46,15 +63,15 @@ class Banners extends CI_Controller {
             }  
         }  
 		
-	}
+	} 
 
 	public function edit_banner()
 	{
         $banners_id = $this->input->post("id");
+        $upload_path = './uploads/banners/'; 
         if(isset($_FILES["banner_image"]["name"]))  
         {  
             
-           $upload_path = './uploads/banners/'; 
             if (!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             } 
@@ -77,7 +94,22 @@ class Banners extends CI_Controller {
             $data = $this->upload->data();
             $this->banners_model->banner_image = $data["file_name"];
         }  
-
+        if (!empty($_FILES['inner_banner_image']['name']))
+        {
+            $config_inner['upload_path'] = $upload_path;  
+            $config_inner['allowed_types'] = 'jpg|jpeg|png|gif';  
+            $new_filename_inner = str_replace(" ","_",$this->input->post("title"))."_inner_".date("YmdHisU");
+            $config_inner['file_name']= $new_filename_inner ;
+            $this->load->library('upload', $config_inner); 
+            if(!$this->upload->do_upload('inner_banner_image',$new_filename_inner))  
+            {  
+                echo $this->upload->display_errors(); 
+                die(); 
+            }else{
+                $data_inner = $this->upload->data();
+                $this->banners_model->inner_banner_image = $data_inner["file_name"];
+            }
+        }
         $this->banners_model->title = $this->input->post("title");
         $this->banners_model->description = $this->input->post("description");
         $this->banners_model->content = $this->input->post("content");
@@ -97,7 +129,14 @@ class Banners extends CI_Controller {
          $data_banners = $this->db->get("banners");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("banners");
-        unlink($dir.$data_banners->row()->banner_image);
+        if($data_banners->row()->banner_image != null)
+        {
+            unlink($dir.$data_banners->row()->banner_image);
+        }
+        if($data_banners->row()->inner_banner_image != null)
+        {
+            unlink($dir.$data_banners->row()->inner_banner_image);
+        }
         $data = json_encode($data_banners->row());
         $this->logs->log = "Deleted Banner: ". $data ;
         $this->logs->created_by = $this->session->userdata("USERID");
@@ -118,9 +157,9 @@ class Banners extends CI_Controller {
     public function get_banners_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.title","t1.banner_image","IF(t1.status = 1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.title","t1.banner_image","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","title","banner_image","status","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.title","t1.banner_image","t1.inner_banner_image","IF(t1.status = 1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.title","t1.banner_image","t1.inner_banner_image","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","title","banner_image","inner_banner_image","status","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "banners AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -134,10 +173,17 @@ class Banners extends CI_Controller {
                     {
                         $row[] = $aRow[$col];
                     }
-                    else if($col == "banner_image")
+                    else if($col == "banner_image" || $col == "inner_banner_image")
                     {
-                        $row[] = "<a href=\"#\" onclick='return false;'><img class='img-thumbnail' src='".base_url()."uploads/banners/".$aRow[$col]."' style='height:70px;' onclick='img_preview(\"".$aRow[$col]."\")'></a>";
-                    }
+                        if($aRow[$col] != null || $aRow[$col] != "")
+                        {  
+                            $row[] = "<a href=\"#\" onclick='return false;'><img class='img-thumbnail' src='".base_url()."uploads/banners/".$aRow[$col]."' style='height:70px;' onclick='img_preview(\"".$aRow[$col]."\")'></a>";
+                        }
+                        else
+                        {
+                            $row[] = "None";
+                        }
+                     }
                     else
                     {
                         $row[] = ucfirst( $aRow[$col] );

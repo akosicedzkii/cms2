@@ -16,7 +16,7 @@
 </button>
 <!-- Main content -->
 <section class="content">
-<div class="box">
+<div class="box" id="main-list">
     <div class="box-header">
         <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
     </div>
@@ -118,11 +118,32 @@
 
                                     <div class="checkbox">
                                         <label>
+                                        <input type="checkbox" id="modules" value="product_categories">
+                                        Product Categories
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="product_series">
+                                        Product Series
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="product_vendors">
+                                        Product Vendors
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
                                         <input type="checkbox" id="modules" value="products">
                                         Products
                                         </label>
                                     </div>
-                                    
+
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="roles">

@@ -2,21 +2,9 @@
     <section id="page-title" class="product">
         <h3>PRODUCTS</h3>
     </section>
-    <section id="euro-5-content">
-        <div class="custom-column fuel-item animate fade-in">
-            <div class="item-wrapper">
-                <img src="<?php echo base_url()."assets_site/";?>images/unioil-euro-5.png" alt="" class="img-fluid" />
-                <div class="partial-border-container">
-                    <div class="partial-border"></div>
-                </div>
-                <p>Euro 5 compliant fuels are formulated to meet European emission standards which require a maximum sulfur content of only 10ppm (parts per million). This is 500% lower than the current Philippine fuel Euro IV standard which still allows a maximum sulfur content of 50ppm.</p>
-            </div>
-        </div>
-        <div class="custom-column fuel-item animate fade-in from-right">
-            <a data-toggle="modal" href="#diesel-modal"><img src="<?php echo base_url()."assets_site/";?>images/unioil-eurodiesel5.png" alt="" class="img-fluid" /></a>
-            <a data-toggle="modal" href="#gasoline-modal"><img src="<?php echo base_url()."assets_site/";?>images/unioil-euro5gasoline.png" alt="" class="img-fluid" /></a>
-        </div>
-    </section>
+    <?php 
+        echo $fuel_products;
+    ?>
 </section>
 
 <div class="modal fade" id="diesel-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -62,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="gasoline-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="product-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,10 +62,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12 col-md-6 my-auto">
-                                <img class="product-logo img-fluid" src="<?php echo base_url()."assets_site/";?>images/unioil-euro5-gasoline-logo.png" alt="" />
-                                <p class="product-description">Tests conducted by Unioil with the Department of Natural Resources’Euro 5 Gasoline provides significant improvement in fuel efficiency and provide the users with a cleaner engine resulting to an increase in engine power and performance. With a sulfur content of only 10 ppm, it’s 500% cleaner compared to Euro IV standard levels gasoline.</p>
+                                <img class="product-logo img-fluid" src="" alt="" />
+                                <p class="product-description"></p>
                             </div>
-                            <div class="col-12 col-md-6 my-auto">
+                            <div class="col-12 col-md-6 my-auto" id="prod-specs">
                                 <h4>EURO 5 GASOLINE 97</h4>
                                 <div class="modal-divider"></div>
                                 <p>
@@ -108,4 +96,25 @@
             </div>
         </div>
     </div>
-    
+    <script>
+        function view_product_details(product_id)
+        {
+            var data = { "id" : product_id }
+            $.ajax({
+                    data: data,
+                    type: "post",
+                    url: "<?php echo base_url()."products/get_product_details";?>",
+                    success: function(data){
+                        data = JSON.parse(data);
+                        console.log(data);
+                        $(".product-logo").attr("src","<?php echo base_url()."uploads/";?>products/"+data.product_sub_image);
+                        $(".product-description").html(data.product_description);
+                        $("#prod-specs").html(data.specification);
+                        $("#product-modal").modal("show");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+            });
+        }
+    </script>

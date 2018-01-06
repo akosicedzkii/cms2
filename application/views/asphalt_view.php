@@ -4,28 +4,24 @@
         </section>
         <section id="asphalt-content">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-6 my-auto copy animate fade-in">
-                        <div class="animate fade-in from-left">
-                            <h3>Penetration<br>
-                                Grade<br>
-                                60/70</h3>
+            <?php if($asphalt_products != null){?>
+                <?php foreach($asphalt_products as $row){?>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 my-auto copy animate fade-in">
+                            <div class="animate fade-in from-left">
+                                <h3><?php echo str_replace(" ","<br>",$row->product_name);?></h3>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 my-auto copy animate fade-in">
+                            <div class="animate fade-in from-right">
+                                <p><?php echo $row->product_description;?></p>
+                                
+                                <p><?php echo $row->specification;?></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 my-auto copy animate fade-in">
-                        <div class="animate fade-in from-right">
-                            <p>Asphalt 60 / 70 is used primarily in road construction and maintenance.</p>
-                            <p>Other applications include:</p>
-                            <ul>
-                                <li>Waterproofing of roof and floors</li>
-                                <li>Concrete and steel priming</li>
-                                <li>Binder for mineral aggregates</li>
-                                <li>Other industrial applications</li>
-                            </ul>
-                            <p>Sold mostly in bulk through Asphalt tanker, through isotank, and in drums.</p>
-                        </div>
-                    </div>
-                </div>
+                <?php }?>
+            <?php }?>
             </div>
         </section>
     </section>

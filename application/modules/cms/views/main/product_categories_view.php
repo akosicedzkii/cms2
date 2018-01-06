@@ -1,14 +1,15 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 <!-- Content Header (Page header) -->
+<?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
 <section class="content-header">
     <h1>
-    <?php echo ucwords(str_replace("_"," ",$module_name));?>
+    <?php echo ucfirst($module_name);?>
     <small>Management</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><?php echo ucwords(str_replace("_"," ",$module_name));?></li>
+    <li class="active"><?php echo ucfirst($module_name);?></li>
     </ol>
 </section>
 <button class="btn btn-success btn-circle btn-lg fix-btn" id="addBtn"  data-toggle="tooltip" title="Add New">
@@ -18,16 +19,16 @@
 <section class="content">
 <div class="box" id="main-list">
     <div class="box-header">
-        <h3 class="box-title"><?php echo ucwords(str_replace("_"," ",$module_name));?> List</h3>
+        <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="branchList" class="table table-bordered table-striped">
+        <table id="productCategoryList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Branch Name</th>
-            <th>Details</th>
+            <th>Product Category</th>
+            <th>Description</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -47,45 +48,44 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="branchModal">
+<div class="modal fade" id="productCategoryModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Branch</h3>
+             <h3 class="modal-title">Add Product Category</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="branchID">
+             <input type="hidden" id="productCategoryID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="branchForm" data-toggle="validator">
+                    <form class="form-horizontal" id="productCategoryForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputBranchName" class="col-sm-2 control-label">Branch Name</label>
+                                <label for="inputProductCategoryName" class="col-sm-2 control-label">Category Name</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputBranchName" placeholder="Branch Name" required>
-                                    <div class="help-block with-errors"></div>
+                                <input type="text" class="form-control" id="inputProductCategoryName" placeholder="Category Name" required>
+                                <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label for="inputDetails" class="col-sm-2 control-label">Details</label>
+                                <label for="inputProductCategoryDescription" class="col-sm-2 control-label">Category Description</label>
 
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputDetails" placeholder="Details" style="resize:none" required></textarea>
-                                    <div class="help-block with-errors"></div>
+                                <textarea class="form-control" id="inputProductCategoryDescription" placeholder="Category Description" style="resize:none" required></textarea>
+                                <div class="help-block with-errors"></div>
                                 </div>
-                             </div>
+                            </div>
                         </div>
                     </form>
-                </div>
+                    </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveBranch">Save Branch</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveProductCategory">Save Product Category</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -94,23 +94,22 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteBranchModal">
+<div class="modal fade" id="deleteProductCategoryModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Branch</h3>
+             <h3 class="modal-title">Delete Product Category</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
                 <center><h4>Are you sure to delete <label id="deleteItem"></label></h4></center>
-                <center><h5>* Note: Station and Gas Prices will also be deleted</h5></center>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteBranch">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteProductCategory">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -121,61 +120,56 @@
 
 <script>
 
-    var inputRoleConfig = {
-        dropdownAutoWidth : true,
-        width: 'auto',
-        placeholder: "--- Select Item ---"
-    };
-
-
     var main = function(){
-        var table = $('#branchList').DataTable({  
+        var table = $('#productCategoryList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/branches/get_branches_list";?>",
+            "ajax" : "<?php echo base_url()."cms/product_categories/get_product_category_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
-            { "visible": false,  "targets": [ 0 ] }
+            { "visible": false,  "targets": [ 0 ] },
+            { "width": "20%",  "targets": [ 1 ] }
         ]
         });
         $("#addBtn").click(function(){
-            $("#branchModal .modal-title").html("Add <?php echo ucwords(str_replace("_"," ",$module_name));?>");
+            $("#productCategoryModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
             $("#inputCoverImage").attr("required","required");
-            $('#branchForm').validator();
-            $("#branchModal").modal("show");
+            $('#productCategoryForm').validator();
+            $("#productCategoryModal").modal("show");
         });
 
-        $("#saveBranch").click(function(){
-            $("#branchForm").submit();
+        $("#saveProductCategory").click(function(){
+            $("#productCategoryForm").submit();
         });
-        $("#branchForm").validator().on('submit', function (e) {
+        $("#productCategoryForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveBranch");
+            var btn = $("#saveProductCategory");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var branch_name = $("#inputBranchName").val();
-                var details = $("#inputDetails").val();
-                var id = $("#branchID").val();
-                var data = {
-                    "id" : id,
-                    "branch_name" : branch_name,
-                    "details" : details
-                }
+                var category_name = $("#inputProductCategoryName").val();
+                var category_description = $("#inputProductCategoryDescription").val();
+                var productCategory_id = $("#productCategoryID").val();
 
-                var url = "<?php echo base_url()."cms/branches/add_branch";?>";
-                var message = "New branch successfully added";
+                var data = {
+                    'id':productCategory_id,
+                    "category_name" : category_name,
+                    "category_description" : category_description
+                };
+               
+                var url = "<?php echo base_url()."cms/product_categories/add_product_category";?>";
+                var message = "New Product Category successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/branches/edit_branch";?>";
-                    message = "Branch successfully updated";
+                    url =  "<?php echo base_url()."cms/product_categories/edit_product_category";?>";
+                    message = "Product Category successfully updated";
                 }
                 $.ajax({
                         data: data,
@@ -193,20 +187,20 @@
                                 btn.button("reset");
                                 table.draw();
                                 toastr.success(message);
-                                $("#branchForm").validator('destroy');
-                                $("#branchModal").modal("hide");     
+                                $("#productCategoryForm").validator('destroy');
+                                $("#productCategoryModal").modal("hide");     
                             }
-                           
+                        
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
                         }
                 });
-            }
+            }              
                return false;
         });
 
-        $("#deleteBranch").click(function(){
+        $("#deleteProductCategory").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -216,13 +210,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/branches/delete_branch";?>",
+                        url: "<?php echo base_url()."cms/product_categories/delete_product_category";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteBranchModal").modal("hide");
-                            toastr.error('Branch ' + deleteItem + ' successfully deleted');
+                            $("#deleteProductCategoryModal").modal("hide");
+                            toastr.error('Product Category ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -230,7 +224,7 @@
                 });
         });
 
-        $('#branchModal').on('hidden.bs.modal', function (e) {
+        $('#productCategoryModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -238,10 +232,11 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            $("#branchForm").validator('destroy');
+            editor.setData("");
+            $("#inputStatus").val('1').trigger('change');
+            $("#productCategoryForm").validator('destroy');
         });
 
-        $('#inputBranch').select2(inputRoleConfig);
         function resetForm($form) {
             $form.find('input:text, input:password, input:file, textarea').val('');
             $form.find('input:radio, input:checkbox')
@@ -251,21 +246,22 @@
     };
     function _edit(id)
     {
-        $("#branchModal .modal-title").html("Edit <?php echo ucwords(str_replace("_"," ",$module_name));?>");
-        $('#branchForm').validator();    
+        $("#productCategoryModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $(".add").hide();    
+        $('#productCategoryForm').validator();    
         $("#action").val("edit");
+        $("#inputCoverImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/branches/get_branches_data";?>",
+                url: "<?php echo base_url()."cms/product_categories/get_product_category_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    console.log(data);
-                    $("#inputBranchName").val(data.branches.branch_name);
-                    $("#inputDetails").val(data.branches.details);
-                    $("#branchID").val(data.branches.id);
-                    $("#branchModal").modal("show");
+                    $("#inputProductCategoryName").val(data.product_category.category_name);
+                    $("#inputProductCategoryDescription").val(data.product_category.category_description);
+                    $("#productCategoryID").val(data.product_category.id);
+                    $("#productCategoryModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -274,10 +270,11 @@
     }
     function _delete(id,item)
     {
-        $("#deleteBranchModal .modal-title").html("Delete <?php echo rtrim(ucwords(str_replace("_"," ",$module_name)),"s");?>");
+        $("#deleteProductCategoryModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteBranchModal").modal("show");
+        $("#deleteProductCategoryModal").modal("show");
     }
+    
     $(document).ready(main);
 </script>

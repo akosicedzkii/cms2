@@ -7,6 +7,7 @@ class Banners_model extends CI_Model {
         public $description;
         public $content;
         public $banner_image;
+        public $inner_banner_image;
         public $status;
 
         public function insert_banners()
@@ -15,6 +16,12 @@ class Banners_model extends CI_Model {
                 $data["description"] = $this->description;
                 $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["banner_image"] = $this->banner_image;
+                
+                if($this->inner_banner_image != null)
+                {
+                     $data["inner_banner_image"] = $this->inner_banner_image;
+                }
+
                 $data["status"] = $this->status;
                 $data["content"] = $this->content;
                 $data["created_by"] =  $this->session->userdata("USERID");
@@ -39,6 +46,11 @@ class Banners_model extends CI_Model {
                 if($this->banner_image != null)
                 {
                      $data["banner_image"] = $this->banner_image;
+                }
+                
+                if($this->inner_banner_image != null)
+                {
+                     $data["inner_banner_image"] = $this->inner_banner_image;
                 }
                 $data["status"] = $this->status;
                 $data["modified_by"] =  $this->session->userdata("USERID");

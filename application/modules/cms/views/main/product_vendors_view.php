@@ -1,5 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+<?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -22,14 +23,12 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="bannersList" class="table table-bordered table-striped">
+        <table id="product_vendorsList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Banner</th>
-            <th>Inner Banner</th>
-            <th>Status</th>
+            <th>Vendor Name</th>
+            <th>Vendor Image</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -49,26 +48,26 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="bannersModal">
+<div class="modal fade" id="productVendorsModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Banners</h3>
+             <h3 class="modal-title">Add Product Vendors</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="bannersID">
+             <input type="hidden" id="productVendorsID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="bannersForm" data-toggle="validator">
+                    <form class="form-horizontal" id="productVendorsForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputBannersTitle" class="col-sm-2 control-label">Title</label>
+                                <label for="inputProductVendorName" class="col-sm-2 control-label">Vendor Name</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputBannersTitle" placeholder="Title" required>
+                                <input type="text" class="form-control" id="inputProductVendorName" placeholder="Vendor Name" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -76,46 +75,17 @@
                                 <label for="inputDescription" class="col-sm-2 control-label">Description</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputDescription" placeholder="Description" style="resize:none" required></textarea>
+                                <textarea class="form-control" id="inputProductVendorDescription" placeholder="Description" style="resize:none" required></textarea>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputBannerImage" class="col-sm-2 control-label">Banner Image (Required Size: 1920x979)</label>
+                                <label for="inputProductVendorImage" class="col-sm-2 control-label">Vendor Image (Recommended Size: 570x267)</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputBannerImage" placeholder="Banner Image" style="resize:none" required>
+                                <input type="file" class="form-control" id="inputProductVendorImage" placeholder="Vendor Image" style="resize:none" required>
                                 <div class="help-block with-errors" id="coverError"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputBannerImage" class="col-sm-2 control-label">Inner Banner Image (Required Size: 991x266)</label>
-
-                                <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputInnerBannerImage" placeholder="Inner Cover Image" style="resize:none">
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputContent" class="col-sm-2 control-label">Content</label>
-
-                                <div class="col-sm-10">
-                                <textarea class="form-control" id="inputContent" placeholder="Content" style="resize:none" required></textarea>
-                                <div class="help-block with-errors" id="ckEditorError"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputStatus" class="col-sm-2 control-label">Status</label>
-
-                                <div class="col-sm-10">
-                                <select class="form-control" id="inputStatus" placeholder="Content" style="resize:none" required>
-                                    <option value="1">Enable</option>
-                                    <option value="0">Disable</option>
-                                </select>
-                                <div class="help-block with-errors"></div>
                                 </div>
                             </div>
 
@@ -125,7 +95,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveBanners">Save Banners</button>
+            <button type="button" class="btn btn-primary" id="saveProductVendors">Save Product Vendor</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -134,14 +104,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteBannersModal">
+<div class="modal fade" id="deleteProductVendorsModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Banners</h3>
+             <h3 class="modal-title">Delete Product Vendors</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -149,7 +119,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteBanners">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteProductVendors">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -157,7 +127,6 @@
 <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 <!-- /.modal -->
 <div class="modal fade" id="imgPreviewModal">
     <div class="modal-dialog modal-lg">
@@ -166,7 +135,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Banner Image Preview</h3>
+             <h3 class="modal-title">Product Vendors Image Preview</h3>
             </div>
             <div class="modal-body">
                 <center><img src="" id="imgPreview" style="width:100%;"></center>
@@ -183,21 +152,12 @@
 
 <script>
 
-    var inputRoleConfig = {
-        dropdownAutoWidth : true,
-        width: 'auto',
-        placeholder: "--- Select Item ---"
-    };
-
-    var editor = CKEDITOR.replace('inputContent');
-
     var main = function(){
-        var table = $('#bannersList').DataTable({  
+        var table = $('#product_vendorsList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "responsive" : true,
-            "ajax" : "<?php echo base_url()."cms/banners/get_banners_list";?>",
+            "ajax" : "<?php echo base_url()."cms/product_vendors/get_product_vendors_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -207,57 +167,37 @@
         ]
         });
         $("#addBtn").click(function(){
-            $("#bannersModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#productVendorsModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
-            $("#inputBannerImage").attr("required","required");
-            $('#bannersForm').validator();
-            $("#bannersModal").modal("show");
+            $("#inputCoverImage").attr("required","required");
+            $('#productVendorsForm').validator();
+            $("#productVendorsModal").modal("show");
         });
 
-        $("#saveBanners").click(function(){
-            $("#bannersForm").submit();
+        $("#saveProductVendors").click(function(){
+            $("#productVendorsForm").submit();
         });
-        $("#bannersForm").validator().on('submit', function (e) {
+        $("#productVendorsForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveBanners");
+            var btn = $("#saveProductVendors");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var title = $("#inputBannersTitle").val();
-                var description = $("#inputDescription").val();
-                var content = editor.getData();;
-                var status = $("#inputStatus").val();
-                var banners_id = $("#bannersID").val();
+                var vendor_name = $("#inputProductVendorName").val();
+                var vendor_description = $("#inputProductVendorDescription").val();
+                var product_vendor_id = $("#productVendorsID").val();
 
                 var formData = new FormData();
-                formData.append('id', banners_id);
-                formData.append('title', title);
-                formData.append('description', description);
-                formData.append('content', content);
-                formData.append('status', status);
+                formData.append('id', product_vendor_id);
+                formData.append('vendor_name', vendor_name);
+                formData.append('vendor_description', vendor_description);
                 // Attach file
-                formData.append('banner_image', $('#inputBannerImage').prop("files")[0]);
-                formData.append('inner_banner_image', $('#inputInnerBannerImage').prop("files")[0]);
-                var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
+                formData.append('vendor_image', $('#inputProductVendorImage').prop("files")[0]);
 
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }
-
-                var url = "<?php echo base_url()."cms/banners/add_banner";?>";
-                var message = "New banners successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/banners/edit_banner";?>";
-                    message = "Banners successfully updated";
-                }
-
-                var fileUpload = document.getElementById("inputBannerImage");
+                var fileUpload = document.getElementById("inputProductVendorImage");
                 
                 //Check whether the file is valid Image.
                 var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
@@ -279,43 +219,49 @@
                                     
                             //Validate the File Height and Width.
                             image.onload = function () {
-                                if(this.width != "1920" || this.height != "979")
+                                if(this.width != "570" || this.height != "267")
                                 {
-                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 1920x979</span>");                    
+                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 570x267</span>");                    
                                     btn.button("reset"); 
                                     return false;
                                 }
                                 else
                                 {
-                                        $.ajax({
-                                                data: formData,
-                                                type: "post",
-                                                processData: false,
-                                                contentType: false,
-                                                url: url ,
-                                                success: function(data){
-                                                    if(!data)
-                                                    {
-                                                        btn.button("reset");
-                                                        toastr.error(data);
-                                                    }
-                                                    else
-                                                    {
-                                                        //alert("Data Save: " + data);
-                                                        btn.button("reset");
-                                                        table.draw();
-                                                        toastr.success(message);
-                                                        editor.setData('');
-                                                        $("#bannersForm").validator('destroy');
-                                                        $("#bannersModal").modal("hide");     
-                                                    }
-                                                
-                                                },
-                                                error: function (request, status, error) {
-                                                    alert(request.responseText);
-                                                }
-                                        });
+                                    var url = "<?php echo base_url()."cms/product_vendors/add_product_vendors";?>";
+                                    var message = "New product_vendors successfully added";
+                                    if(action == "edit")
+                                    {
+                                        url =  "<?php echo base_url()."cms/product_vendors/edit_product_vendors";?>";
+                                        message = "ProductVendors successfully updated";
                                     }
+                                    $.ajax({
+                                            data: formData,
+                                            type: "post",
+                                            processData: false,
+                                            contentType: false,
+                                            url: url ,
+                                            success: function(data){
+                                                if(!data)
+                                                {
+                                                    btn.button("reset");
+                                                    toastr.error(data);
+                                                }
+                                                else
+                                                {
+                                                    //alert("Data Save: " + data);
+                                                    btn.button("reset");
+                                                    table.draw();
+                                                    toastr.success(message);
+                                                    $("#productVendorsForm").validator('destroy');
+                                                    $("#productVendorsModal").modal("hide");     
+                                                }
+                                            
+                                            },
+                                            error: function (request, status, error) {
+                                                alert(request.responseText);
+                                            }
+                                    });
+                                }
                             };
 
                         }
@@ -333,7 +279,7 @@
                return false;
         });
 
-        $("#deleteBanners").click(function(){
+        $("#deleteProductVendors").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -343,13 +289,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/banners/delete_banner";?>",
+                        url: "<?php echo base_url()."cms/product_vendors/delete_product_vendors";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteBannersModal").modal("hide");
-                            toastr.error('Banners ' + deleteItem + ' successfully deleted');
+                            $("#deleteProductVendorsModal").modal("hide");
+                            toastr.error('Product Vendors ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -357,7 +303,7 @@
                 });
         });
 
-        $('#bannersModal').on('hidden.bs.modal', function (e) {
+        $('#productVendorsModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -367,10 +313,9 @@
                 .end();
             editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $("#bannersForm").validator('destroy');
+            $("#productVendorsForm").validator('destroy');
         });
 
-        $('#inputStatus').select2(inputRoleConfig);
         function resetForm($form) {
             $form.find('input:text, input:password, input:file, textarea').val('');
             $form.find('input:radio, input:checkbox')
@@ -380,25 +325,22 @@
     };
     function _edit(id)
     {
-        $("#bannersModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#productVendorsModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#bannersForm').validator();    
+        $('#productVendorsForm').validator();    
         $("#action").val("edit");
-        $("#inputBannerImage").removeAttr("required");
-        $("#inputInnerBannerImage").removeAttr("required");
+        $("#inputCoverImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/banners/get_banner_data";?>",
+                url: "<?php echo base_url()."cms/product_vendors/get_product_vendor_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputBannersTitle").val(data.banners.title);
-                    $("#inputDescription").val(data.banners.description);
-                    editor.setData(data.banners.content);
-                    $("#inputStatus").val(data.banners.status).trigger('change');
-                    $("#bannersID").val(data.banners.id);
-                    $("#bannersModal").modal("show");
+                    $("#inputProductVendorName").val(data.product_vendors.vendor_name);
+                    $("#inputProductVendorDescription").val(data.product_vendors.vendor_description);
+                    $("#productVendorsID").val(data.product_vendors.id);
+                    $("#productVendorsModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -407,14 +349,15 @@
     }
     function _delete(id,item)
     {
-        $("#deleteBannersModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteProductVendorsModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteBannersModal").modal("show");
+        $("#deleteProductVendorsModal").modal("show");
     }
+    
     function img_preview(img_src)
     {
-        $("#imgPreview").attr("src","<?php echo base_url()."uploads/banners/"?>"+img_src);
+        $("#imgPreview").attr("src","<?php echo base_url()."uploads/product_vendors/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
     }
     $(document).ready(main);

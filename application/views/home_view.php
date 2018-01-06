@@ -24,7 +24,9 @@
                         {?>
                             <div class="carousel-item<?php if($increment==0){ echo ' active';}?>">
                                 <img class="carousel-bg" src="<?php echo base_url()."uploads/banners/".$row->banner_image;?>">
-                                <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."assets_site/"?>images/unioil-index-doing-our-part-copy.png">
+                                <?php if($row->inner_banner_image != null || $row->inner_banner_image != ""){?>
+                                    <img id="doing-your-part-copy" class="carousel-content animate fade-in" src="<?php echo base_url()."uploads/banners/".$row->inner_banner_image;?>">
+                                <?php }?>
                             </div>
                     <?php 
                          $increment++;   }

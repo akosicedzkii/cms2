@@ -98,10 +98,6 @@ class Users extends CI_Controller {
         $return["user_account"] = $user_account;
         echo json_encode($return); 
     }
-	public function deactivate_user()
-	{
-
-    }
     
     public function get_user_roles()
     {

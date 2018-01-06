@@ -91,7 +91,7 @@ class Main extends CI_Controller {
     {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
-		$module["branches"] = $this->db->order_by("branch_name")->get("branches")->result();
+		$module["branches"] = $this->db->order_by("branch_name","ASC")->get("branches")->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/branches_view',$module);
 		$this->load->view('main/template/footer');
@@ -114,16 +114,6 @@ class Main extends CI_Controller {
 		$this->load->view('main/updates_view',$module);
 		$this->load->view('main/template/footer');
 	}
-
-	public function products()
-    {
-		$module["module_name"] = $this->router->fetch_method();
-		$module["menu"] = $this->user_access;
-		$this->load->view('main/template/header',$module);
-		$this->load->view('main/users_view',$module);
-		$this->load->view('main/template/footer');
-	}
-
 	public function logs()
     {
 		$module["module_name"] = $this->router->fetch_method();
@@ -145,4 +135,44 @@ class Main extends CI_Controller {
 	}
 
 
+	public function products()
+    {
+		$module["product_categories"] = $this->db->order_by("category_name","ASC")->get("product_categories")->result();
+		$module["product_vendors"] = $this->db->order_by("vendor_name","ASC")->get("product_vendors")->result();
+		$module["product_series"] = $this->db->order_by("series_name","ASC")->get("product_series")->result();
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/products_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function product_categories()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/product_categories_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function product_vendors()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/product_vendors_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function product_series()
+    {
+		$module["product_categories"] = $this->db->order_by("category_name","ASC")->get("product_categories")->result();
+		$module["product_vendors"] = $this->db->order_by("vendor_name","ASC")->get("product_vendors")->result();
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/product_series_view',$module);
+		$this->load->view('main/template/footer');
+	}
 }

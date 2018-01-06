@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?php echo SITE_NAME;?> | Dashboard</title>
+  <title><?php echo SITE_NAME;?> | <?php echo ucwords(str_replace("_"," ",$module_name));?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -145,6 +145,15 @@
     border-radius: 0px;
 }
 
+#imgPreviewModal .modal-body{
+  background-color:#ecf0f5;
+}
+
+@media only screen and (max-width: 700px) {
+  #main-list{
+    overflow-x: auto;
+  }
+}
 </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -465,7 +474,7 @@
        <?php 
           if (in_array("products", $menu) ) {
              ?>
-              <li class="<?php if($module_name == "fuels" || $module_name == "lubricants" || $module_name == "asphalts" ){echo 'active ';}?>treeview">
+              <li class="<?php if($module_name == "vendors" || $module_name == "product_categories" || $module_name == "product_series" || $module_name == "products" ){echo 'active ';}?>treeview">
                 <a href="#">
                   <i class="fa fa-tags"></i> <span>Products</span>
                   <span class="pull-right-container">
@@ -474,23 +483,30 @@
                 </a>
                 <ul class="treeview-menu">
                   <?php 
-                    if (in_array("fuels", $menu)) {
+                    if (in_array("product_vendors", $menu)) {
                      ?>
-                        <li <?php if($module_name == "fuels"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/fuels"?>"><i class="fa fa-user"></i> Fuels</a></li>
+                        <li <?php if($module_name == "vendors"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/product_vendors"?>"><i class="fa fa-users"></i> Product Vendors</a></li>
                      <?php
                      } 
                   ?>
                   <?php 
-                    if (in_array("lubricants", $menu)) {
+                    if (in_array("product_categories", $menu)) {
                      ?>
-                        <li <?php if($module_name == "lubricants"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/lubricants"?>"><i class="fa fa-users"></i> Lubricants</a></li>
+                        <li <?php if($module_name == "product_categories"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/product_categories"?>"><i class="fa fa-list"></i> Product Categories</a></li>
                      <?php
                      } 
                   ?>
                   <?php 
-                    if (in_array("asphalts", $menu)) {
+                    if (in_array("product_series", $menu)) {
                      ?>
-                        <li <?php if($module_name == "asphalts"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/asphalts"?>"><i class="fa fa-gear"></i> Asphalts</a></li>
+                        <li <?php if($module_name == "product_series"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/product_series"?>"><i class="fa fa-list-alt"></i> Product Series</a></li>
+                     <?php
+                     } 
+                  ?>
+                   <?php 
+                    if (in_array("products", $menu)) {
+                     ?>
+                        <li <?php if($module_name == "products"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/products"?>"><i class="fa fa-shopping-bag"></i> Product List</a></li>
                      <?php
                      } 
                   ?>

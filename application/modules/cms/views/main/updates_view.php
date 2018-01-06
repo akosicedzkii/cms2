@@ -16,7 +16,7 @@
 </button>
 <!-- Main content -->
 <section class="content">
-<div class="box">
+<div class="box" id="main-list">
     <div class="box-header">
         <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
     </div>
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputCoverImage" class="col-sm-2 control-label">Cover Image</label>
+                                <label for="inputCoverImage" class="col-sm-2 control-label">Cover Image (Required Size: 582x498)</label>
 
                                 <div class="col-sm-10">
                                 <input type="file" class="form-control" id="inputCoverImage" placeholder="Cover Image" style="resize:none" accept="image/*" required>

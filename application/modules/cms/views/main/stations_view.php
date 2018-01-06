@@ -16,7 +16,7 @@
 </button>
 <!-- Main content -->
 <section class="content">
-<div class="box">
+<div class="box" id="main-list">
     <div class="box-header">
         <h3 class="box-title"><?php echo ucwords(str_replace("_"," ",$module_name));?> List</h3>
     </div>
