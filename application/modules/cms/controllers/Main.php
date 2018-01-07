@@ -37,11 +37,7 @@ class Main extends CI_Controller {
 		{
 
 		}*/
-		$module["module_name"] = $this->router->fetch_method();
-		$module["menu"] = $this->user_access;
-		$this->load->view('main/template/header',$module);
-		$this->load->view('main/main_view',$module);
-		$this->load->view('main/template/footer');
+		redirect(base_url()."cms/main/banners");
     }
 
     public function users()
