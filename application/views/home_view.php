@@ -134,6 +134,19 @@
         <section id="promo-carousel-container">
             <div id="promo-carousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
+                <?php if($mid_banners != null)
+                {
+                    ?>
+                      <li data-target="#promo-carousel" data-slide-to="0" class="active"><img src="<?php echo base_url()."assets_site/"?>images/unioil-thumbnail-inactive.png" /></li>
+                    <?php
+                    $increment = 1;
+                    foreach($mid_banners as $row)
+                    {?>
+                        <li data-target="#promo-carousel" data-slide-to="<?php echo $increment;?>"><img src="<?php echo base_url()."assets_site/"?>images/unioil-thumbnail-inactive.png" /></li>
+                     <?php 
+                        $increment++;
+                    }
+                }?>
                   <!--  <li data-target="#promo-carousel" data-slide-to="0" class="active"><img src="<?php echo base_url()."assets_site/"?>images/unioil-thumbnail-inactive.png" /></li>
                     <li data-target="#promo-carousel" data-slide-to="1"><img src="<?php echo base_url()."assets_site/"?>images/unioil-thumbnail-inactive.png" /></li>
                     <li data-target="#promo-carousel" data-slide-to="2"><img src="<?php echo base_url()."assets_site/"?>images/unioil-thumbnail-inactive.png" /></li>-->
@@ -146,6 +159,20 @@
                             <a href="<?php echo FACEBOOK_URL;?>"><img class="fb-img-btn animate fade-in" data-group="fb-banner" src="<?php echo base_url()."assets_site/"?>images/unioil-fb-button.png" alt="" /></a>
                         </div>
                     </div>
+                    <?php if($mid_banners != null)
+                    {
+                        ?>
+                        <?php
+                        $increment = 1;
+                        foreach($mid_banners as $row)
+                        {?>
+                           <div class="carousel-item">
+                                <a <?php if($row->link != ""){ echo "href='".$row->link."' target='_blank'";}else{ echo "href='#' onclick='return false;'";}?>><img class="carousel-bg" src="<?php echo base_url()."uploads/"?>mid_banners/<?php echo $row->banner_image;?>"></a>
+                            </div>
+                        <?php 
+                            $increment++;
+                        }
+                    }?>
                     <!--<div class="carousel-item">
                         <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 2.png">
                     </div>-->

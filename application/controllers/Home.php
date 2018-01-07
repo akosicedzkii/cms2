@@ -13,6 +13,7 @@ class Home extends CI_Controller {
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "HOME - Unioil";
 		$data["banners"] = $this->db->where("status","1")->order_by("date_created","asc")->get("banners")->result();
+		$data["mid_banners"] = $this->db->where("status","1")->order_by("date_created","asc")->get("mid_banners")->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('home_view');
 		$this->load->view('template/footer.php',$data);

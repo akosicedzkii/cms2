@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $('#franchise-birthday').datepicker({ minDate: -20, maxDate: '0D'});
+    //$('#franchise-birthday').datepicker({ minDate: -20, maxDate: '0D'});
+	$('#franchise-birthday').datepicker();
 
     $('#franchise-form').on('submit', function(e) {
     	if(validateForm($(this))) {
@@ -38,7 +39,7 @@ $(document).ready(function() {
 				 });
 			}
 			
-			var values = { "subject" : "Franchise Form Response" , "to" : "mailerunioil@gmail.com" , "body" : "First Name: " + $("#franchise-fname").val() +  "<br>Last Name: " + $("#franchise-lname").val() + "<br>Franchise Address:" + $("#franchise-address").val() + 	
+			var values = { "subject" : "Franchise Form Response" , "to" : to_franchise_email , "body" : "First Name: " + $("#franchise-fname").val() +  "<br>Last Name: " + $("#franchise-lname").val() + "<br>Franchise Address:" + $("#franchise-address").val() + 	
 			"<br>Franchise City: " + $("#franchise-city").val() + 
 			"<br>Franchise Zipcode: " + $("#franchise-zipcode").val() + 
 			"<br>Birthday:" + $("#franchise-birthday").val() + 

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/theme.css">
     <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/scroll-events.css">
 
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <?php if($module_name == "home"){?>
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/index.css">
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/store-locator.css">

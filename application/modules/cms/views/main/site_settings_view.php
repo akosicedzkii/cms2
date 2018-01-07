@@ -1,5 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+<?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>

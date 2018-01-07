@@ -21,12 +21,12 @@ $(document).ready(function() {
 		else
 		{
 			e.preventDefault();
-			var values = { "subject" : "Contact Us Response" , "to" : "mailerunioil@gmail.com" , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val(), "attachment" : "" }
+			var values_contact_us_email = { "subject" : "Contact Us Response" , "to" : to_contact_us_email , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val(), "attachment" : "" }
 
 			 $.ajax({
 					url: "./emailer/send_email.php",
 					type: "post",
-					data: values ,
+					data: values_contact_us_email ,
 					success: function (response) {
 					   if(response == "Message sent")
 					   {
