@@ -1,5 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+<?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -22,12 +23,13 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="updatesList" class="table table-bordered table-striped">
+        <table id="mid_bannersList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Cover Image</th>
+            <th>Banner</th>
+            <th>Link</th>
             <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
@@ -48,26 +50,26 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="updatesModal">
+<div class="modal fade" id="mid_bannersModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Updates</h3>
+             <h3 class="modal-title">Add MidBanners</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="updatesID">
+             <input type="hidden" id="mid_bannersID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="updatesForm" data-toggle="validator">
+                    <form class="form-horizontal" id="mid_bannersForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputUpdatesTitle" class="col-sm-2 control-label">Title</label>
+                                <label for="inputMidBannersTitle" class="col-sm-2 control-label">Title</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputUpdatesTitle" placeholder="Title" required>
+                                <input type="text" class="form-control" id="inputMidBannersTitle" placeholder="Title" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -81,20 +83,20 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputCoverImage" class="col-sm-2 control-label">Cover Image (Required Size: 582x498)</label>
+                                <label for="inputBannerImage" class="col-sm-2 control-label">Banner Image (Required Size: 1920x772)</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputCoverImage" placeholder="Cover Image" style="resize:none" accept="image/*" required>
+                                <input type="file" class="form-control" id="inputBannerImage" placeholder="Banner Image" style="resize:none" required>
                                 <div class="help-block with-errors" id="coverError"></div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputContent" class="col-sm-2 control-label">Content</label>
+                                <label for="inputLink" class="col-sm-2 control-label">Link</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputContent" placeholder="Content" style="resize:none" required></textarea>
-                                <div class="help-block with-errors" id="ckEditorError"></div>
+                                <textarea class="form-control" id="inputLink" placeholder="Link" style="resize:none"></textarea>
+                                <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -115,7 +117,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveUpdates">Save Updates</button>
+            <button type="button" class="btn btn-primary" id="saveMidBanners">Save Mid Banner</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -124,14 +126,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteUpdatesModal">
+<div class="modal fade" id="deleteMidBannersModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Updates</h3>
+             <h3 class="modal-title">Delete MidBanners</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -139,7 +141,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteUpdates">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteMidBanners">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -156,7 +158,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Updates Cover Image Preview</h3>
+             <h3 class="modal-title">Banner Image Preview</h3>
             </div>
             <div class="modal-body">
                 <center><img src="" id="imgPreview" style="width:100%;"></center>
@@ -179,14 +181,14 @@
         placeholder: "--- Select Item ---"
     };
 
-    var editor = CKEDITOR.replace('inputContent');
 
     var main = function(){
-        var table = $('#updatesList').DataTable({  
+        var table = $('#mid_bannersList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/updates/get_updates_list";?>",
+            "responsive" : true,
+            "ajax" : "<?php echo base_url()."cms/mid_banners/get_mid_banners_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -196,57 +198,51 @@
         ]
         });
         $("#addBtn").click(function(){
-            $("#updatesModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#mid_bannersModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
-            $("#inputCoverImage").attr("required","required");
-            $('#updatesForm').validator();
-            $("#updatesModal").modal("show");
+            $("#inputBannerImage").attr("required","required");
+            $('#mid_bannersForm').validator();
+            $("#mid_bannersModal").modal("show");
         });
 
-        $("#saveUpdates").click(function(){
-            $("#updatesForm").submit();
+        $("#saveMidBanners").click(function(){
+            $("#mid_bannersForm").submit();
         });
-
 
         var image_correct = true;
         var image_error = "";
-        $("#updatesForm").validator().on('submit', function (e) {
-            var btn = $("#saveUpdates");
+        $("#mid_bannersForm").validator().on('submit', function (e) {
+           
+            var btn = $("#saveMidBanners");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var title = $("#inputUpdatesTitle").val();
+                var title = $("#inputMidBannersTitle").val();
                 var description = $("#inputDescription").val();
-                var content = editor.getData();;
+                var link = $("#inputLink").val();
                 var status = $("#inputStatus").val();
-                var updates_id = $("#updatesID").val();
+                var mid_banners_id = $("#mid_bannersID").val();
 
                 var formData = new FormData();
-                formData.append('id', updates_id);
+                formData.append('id', mid_banners_id);
                 formData.append('title', title);
+                formData.append('link', link);
                 formData.append('description', description);
-                formData.append('content', content);
                 formData.append('status', status);
                 // Attach file
-                formData.append('cover_image', $('#inputCoverImage').prop("files")[0]);
-                var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
+                formData.append('banner_image', $('#inputBannerImage').prop("files")[0]);
 
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }
-
-                var url = "<?php echo base_url()."cms/updates/add_updates";?>";
-                var message = "New updates successfully added";
+                var url = "<?php echo base_url()."cms/mid_banners/add_mid_banner";?>";
+                var message = "New mid banner successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/updates/edit_updates";?>";
-                    message = "Updates successfully updated";
+                    url =  "<?php echo base_url()."cms/mid_banners/edit_mid_banner";?>";
+                    message = "Mid banner successfully updated";
                 }
+
                 if(image_correct == false)
                 {
                     btn.button("reset");
@@ -254,42 +250,41 @@
                     return false;
                 }
                 console.log(image_correct);
-                $.ajax({
-                        data: formData,
-                        type: "post",
-                        processData: false,
-                        contentType: false,
-                        url: url ,
-                        success: function(data){
-                            if(!data)
-                            {
-                                btn.button("reset");
-                                toastr.error(data);
-                            }
-                            else
-                            {
-                                //alert("Data Save: " + data);
-                                btn.button("reset");
-                                table.draw();
-                                toastr.success(message);
-                                editor.setData('');
-                                $("#updatesForm").validator('destroy');
-                                $("#updatesModal").modal("hide");     
-                            }
-                        
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
-                });
 
+                $.ajax({
+                    data: formData,
+                    type: "post",
+                    processData: false,
+                    contentType: false,
+                    url: url ,
+                    success: function(data){
+                        if(!data)
+                        {
+                            btn.button("reset");
+                            toastr.error(data);
+                        }
+                        else
+                        {
+                            //alert("Data Save: " + data);
+                            btn.button("reset");
+                            table.draw();
+                            toastr.success(message);
+                            $("#mid_bannersForm").validator('destroy');
+                            $("#mid_bannersModal").modal("hide");     
+                        }
+                    
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+            });
             }
                return false;
         });
 
-        $("#inputCoverImage").change(function (e) {
-            var btn = $("#saveUpdates");
-            var fileUpload = document.getElementById("inputCoverImage");
+        $("#inputBannerImage").change(function (e) {
+            var btn = $("#saveMidBanners");
+            var fileUpload = document.getElementById("inputBannerImage");
                 
                 //Check whether the file is valid Image.
                 var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
@@ -311,9 +306,9 @@
                                     
                             //Validate the File Height and Width.
                             image.onload = function () {
-                                if(this.width != "582" || this.height != "498")
+                                if(this.width != "1920" || this.height != "772")
                                 {
-                                    img_error = "<span style='color:red;'>Invalid cover size use 582x498</span>";                     
+                                    img_error = "<span style='color:red;'>Invalid cover size use 1920x772</span>";                     
                                     btn.button("reset"); 
                                     image_correct = false;
                                     console.log(image_correct);
@@ -337,9 +332,9 @@
                     btn.button("reset"); 
                     image_correct = false;
                 }
-
         });
-        $("#deleteUpdates").click(function(){
+
+        $("#deleteMidBanners").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -349,13 +344,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/updates/delete_updates";?>",
+                        url: "<?php echo base_url()."cms/mid_banners/delete_mid_banner";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteUpdatesModal").modal("hide");
-                            toastr.error('Updates ' + deleteItem + ' successfully deleted');
+                            $("#deleteMidBannersModal").modal("hide");
+                            toastr.error('Mid Mid Banner ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -363,7 +358,7 @@
                 });
         });
 
-        $('#updatesModal').on('hidden.bs.modal', function (e) {
+        $('#mid_bannersModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -371,9 +366,8 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $("#updatesForm").validator('destroy');
+            $("#mid_bannersForm").validator('destroy');
         });
 
         $('#inputStatus').select2(inputRoleConfig);
@@ -382,28 +376,29 @@
             $form.find('input:radio, input:checkbox')
                 .removeAttr('checked').removeAttr('selected');
         }
+      
     };
     function _edit(id)
     {
-        $("#updatesModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#mid_bannersModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#updatesForm').validator();    
+        $('#mid_bannersForm').validator();    
         $("#action").val("edit");
-        $("#inputCoverImage").removeAttr("required");
-        $("#inputUpdatesname").attr("data-remote","<?php echo base_url()."updates/check_updatesname_exist?method=edit&updates_id=";?>" + id);
+        $("#inputBannerImage").removeAttr("required");
+        $("#inputInnerBannerImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/updates/get_updates_data";?>",
+                url: "<?php echo base_url()."cms/mid_banners/get_banner_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputUpdatesTitle").val(data.updates.title);
-                    $("#inputDescription").val(data.updates.description);
-                    editor.setData(data.updates.content);
-                    $("#inputStatus").val(data.updates.status).trigger('change');
-                    $("#updatesID").val(data.updates.id);
-                    $("#updatesModal").modal("show");
+                    $("#inputMidBannersTitle").val(data.mid_banners.title);
+                    $("#inputDescription").val(data.mid_banners.description);
+                    $("#inputLink").val(data.mid_banners.link);
+                    $("#inputStatus").val(data.mid_banners.status).trigger('change');
+                    $("#mid_bannersID").val(data.mid_banners.id);
+                    $("#mid_bannersModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -412,17 +407,15 @@
     }
     function _delete(id,item)
     {
-        $("#deleteUpdatesModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteMidBannersModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteUpdatesModal").modal("show");
+        $("#deleteMidBannersModal").modal("show");
     }
-    
     function img_preview(img_src)
     {
-        $("#imgPreview").attr("src","<?php echo base_url()."uploads/updates/"?>"+img_src);
+        $("#imgPreview").attr("src","<?php echo base_url()."uploads/mid_banners/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
     }
     $(document).ready(main);
-
 </script>

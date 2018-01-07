@@ -99,19 +99,7 @@ class Users extends CI_Controller {
         echo json_encode($return); 
     }
     
-    public function get_profile_data()
-    {
-        $this->db->where("user_id",$this->session->userdata("USERID"));
-        $result = $this->db->get("user_profiles");
-        $user_profile = $result->row();
-        $this->db->select("id,username,role_id,date_created,date_modified,created_by,modified_by");
-        $this->db->where("id",$this->session->userdata("USERID"));
-        $result = $this->db->get("user_accounts");
-        $user_account = $result->row();
-        $return["user_profile"] = $user_profile;
-        $return["user_account"] = $user_account;
-        echo json_encode($return); 
-    }
+    
 
     public function get_user_roles()
     {
@@ -170,19 +158,5 @@ class Users extends CI_Controller {
         echo json_encode( $output );
     }
 
-    public function update_profile()
-	{
-        $this->users_model->username = $this->input->post("username");
-        $this->users_model->first_name = $this->input->post("first_name");
-        $this->users_model->middle_name = $this->input->post("middle_name");
-        $this->users_model->last_name = $this->input->post("last_name");
-        $this->users_model->contact_number = $this->input->post("contact_number");
-        $this->users_model->address = $this->input->post("address");
-        $this->users_model->password = $this->input->post("password");
-        $this->users_model->old_password = $this->input->post("old_password");
-        $this->users_model->email_address = $this->input->post("email_address");
-        $this->users_model->user_id = $this->session->userdata("USERID");
-		echo $this->users_model->update_profile();
-    }
     
 }

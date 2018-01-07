@@ -56,7 +56,6 @@ class Banners extends CI_Controller {
                 
                 $this->banners_model->title = $this->input->post("title");
                 $this->banners_model->description = $this->input->post("description");
-                $this->banners_model->content = $this->input->post("content");
                 $this->banners_model->status = $this->input->post("status");
                 $this->banners_model->banner_image = $data["file_name"];
                 echo $this->banners_model->insert_banners();
@@ -112,7 +111,6 @@ class Banners extends CI_Controller {
         }
         $this->banners_model->title = $this->input->post("title");
         $this->banners_model->description = $this->input->post("description");
-        $this->banners_model->content = $this->input->post("content");
         $this->banners_model->status = $this->input->post("status");
         $this->banners_model->id = $banners_id;
         echo $this->banners_model->update_banners();
@@ -125,7 +123,7 @@ class Banners extends CI_Controller {
         $id = $this->input->post("id");
         $this->db->where("id",$id);
         
-        $this->db->select("id,title,description,banner_image,created_by,date_created,date_modified,modified_by,content,status");
+        $this->db->select("id,title,description,banner_image,created_by,date_created,date_modified,modified_by,status");
          $data_banners = $this->db->get("banners");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("banners");

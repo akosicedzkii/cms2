@@ -100,14 +100,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputContent" class="col-sm-2 control-label">Content</label>
-
-                                <div class="col-sm-10">
-                                <textarea class="form-control" id="inputContent" placeholder="Content" style="resize:none" required></textarea>
-                                <div class="help-block with-errors" id="ckEditorError"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="inputStatus" class="col-sm-2 control-label">Status</label>
 
                                 <div class="col-sm-10">
@@ -189,7 +181,6 @@
         placeholder: "--- Select Item ---"
     };
 
-    var editor = CKEDITOR.replace('inputContent');
 
     var main = function(){
         var table = $('#bannersList').DataTable({  
@@ -217,6 +208,10 @@
         $("#saveBanners").click(function(){
             $("#bannersForm").submit();
         });
+
+        
+        var image_correct = true;
+        var image_error = "";
         $("#bannersForm").validator().on('submit', function (e) {
            
             var btn = $("#saveBanners");
@@ -228,7 +223,6 @@
                 e.preventDefault();
                 var title = $("#inputBannersTitle").val();
                 var description = $("#inputDescription").val();
-                var content = editor.getData();;
                 var status = $("#inputStatus").val();
                 var banners_id = $("#bannersID").val();
 
@@ -236,18 +230,10 @@
                 formData.append('id', banners_id);
                 formData.append('title', title);
                 formData.append('description', description);
-                formData.append('content', content);
                 formData.append('status', status);
                 // Attach file
                 formData.append('banner_image', $('#inputBannerImage').prop("files")[0]);
                 formData.append('inner_banner_image', $('#inputInnerBannerImage').prop("files")[0]);
-                var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
-
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }
 
                 var url = "<?php echo base_url()."cms/banners/add_banner";?>";
                 var message = "New banners successfully added";
@@ -257,7 +243,48 @@
                     message = "Banners successfully updated";
                 }
 
-                var fileUpload = document.getElementById("inputBannerImage");
+                if(image_correct == false)
+                {
+                    btn.button("reset");
+                    $("#coverError").html(img_error);
+                    return false;
+                }
+                console.log(image_correct);
+                
+                $.ajax({
+                        data: formData,
+                        type: "post",
+                        processData: false,
+                        contentType: false,
+                        url: url ,
+                        success: function(data){
+                            if(!data)
+                            {
+                                btn.button("reset");
+                                toastr.error(data);
+                            }
+                            else
+                            {
+                                //alert("Data Save: " + data);
+                                btn.button("reset");
+                                table.draw();
+                                toastr.success(message);
+                                $("#bannersForm").validator('destroy');
+                                $("#bannersModal").modal("hide");     
+                            }
+                        
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                });
+            }
+               return false;
+        });
+
+        $("#inputBannerImage").change(function (e) {
+            var btn = $("#saveMidBanners");
+            var fileUpload = document.getElementById("inputBannerImage");
                 
                 //Check whether the file is valid Image.
                 var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
@@ -280,42 +307,18 @@
                             //Validate the File Height and Width.
                             image.onload = function () {
                                 if(this.width != "1920" || this.height != "979")
-                                {
-                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 1920x979</span>");                    
+                                {                  
+                                    img_error = "<span style='color:red;'>Invalid cover size use 1920x979</span>";                     
                                     btn.button("reset"); 
-                                    return false;
+                                    image_correct = false;
+                                    console.log(image_correct);
                                 }
                                 else
                                 {
-                                        $.ajax({
-                                                data: formData,
-                                                type: "post",
-                                                processData: false,
-                                                contentType: false,
-                                                url: url ,
-                                                success: function(data){
-                                                    if(!data)
-                                                    {
-                                                        btn.button("reset");
-                                                        toastr.error(data);
-                                                    }
-                                                    else
-                                                    {
-                                                        //alert("Data Save: " + data);
-                                                        btn.button("reset");
-                                                        table.draw();
-                                                        toastr.success(message);
-                                                        editor.setData('');
-                                                        $("#bannersForm").validator('destroy');
-                                                        $("#bannersModal").modal("hide");     
-                                                    }
-                                                
-                                                },
-                                                error: function (request, status, error) {
-                                                    alert(request.responseText);
-                                                }
-                                        });
-                                    }
+                                    image_correct = true;
+                                    $("#coverError").html("");  
+                                    console.log(image_correct);
+                                }
                             };
 
                         }
@@ -329,10 +332,7 @@
                     btn.button("reset"); 
                     return false;
                 }
-            }
-               return false;
         });
-
         $("#deleteBanners").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
@@ -365,7 +365,6 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            editor.setData("");
             $("#inputStatus").val('1').trigger('change');
             $("#bannersForm").validator('destroy');
         });
@@ -395,7 +394,6 @@
                     data = JSON.parse(data);
                     $("#inputBannersTitle").val(data.banners.title);
                     $("#inputDescription").val(data.banners.description);
-                    editor.setData(data.banners.content);
                     $("#inputStatus").val(data.banners.status).trigger('change');
                     $("#bannersID").val(data.banners.id);
                     $("#bannersModal").modal("show");

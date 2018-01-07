@@ -16,6 +16,7 @@ class Settings_model extends CI_Model {
                         $facebook_url = "";
                         $twitter_url = "";
                         $instagram_url = "";
+                        $franchise_email_address = "";
                 }
                 else
                 {
@@ -28,6 +29,7 @@ class Settings_model extends CI_Model {
                         $facebook_url = $query->row()->facebook_url;
                         $twitter_url = $query->row()->twitter_url;
                         $instagram_url = $query->row()->instagram_url;
+                        $franchise_email_address = $query->row()->franchise_email_address;
                 }
                 define("SITE_NAME", $site_name);
                 define("SITE_LOGO", $site_logo);
@@ -38,6 +40,7 @@ class Settings_model extends CI_Model {
                 define("FACEBOOK_URL", $facebook_url);
                 define("TWITTER_URL", $twitter_url);
                 define("INSTAGRAM_URL", $instagram_url);
+                define("FRANCHISE_EMAIL_ADDRESS", $franchise_email_address);
         }
         
         public function get_user_access()

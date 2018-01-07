@@ -499,6 +499,7 @@
     }
     function set_series(id)
     { 
+        console.log(id);
         if($("#inputProductCategoryID").val() == "" || $("#inputProductVendorID").val() == "")
         {
             $("#inputProductSeriesID").attr("disabled","disabled");

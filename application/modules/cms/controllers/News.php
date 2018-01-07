@@ -60,7 +60,7 @@ class News extends CI_Controller {
             } 
 
             $this->db->where("id",$news_id);
-            $result = $this->db->get("news");
+            $result = $this->db->get("news_and_updates");
             unlink($upload_path.$result->row()->cover_image);
             $config['upload_path'] = $upload_path;  
             $config['allowed_types'] = 'jpg|jpeg|png|gif';  

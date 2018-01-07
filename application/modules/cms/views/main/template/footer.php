@@ -111,7 +111,7 @@
     e.preventDefault();
         $.ajax({
                 type: "post",
-                url: "<?php echo base_url()."cms/users/get_profile_data";?>",
+                url: "<?php echo base_url()."cms/main/get_profile_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
                     $("#profileID").val(data.user_account.id);
@@ -137,7 +137,6 @@
       $("#profileForm").submit();
   });
   $("#profileForm").validator().on('submit', function (e) {
-           alert("asd");
            var btn = $("#saveProfile");
            btn.button("loading");
            if (e.isDefaultPrevented()) {
@@ -167,7 +166,7 @@
                    "address" : address
                };
                
-              url =  "<?php echo base_url()."cms/users/update_profile";?>";
+              url =  "<?php echo base_url()."cms/main/update_profile";?>";
               message = "Profile successfully updated";
           
                $.ajax({

@@ -205,6 +205,9 @@
         $("#saveNews").click(function(){
             $("#newsForm").submit();
         });
+
+        var image_correct = true;
+        var image_error = "";
         $("#newsForm").validator().on('submit', function (e) {
            
             var btn = $("#saveNews");
@@ -235,7 +238,58 @@
                     btn.button("reset"); 
                     return false;
                 }
-                var fileUpload = document.getElementById("inputCoverImage");
+                
+                 //fromthis    
+                 var url = "<?php echo base_url()."cms/news/add_news";?>";
+                var message = "New news successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."cms/news/edit_news";?>";
+                    message = "News successfully updated";
+                }
+
+                if(image_correct == false)
+                {
+                    btn.button("reset");
+                    $("#coverError").html(img_error);
+                    return false;
+                }
+                console.log(image_correct);
+                $.ajax({
+                        data: formData,
+                        type: "post",
+                        processData: false,
+                        contentType: false,
+                        url: url ,
+                        success: function(data){
+                            if(!data)
+                            {
+                                btn.button("reset");
+                                toastr.error(data);
+                            }
+                            else
+                            {
+                                //alert("Data Save: " + data);
+                                btn.button("reset");
+                                table.draw();
+                                toastr.success(message);
+                                editor.setData('');
+                                $("#newsForm").validator('destroy');
+                                $("#newsModal").modal("hide");     
+                            }
+                        
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                });
+        //to this
+            }
+               return false;
+        });
+        $("#inputCoverImage").change(function (e) {
+            var btn = $("#saveNews");
+            var fileUpload = document.getElementById("inputCoverImage");
                 
                 //Check whether the file is valid Image.
                 var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
@@ -259,49 +313,16 @@
                             image.onload = function () {
                                 if(this.width != "582" || this.height != "498")
                                 {
-                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 582x498</span>");                    
+                                    img_error = "<span style='color:red;'>Invalid cover size use 582x498</span>";                     
                                     btn.button("reset"); 
-                                    return false;
+                                    image_correct = false;
+                                    console.log(image_correct);
                                 }
                                 else
                                 {
-                                //fromthis    
-                                    var url = "<?php echo base_url()."cms/news/add_news";?>";
-                                    var message = "New news successfully added";
-                                    if(action == "edit")
-                                    {
-                                        url =  "<?php echo base_url()."cms/news/edit_news";?>";
-                                        message = "News successfully updated";
-                                    }
-                                    $.ajax({
-                                            data: formData,
-                                            type: "post",
-                                            processData: false,
-                                            contentType: false,
-                                            url: url ,
-                                            success: function(data){
-                                                if(!data)
-                                                {
-                                                    btn.button("reset");
-                                                    toastr.error(data);
-                                                }
-                                                else
-                                                {
-                                                    //alert("Data Save: " + data);
-                                                    btn.button("reset");
-                                                    table.draw();
-                                                    toastr.success(message);
-                                                    editor.setData('');
-                                                    $("#newsForm").validator('destroy');
-                                                    $("#newsModal").modal("hide");     
-                                                }
-                                            
-                                            },
-                                            error: function (request, status, error) {
-                                                alert(request.responseText);
-                                            }
-                                    });
-                            //to this
+                                    image_correct = true;
+                                    $("#coverError").html("");  
+                                    console.log(image_correct);
                                 }
                             };
 
@@ -309,15 +330,14 @@
                     } else {
                         alert("This browser does not support HTML5.");
                         btn.button("reset"); 
-                        return false;
+                        image_correct = false;
                     }
                 } else {
                     alert("Please select a valid Image file.");
                     btn.button("reset"); 
-                    return false;
+                    image_correct = false;
                 }
-            }
-               return false;
+
         });
 
         $("#deleteNews").click(function(){

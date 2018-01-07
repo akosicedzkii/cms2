@@ -82,6 +82,16 @@
             </div>
 
             <div class="form-group">
+                <label for="inputFranchiseEmail" class="col-sm-2 control-label">Franchise Email Address</label>
+
+                <div class="col-sm-4">
+                <input type="email" class="form-control" id="inputFranchiseEmail" placeholder="Franchise Email Address" value="<?php echo $site_settings->franchise_email_address;?>">
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
                 <label for="inputFacebook" class="col-sm-2 control-label">Facebook URL</label>
 
                 <div class="col-sm-4">
@@ -161,6 +171,7 @@
             var contact_number = $("#inputCompanyContact").val();
             var fax_number = $("#inputCompanyContactFax").val();
             var contact_us_email_address = $("#inputContactUsEmail").val();
+            var franchise_email_address = $("#inputFranchiseEmail").val();
             var facebook_url = $("#inputFacebook").val();
             var twitter_url = $("#inputTwitter").val();
             var instagram_url = $("#inputInstagram").val();
@@ -172,6 +183,7 @@
             formData.append("contact_number" , contact_number);
             formData.append("fax_number" , fax_number);
             formData.append("contact_us_email_address" , contact_us_email_address);
+            formData.append("franchise_email_address" , franchise_email_address);
             formData.append("facebook_url" , facebook_url);
             formData.append("twitter_url" , twitter_url);
             formData.append( "instagram_url" , instagram_url);
