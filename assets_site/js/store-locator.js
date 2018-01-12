@@ -3,7 +3,7 @@ var userInput = {
 	storeBranch: ''
 };
 
-var $beforeList;
+var $beforeList = [];
 
 var convertToKey = function(input) {
 	return input.replace(/[^a-zA-Z0-9]*/g, '').toLowerCase();
@@ -73,7 +73,7 @@ var changePriceValue = function($priceContainer) {
 
 var displayStoreList = function() {
 	var $this = $(this);
-	$beforeList = $(this).closest('.step');
+	$beforeList.push($this.closest('.step'));
 	$this.closest('.step').removeClass('active');
 	setTimeout(function() {
 		$this.closest('.step').removeClass('display');
@@ -121,7 +121,7 @@ var populateStoreList = function() {
 		$branchList = $('<ul>');
 
 		for(branch in stores[area]['branches']) {
-			$branchList.append('<li>' + stores[area]['branches'][branch]['name'] + '</li>');
+			$branchList.append('<li><a class="branch-link" data-area="' + area + '" data-branch="' + branch + '">' + stores[area]['branches'][branch]['name'] + '</a></li>');
 			branchCount++;
 		}
 
@@ -159,31 +159,24 @@ var populateStoreList = function() {
 	}
 };
 
-var returnToPrevious = function($beforeList) {
-	if($('#store-list').hasClass('active')) {	
-		$('#store-list').removeClass('active');
-		setTimeout(function() {
-			$beforeList.addClass('display');
-			$('#store-list').removeClass('display');
-		}, 500);
-		setTimeout(function() {
-			$beforeList.addClass('active');
-		}, 20);
+var returnToPrevious = function() {
+	var $this = $(this);
+	var $toDisplay = $beforeList[$beforeList.length-1];
+	var $currentSection = $this.parent();
+
+	if($('#step-3').hasClass('active')) {
+		clearResults();
 	}
-	else {
-		if($('#step-3').hasClass('active')) {
-			clearResults();
-		}
-		var $this = $(this);
-		$this.closest('.step').removeClass('active');
-		setTimeout(function() {
-			$this.closest('.step').prev().addClass('display');
-			$this.closest('.step').removeClass('display');
-		}, 200);
-		setTimeout(function() {
-			$this.closest('.step').prev().addClass('active');
-		}, 210);
-	}
+
+	$currentSection.removeClass('active');
+	setTimeout(function() {
+		$toDisplay.addClass('display');
+		$currentSection.removeClass('display');
+	}, 200);
+	setTimeout(function() {
+		$toDisplay.addClass('active');
+		$beforeList.pop();
+	}, 210);
 
 	clearField($(this));
 };
@@ -193,6 +186,7 @@ var getAreaInput = function() {
 
 	if(isValidArea()) {
 		userInput['storeArea'] = convertToKey(area);
+		$beforeList.push($('#step-1'));
 		$('#step-1').removeClass('active');
 		setTimeout(function() {
 			$('#step-2').addClass('display');
@@ -231,6 +225,7 @@ var getBranchInput = function() {
 
 	if(isValidBranch()) {
 		userInput['storeBranch'] = convertToKey(branch);
+		$beforeList.push($('#step-2'));
 		$('#step-2').removeClass('active');
 		setTimeout(function() {
 			$('#step-3').addClass('display');
@@ -265,13 +260,29 @@ var isValidBranch = function() {
 	return isValid;
 };
 
+var viewFromStoreList = function($this) {
+	userInput['storeArea'] = $this.data('area');
+	userInput['storeBranch'] = $this.data('branch');
+
+	$beforeList.push($('#store-list'));
+
+	$('#store-list').removeClass('active');
+	setTimeout(function() {
+		$('#step-3').addClass('display');
+		$('#store-list').removeClass('display');
+	}, 200);
+	setTimeout(function() {
+		$('#step-3').addClass('active');
+	}, 210);
+	setResults();
+};
+
 var setResults = function() {
 	var area = userInput['storeArea'];
 	var branch = userInput['storeBranch'];
 	$('#step-3 .selected-area').html(stores[area]['name']);
 	$('#step-3 .selected-branch').html(stores[area]['branches'][branch]['name']);
 	$('#step-3 .branch-map').attr('src', stores[area]['branches'][branch]['map-url']);
-
 	var data = { "station_name" : stores[area]['branches'][branch]['name'] , "branch_name" : stores[area]['name'] };
 	$.ajax({
 		data: data,
@@ -325,18 +336,23 @@ $(document).ready(function() {
 
 	$('#store-area, #store-branch').on('keyup focus', displaySuggestions);
 
-	$('.step .locator-back').on('click', returnToPrevious);
+	$('.locator-back').on('click', returnToPrevious);
 
-	$('#store-list .locator-back').on('click', function(e) {
-		returnToPrevious($beforeList);
-	});
+	// $('#store-list .locator-back').on('click', function(e) {
+	// 	returnToPrevious($beforeList);
+	// });
 
-	$('.store-list-btn').on('click', displayStoreList);
+	$('.store-list-btn').on('mousedown', displayStoreList);
 
 	$('#store-list').on('click', '.store-pagination .numbered-pagination a', function(e) {
 		$('#store-list .page.active').removeClass('active');
 		$('#store-list .page[data-pnum="' + $(this).data('pnum') + '"]').addClass('active');
 		$(this).addClass('active');
+	});
+
+	$('#store-list').on('click', '.branch-link', function(e) {
+		e.preventDefault();
+		viewFromStoreList($(this));
 	});
 
 	$('#store-list').on('click', '.simple-pagination a:not(.disabled)', function(e) {

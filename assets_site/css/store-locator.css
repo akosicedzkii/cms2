@@ -10,6 +10,10 @@
 	transition: opacity 500ms ease-in;
 }
 
+#store-locator a.branch-link {
+	cursor: pointer;
+}
+
 #store-locator .container>.row>div {
 	text-align: center;
 }
