@@ -19,6 +19,7 @@
 <div class="box" id="main-list">
     <div class="box-header">
         <h3 class="box-title"><?php echo ucwords(str_replace("_"," ",$module_name));?> List</h3>
+        <button class="btn btn-info pull-right" id="uploadPrices"  data-toggle="tooltip" title="Upload Prices">Upload Prices</button>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -105,10 +106,10 @@
                                             foreach($fuel_list as $row){
                                                 ?>
                                                     <div class="form-group">
-                                                        <label for="fuel_<?php echo $row->id;?>" class="col-sm-2 control-label"><?php echo ucfirst($row->fuel_name);?></label>
+                                                        <label for="fuel_<?php echo $row->id;?>" class="col-sm-2 control-label"><?php echo ucfirst($row->product_name);?></label>
 
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="fuel_<?php echo $row->id;?>" placeholder="<?php echo ucfirst($row->fuel_name);?>" pattern="^\d+(\.\d{1,2})?$">
+                                                            <input type="text" class="form-control" id="fuel_<?php echo $row->id;?>" placeholder="<?php echo ucfirst($row->product_name);?>" pattern="^\d+(\.\d{1,2})?$">
                                                             <div class="help-block with-errors"></div>
                                                         </div>
                                                     </div>
@@ -171,6 +172,32 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<!-- /.modal -->
+<div class="modal fade" id="uploadPricesModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Upload Prices</h3>
+            </div>
+            <div class="modal-body">
+                <a href="<?php echo base_url("cms/stations/download_station_prices");?>" download>Download Prices Template</a>
+                <center><input type="file" id="pricelist" accept=".csv" class="form-control"></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="savePriceList">Upload New Pricelist</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -274,6 +301,30 @@
                return false;
         });
 
+        
+        $("#savePriceList").click(function(){
+            var btn = $(this);
+            var formData = new FormData();
+            formData.append('pricelist', $('#pricelist').prop("files")[0]);
+
+            $.ajax({
+                        data: formData,
+                        type: "post",
+                        processData: false,
+                        contentType: false,
+                        url: "<?php echo base_url()."cms/stations/upload_prices";?>",
+                        success: function(data){
+                            //alert("Data Save: " + data);
+                            btn.button("reset");
+                            $("#uploadPricesModal").modal("hide");
+                            toastr.success('Station Prices Successfully Updated');
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                });
+        });
+
         $("#deleteStation").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
@@ -315,7 +366,10 @@
             $form.find('input:radio, input:checkbox')
                 .removeAttr('checked').removeAttr('selected');
         }
-      
+        
+        $("#uploadPrices").click(function(){
+            $("#uploadPricesModal").modal("show");
+        });
     };
     function _edit(id)
     {

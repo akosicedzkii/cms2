@@ -37,9 +37,34 @@ class Main extends CI_Controller {
 		{
 
 		}*/
-		redirect(base_url()."cms/main/banners");
+		redirect(base_url()."cms/main/dashboard");
     }
+	public function dashboard()
+	{
+		
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->db->distinct();
+		$this->db->select("ip_address");
+		$module["unique_visitors"] = $this->db->get("visit_counts")->result();
+		$module["products"] = $this->db->get("products")->result();
 
+		$this->db->order_by("user_accounts.id","desc");
+		$this->db->select('*');
+		$this->db->from('user_accounts');
+		$this->db->join('user_profiles', 'user_profiles.user_id = user_accounts.id');
+		$module["users"]= $this->db->get()->result();
+
+		$module["month_visitors"] = $this->db->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->result();
+		
+		$module["stations"] = $this->db->order_by("id","desc")->get("stations")->result();
+		
+		$module["submissions_counter"] = $this->db->get("submissions_counter")->row();
+
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/main_view',$module);
+		$this->load->view('main/template/footer');
+	}
     public function users()
     {
 		$module["module_name"] = $this->router->fetch_method();
@@ -91,7 +116,7 @@ class Main extends CI_Controller {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["branches"] = $this->db->get("branches")->result();
-		$module["fuel_list"] = $this->db->get("fuels")->result();
+		$module["fuel_list"] = $this->db->where("product_category_id","1")->get("products")->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/stations_view',$module);
 		$this->load->view('main/template/footer');
@@ -183,6 +208,17 @@ class Main extends CI_Controller {
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/product_series_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+
+
+	public function careers()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/careers_view',$module);
 		$this->load->view('main/template/footer');
 	}
 

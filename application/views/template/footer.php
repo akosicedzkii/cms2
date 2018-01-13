@@ -166,7 +166,7 @@
     <?php }?>
     <script src="<?php echo base_url()."assets_site/"?>js/careers.js"></script>
     <script src="<?php echo base_url()."assets_site/"?>js/franchise-application.js"></script>
-    <!--Start of Zendesk Chat Script-->
+    <!--Start of Zendesk Chat Script
     <script type="text/javascript">
     window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
     d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
@@ -174,7 +174,7 @@
     $.src="https://v2.zopim.com/?5LqYeuqy9uK5S0ynsMKQgxfF9uESZO23";z.t=+new Date;$.
     type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     </script>
-    <!--End of Zendesk Chat Script-->
+    End of Zendesk Chat Script-->
 </body>
 
 </html>

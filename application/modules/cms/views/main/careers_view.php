@@ -23,11 +23,11 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="productCategoryList" class="table table-bordered table-striped">
+        <table id="careerList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Product Category</th>
+            <th>Career</th>
             <th>Description</th>
             <th>Date Created</th>
             <th>Created By</th>
@@ -48,34 +48,34 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="productCategoryModal">
+<div class="modal fade" id="careerModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Product Category</h3>
+             <h3 class="modal-title">Add Career</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="productCategoryID">
+             <input type="hidden" id="careerID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="productCategoryForm" data-toggle="validator">
+                    <form class="form-horizontal" id="careerForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputProductCategoryName" class="col-sm-2 control-label">Category Name</label>
+                                <label for="inputCareerTitle" class="col-sm-2 control-label">Job title</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputProductCategoryName" placeholder="Category Name" required>
+                                <input type="text" class="form-control" id="inputCareerTitle" placeholder="Job title" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputProductCategoryDescription" class="col-sm-2 control-label">Category Description</label>
+                                <label for="inputCareerDescription" class="col-sm-2 control-label">Category Description</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputProductCategoryDescription" placeholder="Category Description" style="resize:none" required></textarea>
+                                <textarea class="form-control" id="inputCareerDescription" placeholder="Category Description" style="resize:none" required></textarea>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveProductCategory">Save Product Category</button>
+            <button type="button" class="btn btn-primary" id="saveCareer">Save Career</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -94,14 +94,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteProductCategoryModal">
+<div class="modal fade" id="deleteCareerModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Product Category</h3>
+             <h3 class="modal-title">Delete Career</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -109,7 +109,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteProductCategory">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteCareer">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -120,12 +120,13 @@
 
 <script>
 
+    var editor = CKEDITOR.replace('inputCareerDescription');
     var main = function(){
-        var table = $('#productCategoryList').DataTable({  
+        var table = $('#careerList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/product_categories/get_product_category_list";?>",
+            "ajax" : "<?php echo base_url()."cms/careers/get_career_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -135,41 +136,41 @@
         ]
         });
         $("#addBtn").click(function(){
-            $("#productCategoryModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#careerModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
             $("#inputCoverImage").attr("required","required");
-            $('#productCategoryForm').validator();
-            $("#productCategoryModal").modal("show");
+            $('#careerForm').validator();
+            $("#careerModal").modal("show");
         });
 
-        $("#saveProductCategory").click(function(){
-            $("#productCategoryForm").submit();
+        $("#saveCareer").click(function(){
+            $("#careerForm").submit();
         });
-        $("#productCategoryForm").validator().on('submit', function (e) {
+        $("#careerForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveProductCategory");
+            var btn = $("#saveCareer");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var category_name = $("#inputProductCategoryName").val();
-                var category_description = $("#inputProductCategoryDescription").val();
-                var productCategory_id = $("#productCategoryID").val();
+                var job_title = $("#inputCareerTitle").val();
+                var job_description = editor.getData();
+                var career_id = $("#careerID").val();
 
                 var data = {
-                    'id':productCategory_id,
-                    "category_name" : category_name,
-                    "category_description" : category_description
+                    'id':career_id,
+                    "job_title" : job_title,
+                    "job_description" : job_description
                 };
                
-                var url = "<?php echo base_url()."cms/product_categories/add_product_category";?>";
-                var message = "New Product Category successfully added";
+                var url = "<?php echo base_url()."cms/careers/add_career";?>";
+                var message = "New Career successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/product_categories/edit_product_category";?>";
-                    message = "Product Category successfully updated";
+                    url =  "<?php echo base_url()."cms/careers/edit_career";?>";
+                    message = "Career successfully updated";
                 }
                 $.ajax({
                         data: data,
@@ -187,8 +188,8 @@
                                 btn.button("reset");
                                 table.draw();
                                 toastr.success(message);
-                                $("#productCategoryForm").validator('destroy');
-                                $("#productCategoryModal").modal("hide");     
+                                $("#careerForm").validator('destroy');
+                                $("#careerModal").modal("hide");     
                             }
                         
                         },
@@ -200,7 +201,7 @@
                return false;
         });
 
-        $("#deleteProductCategory").click(function(){
+        $("#deleteCareer").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -210,13 +211,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/product_categories/delete_product_category";?>",
+                        url: "<?php echo base_url()."cms/careers/delete_career";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteProductCategoryModal").modal("hide");
-                            toastr.error('Product Category ' + deleteItem + ' successfully deleted');
+                            $("#deleteCareerModal").modal("hide");
+                            toastr.error('Career ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -224,7 +225,7 @@
                 });
         });
 
-        $('#productCategoryModal').on('hidden.bs.modal', function (e) {
+        $('#careerModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -232,8 +233,9 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
+            editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $("#productCategoryForm").validator('destroy');
+            $("#careerForm").validator('destroy');
         });
 
         function resetForm($form) {
@@ -245,22 +247,22 @@
     };
     function _edit(id)
     {
-        $("#productCategoryModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#careerModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#productCategoryForm').validator();    
+        $('#careerForm').validator();    
         $("#action").val("edit");
         $("#inputCoverImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/product_categories/get_product_category_data";?>",
+                url: "<?php echo base_url()."cms/careers/get_career_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputProductCategoryName").val(data.product_category.category_name);
-                    $("#inputProductCategoryDescription").val(data.product_category.category_description);
-                    $("#productCategoryID").val(data.product_category.id);
-                    $("#productCategoryModal").modal("show");
+                    $("#inputCareerTitle").val(data.career.job_title);
+                    editor.setData(data.career.job_description);
+                    $("#careerID").val(data.career.id);
+                    $("#careerModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -269,10 +271,10 @@
     }
     function _delete(id,item)
     {
-        $("#deleteProductCategoryModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteCareerModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteProductCategoryModal").modal("show");
+        $("#deleteCareerModal").modal("show");
     }
     
     $(document).ready(main);

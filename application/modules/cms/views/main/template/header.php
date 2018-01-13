@@ -40,9 +40,6 @@
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Morris.js charts -->
-<script src="<?php echo base_url();?>assets/bower_components/raphael/raphael.min.js"></script>
-<script src="<?php echo base_url();?>assets/bower_components/morris.js/morris.min.js"></script>
 <!-- Sparkline -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -51,7 +48,9 @@
 <!-- jQuery Knob Chart -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-<script src="<?php echo base_url();?>assets/bower_components/moment/min/moment.min.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- ChartJS -->
+<script src="<?php echo base_url();?>assets/bower_components/Chart.js/Chart.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
@@ -64,7 +63,7 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard.js"></script>
+<script src="<?php echo base_url();?>assets/dist/js/pages/dashboard2.js"></script>
 
 <script src="<?php echo base_url();?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -233,9 +232,8 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>  
-
-        <li><a href="<?php echo base_url(); ?>" target="_blank"><i class="fa fa-camera"></i><span>Site Preview</span></a></li>
-       
+        <li <?php if($module_name == "dashboard"){echo 'class="active"';}?>><a href="<?php echo base_url("cms/main/dashboard"); ?>"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+  
         <?php 
           if (in_array("banners", $menu) ) {
              ?>
@@ -345,7 +343,13 @@
         <?php
           } 
         ?>
-
+      <?php 
+          if (in_array("careers", $menu)) {
+             ?>
+              <li <?php if($module_name == "careers"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/careers"?>"><i class="fa fa-suitcase"></i><span>Careers</span></a></li>
+            <?php
+          } 
+        ?>
         <?php 
           if (in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
              ?>

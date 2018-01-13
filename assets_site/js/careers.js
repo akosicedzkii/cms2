@@ -6,4 +6,21 @@ $(document).ready(function() {
     		e.preventDefault();
     	}
     });
+
+
+    $("#careers-opening").change(function(){
+        var data = {"id" : $("#careers-opening").val()}
+        $.ajax({
+            type: "post",
+            url: "careers/get_career_details",
+            data:data,
+            success: function(data){
+                data = JSON.parse(data);
+                $("#job-description").html(data.job_description);
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+    });
+    });
 });

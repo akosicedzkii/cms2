@@ -6,7 +6,8 @@ class News_and_updates extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->settings_model->get_settings();  
+        $this->settings_model->get_settings(); 
+		$this->v_counter->insert_visitor();    
 	}
 	
 	public function index()

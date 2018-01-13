@@ -83,6 +83,13 @@
                              <div class="col-sm-8">
                                     <div class="checkbox">
                                         <label>
+                                        <input type="checkbox" id="modules" value="dashboard">
+                                        Dashboard
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
                                         <input type="checkbox" id="modules" value="banners">
                                         Banners
                                         </label>
@@ -141,6 +148,13 @@
                                         <label>
                                         <input type="checkbox" id="modules" value="products">
                                         Products
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="careers">
+                                        Careers
                                         </label>
                                     </div>
 

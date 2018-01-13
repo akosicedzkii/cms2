@@ -46,6 +46,7 @@ class Site_settings extends CI_Controller {
         $data["fax_number"] = $this->input->post("fax_number");
         $data["contact_us_email_address"] = $this->input->post("contact_us_email_address");
         $data["franchise_email_address"] = $this->input->post("franchise_email_address");
+        $data["careers_email_address"] = $this->input->post("careers_email_address");
         $data["facebook_url"] = $this->input->post("facebook_url");
         $data["twitter_url"] = $this->input->post("twitter_url");
         $data["instagram_url"] = $this->input->post("instagram_url");

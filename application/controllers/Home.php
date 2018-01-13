@@ -7,6 +7,7 @@ class Home extends CI_Controller {
     {
         parent::__construct();
         $this->settings_model->get_settings();  
+		$this->v_counter->insert_visitor();   
     }
 	public function index()
 	{
@@ -57,7 +58,7 @@ class Home extends CI_Controller {
 		$result = $this->db->query($query);
 
 
-		$fuel_list = $this->db->get("fuels");
+		$fuel_list = $this->db->where("product_category_id","1")->get("products");
 		$return = "<tbody>";
 		foreach($fuel_list->result() as $row)
 		{
@@ -70,14 +71,16 @@ class Home extends CI_Controller {
 				$price = $fuel_price_query->row()->price;
 			}
 			$return .='<tr>
-				<td>'.ucwords($row->fuel_name).'</td>
+				<td>'.ucwords($row->product_name).'</td>
 			<td>
 				<div class="price-container" data-price="'.$price.'">';
 
 				
 				$str_price = str_split($price);
 				foreach($str_price as $char  ) {
-					$return .= '<div class="price-digit">'.$char.'</div>';
+					if($char != null){
+						$return .= '<div class="price-digit">'.$char.'</div>';
+					}
 				}
 				$return .= '</div>
 			</td>

@@ -36,6 +36,9 @@
         <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/lubricants.css">
     <?php }?>
 
+    <?php if($module_name == "careers"){?>
+        <link rel="stylesheet" href="<?php echo base_url()."assets_site/"?>css/careers.css">
+    <?php }?>
 </head>
 
 <body id="index">
@@ -50,10 +53,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li id="home-link" class="nav-item<?php if($module_name=="home"){ echo " active";}?>">
-                    <a class="nav-link<?php if($module_name=="home"){ echo " scroll-link";}?>" href="<?php echo base_url()."home"?>#home">HOME</a>
+                    <a class="nav-link<?php if($module_name=="home"){ echo " scroll-link";}?>" href="<?php echo base_url()."home";?>#home">HOME</a>
                 </li>
                 <li id="about-link" class="nav-item<?php if($module_name=="about_us"){ echo " active";}?>">
-                    <a class="nav-link" href="<?php echo base_url()."about_us"?>">ABOUT US</a>
+                    <a class="nav-link" href="<?php echo base_url()."about_us";?>">ABOUT US</a>
                 </li>
                 <li id="loyalty-link" class="nav-item">
                     <a class="nav-link<?php if($module_name=="home"){ echo " scroll-link";}?>" href="<?php echo base_url()."home"?>#loyalty">LOYALTY</a>
@@ -61,22 +64,28 @@
                 <li id="products-link" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUCTS</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>lubricants">LUBRICANT</a>
-                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>fuel">FUEL</a>
-                        <a class="dropdown-item" href="<?php echo base_url()."products/"?>asphalt">ASPHALT</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/";?>lubricants">LUBRICANT</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/";?>fuel">FUEL</a>
+                        <a class="dropdown-item" href="<?php echo base_url()."products/";?>asphalt">ASPHALT</a>
                     </div>
                 </li>
                 <li id="opportunities-link" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OPPORTUNITIES</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="<?php echo base_url()."franchise"?>">FRANCHISING</a>
-                        <!--<a class="dropdown-item" href="<?php echo base_url()."assets_site/"?>careers.html">CAREERS</a>-->
+                        <a class="dropdown-item" href="<?php echo base_url()."franchise";?>">FRANCHISING</a>
+                      <a class="dropdown-item" href="<?php echo base_url()."careers";?>">CAREERS</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PORTAL</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" data-toggle="modal" href="#login_modal">EMPLOYEES</a>
+                        <?php if($module_name == "products" || $module_name == "news_and_updates"){
+                        ?>
+                            <a class="dropdown-item" href="<?php echo base_url()."home"?>#login_modal">EMPLOYEES</a>
+                        <?php
+                        }else{?>
+                            <a class="dropdown-item" data-toggle="modal" href="#login_modal">EMPLOYEES</a>
+                        <?php }?>
                         <a class="dropdown-item" href="https://ap1.salesforce.com/secur/login_portal.jsp?orgId=00D90000000XlWr&portalId=06090000000LaoB">CUSTOMERS</a>
                     </div>
                 </li>

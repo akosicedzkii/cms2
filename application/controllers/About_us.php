@@ -5,7 +5,8 @@ class About_us extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->settings_model->get_settings();  
+		$this->settings_model->get_settings();  
+		$this->v_counter->insert_visitor();   
 	}
 	public function index()
 	{
@@ -14,5 +15,6 @@ class About_us extends CI_Controller {
 		$this->load->view('template/header.php',$data);
 		$this->load->view('about_us_view');
 		$this->load->view('template/footer.php',$data);
-    }
+	}
+
 }
