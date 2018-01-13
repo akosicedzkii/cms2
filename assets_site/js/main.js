@@ -21,10 +21,10 @@ $(document).ready(function() {
 		else
 		{
 			e.preventDefault();
-			var values_contact_us_email = { "subject" : "Contact Us Response" , "to" : to_contact_us_email , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val(), "attachment" : "" }
+			var values_contact_us_email = { "to": $("#contact-email").val() , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val() }
 
 			 $.ajax({
-					url: "./emailer/send_email.php",
+					url: "./sendemail/send_contact_us",
 					type: "post",
 					data: values_contact_us_email ,
 					success: function (response) {

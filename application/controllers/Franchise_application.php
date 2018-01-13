@@ -17,5 +17,6 @@ class Franchise_application extends CI_Controller {
 		$this->load->view('template/header.php',$data);
 		$this->load->view('franchise_application_view');
 		$this->load->view('template/footer.php',$data);
-    }
+	}
+	
 }

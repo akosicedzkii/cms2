@@ -18,6 +18,12 @@ class Settings_model extends CI_Model {
                         $instagram_url = "";
                         $franchise_email_address = "";
                         $careers_email_address = "";
+                        $contact_us_subject_reply ="";
+                        $contact_us_body_reply = "";
+                        $franchise_body_reply = "";
+                        $careers_body_reply = "";
+                        $franchise_subject_reply = "";
+                        $careers_subject_reply = "";
                 }
                 else
                 {
@@ -32,18 +38,32 @@ class Settings_model extends CI_Model {
                         $instagram_url = $query->row()->instagram_url;
                         $franchise_email_address = $query->row()->franchise_email_address;
                         $careers_email_address = $query->row()->careers_email_address;
+                        $contact_us_subject_reply = $query->row()->contact_us_subject_reply;
+                        $contact_us_body_reply = $query->row()->contact_us_body_reply;
+                        $franchise_body_reply = $query->row()->franchise_body_reply;
+                        $careers_body_reply = $query->row()->careers_body_reply;
+                        $franchise_subject_reply = $query->row()->franchise_subject_reply;
+                        $careers_subject_reply = $query->row()->careers_subject_reply;
+
                 }
                 define("SITE_NAME", $site_name);
                 define("SITE_LOGO", $site_logo);
                 define("COMPANY_ADDRESS", $company_address);
                 define("CONTACT_NUMBER", $contact_number);
                 define("FAX_NUMBER", $fax_number);
-                define("CONTACT_US_EMAIL_ADDRESS", $contact_us_email_address);
                 define("FACEBOOK_URL", $facebook_url);
                 define("TWITTER_URL", $twitter_url);
                 define("INSTAGRAM_URL", $instagram_url);
+                define("CONTACT_US_EMAIL_ADDRESS", $contact_us_email_address);
                 define("FRANCHISE_EMAIL_ADDRESS", $franchise_email_address);
                 define("CAREERS_EMAIL_ADDRESS", $careers_email_address);
+                define("CONTACT_US_BODY_REPLY", $contact_us_body_reply);
+                define("FRANCHISE_BODY_REPLY", $franchise_body_reply);
+                define("CAREERS_BODY_REPLY", $careers_body_reply);
+                define("CONTACT_US_SUBJECT_REPLY", $contact_us_subject_reply);
+                define("FRANCHISE_SUBJECT_REPLY", $franchise_subject_reply);
+                define("CAREERS_SUBJECT_REPLY", $careers_subject_reply);
+                
         }
         
         public function get_user_access()
@@ -62,5 +82,6 @@ class Settings_model extends CI_Model {
             }
             return $return;
         }
+
 }
 

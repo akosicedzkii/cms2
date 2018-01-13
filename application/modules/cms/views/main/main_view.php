@@ -213,7 +213,11 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer text-center">
-              <a href="<?php echo base_url("cms/main/products");?>" class="uppercase">View All Products</a>
+            <?php 
+              if (in_array("products", $menu)) {
+              ?>
+                  <a href="<?php echo base_url("cms/main/products");?>" class="uppercase">View All Products</a>
+              <?php }?>
             </div>
             <!-- /.box-footer -->
           </div>
@@ -264,7 +268,11 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
-                  <a href="<?php echo base_url("cms/main/users");?>" class="uppercase">View All Users</a>
+                    <?php 
+                        if (in_array("users", $menu)) {
+                        ?>
+                          <a href="<?php echo base_url("cms/main/users");?>" class="uppercase">View All Users</a>
+                    <?php }?>
                 </div>
                 <!-- /.box-footer -->
               </div>

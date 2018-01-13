@@ -304,6 +304,7 @@
         
         $("#savePriceList").click(function(){
             var btn = $(this);
+            btn.button("loading");
             var formData = new FormData();
             formData.append('pricelist', $('#pricelist').prop("files")[0]);
 
@@ -349,7 +350,7 @@
                 });
         });
 
-        $('#stationModal').on('hidden.bs.modal', function (e) {
+        $('#stationModal,#uploadPrices').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')

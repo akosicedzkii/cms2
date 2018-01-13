@@ -50,6 +50,16 @@ class Site_settings extends CI_Controller {
         $data["facebook_url"] = $this->input->post("facebook_url");
         $data["twitter_url"] = $this->input->post("twitter_url");
         $data["instagram_url"] = $this->input->post("instagram_url");
+
+
+        
+        $data["contact_us_subject_reply"] = $this->input->post("contact_us_subject_reply");
+        $data["contact_us_body_reply"] = $this->input->post("contact_us_body_reply");
+        $data["franchise_body_reply"] =$this->input->post("franchise_body_reply");
+        $data["careers_body_reply"] = $this->input->post("careers_body_reply");
+        $data["franchise_subject_reply"] = $this->input->post("franchise_subject_reply");
+        $data["careers_subject_reply"] = $this->input->post("careers_subject_reply");
+
         echo $this->db->update("site_settings",$data);
         $this->logs->log = "Updated Site Settings";
         $this->logs->details = json_encode($data);

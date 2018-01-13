@@ -139,7 +139,7 @@ class Users extends CI_Controller {
         foreach ($rResult->result_array() as $aRow) {
             $row = array();
             foreach ($select_columns as $col) {
-                    if($col == "username")
+                    if($col == "username" || $col == "created_by" || $col == "modified_by" )
                     {
                         $row[] = $aRow[$col];
                     }

@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 pull-sm-6 col-md-6 pull-md-6 col-lg-6 pull-lg-6 col-xl-6 pull-xl-6">
                                     <label for="careers-letter" class="form-label">Upload Resume *</label>
-                                    <input type="file" id="careers-letter" class="careers-btn" data-fieldtype="file" />
+                                    <input type="file" id="careers-letter" class="careers-btn" data-fieldtype="file"  accept=".txt,.pdf,.docs,.docx" />
                                     <p class="error-msg"></p>
                                     <div class="submit-btn-container">
                                     </div>

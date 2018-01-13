@@ -1,44 +1,35 @@
 <?php
 
 class Emailer_model extends CI_Model {
+
     public $from;
     public $to;
     public $subject;
     public $message;
     public $attachment;
+    public $from_name;
+
     public function send_email()
     {
-        $config = Array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'xxx',
-            'smtp_pass' => 'xxx',
-            'mailtype'  => 'html', 
-            'charset'   => 'iso-8859-1'
-        );
-        $this->load->library('email', $config);
-        
-        $this->email->from($this->from, 'Your Name');
+       
+        // Load email library and passing configured values to email library
+        $this->load->library('email');
+        // Sender email address
+        $this->email->from("mailerunioil@gmail.com","Mailer");
+        // Receiver email address.for single email
         $this->email->to($this->to);
-
+        // Subject of email
         $this->email->subject($this->subject);
+        // Message in email
         $this->email->message($this->message);
-        if($this->attachment != null)
-        {
-            if(is_array($this->attachment))
-            {
-                foreach($this->attachment as $row)
-                {
-                    $this->email->attach($row);
-                }
-            }
-            else
-            {
-                $this->email->attach($this->attachment);
-            }
+        // It returns boolean TRUE or FALSE based on success or failure
+        try{
+            $this->email->send();
+            echo 'Message has been sent.';
+        }catch(Exception $e){
+            echo $e->getMessage();
         }
-        $this->email->send();
+
     }
 }
 
