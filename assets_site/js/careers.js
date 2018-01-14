@@ -18,9 +18,9 @@ $(document).ready(function() {
 			}
 			if(filename != "")
 			{      
-				var body = "First Name: " + $("#careers-fname").val() +  "<br>Last Name: " + $("#careers-lname").val() + "<br>Franchise Address:" + $("#careers-address").val() + 	
-				"<br>Franchise City: " + $("#careers-city").val() + 
-				"<br>Franchise Zipcode: " + $("#careers-zipcode").val() + 
+				var body = "First Name: " + $("#careers-fname").val() +  "<br>Last Name: " + $("#careers-lname").val() + "<br>Careers Address:" + $("#careers-address").val() + 	
+				"<br>City: " + $("#careers-city").val() + 
+				"<br>Zipcode: " + $("#careers-zipcode").val() + 
 				"<br>Birthday:" + $("#careers-birthday").val() + 
 				"<br>Contact Number: " + $("#careers-number").val() + 
 				"<br>Email Address: " + $("#careers-email").val() + "<br>Applying For: " + $("#careers-opening option:selected").text() ;
@@ -28,7 +28,7 @@ $(document).ready(function() {
 				var file_data = $('#careers-letter').prop('files')[0];   
 				var form_data = new FormData();                  
 				form_data.append('file', file_data); 
-				form_data.append("subject", "Franchise Form Response"); 
+				form_data.append("subject", "Careers Form Response"); 
 				form_data.append("body", body); 
 				form_data.append("to",  $("#careers-email").val()); 
 				 $.ajax({

@@ -19,8 +19,8 @@ $(document).ready(function() {
 			if(filename != "")
 			{      
 				var body = "First Name: " + $("#franchise-fname").val() +  "<br>Last Name: " + $("#franchise-lname").val() + "<br>Franchise Address:" + $("#franchise-address").val() + 	
-				"<br>Franchise City: " + $("#franchise-city").val() + 
-				"<br>Franchise Zipcode: " + $("#franchise-zipcode").val() + 
+				"<br>City: " + $("#franchise-city").val() + 
+				"<br>Zipcode: " + $("#franchise-zipcode").val() + 
 				"<br>Birthday:" + $("#franchise-birthday").val() + 
 				"<br>Contact Number: " + $("#franchise-number").val() + 
 				"<br>Email Address: " + $("#franchise-email").val() ;

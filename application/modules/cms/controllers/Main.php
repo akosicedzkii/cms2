@@ -251,4 +251,37 @@ class Main extends CI_Controller {
 		echo $this->users_model->update_profile();
 	}
 	
+	public function visitor_map()
+	{
+		$filter = $this->input->get("filter");
+		$return = "";
+		if($filter == "all")
+		{
+			$this->db->distinct();
+			$this->db->select("country");
+			$return = $this->db->get("visit_counts")->result();
+		}
+		else if($filter == "this_month")
+		{
+			$return = $this->db->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->result();
+		}
+		else
+		{
+			$return = $this->db->where("day(date_created)",date("d"))->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->result();
+		}
+		$result ="";
+		foreach($return as $row)
+		{	
+			$result .= '{"zoomLevel": 5,"scale": 0.5,"title": "'.$row->country.'","latitude": '.$row->lat.',"longitude": '.$row->long.'},';
+		}
+		$result = rtrim($result,",");
+		print_r($result);
+	}
+
+	public function test()
+	{
+		$query = "SELECT country,count(*) FROM visit_counts GROUP BY country";
+		$result = $this->db->query($query)->result();
+		var_dump($result);
+	}
 }
