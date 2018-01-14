@@ -123,6 +123,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="inputBirthday" class="col-sm-4 control-label">Birthday</label>
+
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputBirthday" placeholder="Birthday">
+                            <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="inputContact" class="col-sm-4 control-label">Contact Number</label>
 
                             <div class="col-sm-8">
@@ -213,7 +221,9 @@
     };
 
     var main = function(){
-
+        $("#inputBirthday").datepicker({
+            format: 'yyyy-mm-dd'
+            });
         var table = $('#userList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
@@ -265,6 +275,7 @@
                 var address = $("#inputAddress").val();
                 var role = $("#inputRole").val();
                 var user_id = $("#userID").val();
+                var birthday = $("#inputBirthday").val();
 
                 var data = {
                     "user_id" : user_id,
@@ -276,7 +287,8 @@
                     "email_address" : email_address,
                     "contact_number" : contact_number,
                     "address" : address,
-                    "role" : role
+                    "role" : role,
+                    "birthday" : birthday
                 };
                 
                 var url = "<?php echo base_url()."cms/users/add_user";?>";
@@ -376,6 +388,7 @@
                     $("#inputEmail").val(data.user_profile.email_address);
                     $("#inputContact").val(data.user_profile.contact_number);
                     $("#inputAddress").val(data.user_profile.address);
+                    $("#inputBirthday").val(data.user_profile.birthday);
                     $("#inputRole").select2(inputRoleConfig).val(data.user_account.role_id).trigger("change");
                     $("#userModal").modal("show");
                 },

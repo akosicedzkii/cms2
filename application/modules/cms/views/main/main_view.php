@@ -19,11 +19,11 @@
       <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-star"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Number of Products</span>
-              <span class="info-box-number"><?php echo count($products)?></span>
+              <span class="info-box-text">Total Site Views</span>
+              <span class="info-box-number"><?php echo $all_visitors;?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -36,7 +36,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Views this Month</span>
-              <span class="info-box-number"><?php echo count($month_visitors)?></span>
+              <span class="info-box-number"><?php echo $month_visitors;?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -53,7 +53,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Unique views</span>
-              <span class="info-box-number"><?php echo count($unique_visitors)?></span>
+              <span class="info-box-number"><?php echo $unique_visitors?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -62,11 +62,11 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-glasses-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Number of Users</span>
-              <span class="info-box-number"><?php echo count($users)?></span>
+              <span class="info-box-text">Views Today</span>
+              <span class="info-box-number"><?php echo $today_visitors?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -84,11 +84,11 @@
           <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">Visitors Map
-                <!--<select id="filter">
+                <select id="filter">
                   <option value="today">Today</option>
                   <option value="this_month">This month</option>
                   <option value="all">All</option>
-                </select>-->
+                </select>
               </h3>
 
               <div class="box-tools pull-right">
@@ -122,7 +122,7 @@
         <div class="col-md-4">
           <!-- Info Boxes Style 2 -->
           <div class="info-box bg-yellow">
-            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Contact Us Response</span>
@@ -132,7 +132,7 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-green">
-            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Franchise Request Submissions</span>
@@ -142,7 +142,7 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-red">
-            <span class="info-box-icon"><i class="ion ion-ios-chatbubble-outline"></i></span>
+            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Careers Submissions</span>
@@ -153,11 +153,11 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-aqua">
-            <span class="info-box-icon"><i class="ion-ios-cloud-download-outline"></i></span>
+            <span class="info-box-icon"><i class="ion-android-bus"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Number of Stations</span>
-              <span class="info-box-number"><?php echo count($stations);?></span>
+              <span class="info-box-number"><?php echo $stations;?></span>
 
             </div>
             <!-- /.info-box-content -->
@@ -260,7 +260,7 @@
                           }
                             ?>
                                 <li>
-                                <img style="height:60px;" src="<?php echo base_url("assets/images/person-icon-blue.png");?>" alt="User Image">
+                                <img style="height:60px;" src="<?php echo base_url("uploads/profile_image/").$row->profile_image;?>" alt="User Image">
                                 <a class="users-list-name" data-toggle="tooltip" title="<?php echo ucwords(str_replace("  "," ",$row->first_name." ".$row->middle_name. " " .$row->last_name));?>" href="#"><?php echo ucwords(str_replace("  "," ",$row->first_name." ".$row->middle_name. " " .$row->last_name));?></a>
                                 <span class="users-list-date"><?php echo date("Y-m-d",strtotime($row->date_created));?></span>
                                 </li>
@@ -381,20 +381,25 @@
    var main = function()
    {
 
-    $.ajax({
-        type: "get",
-        url: "<?php echo base_url("cms/main/visitor_map");?>" ,
-        success: function(data){
-            data = JSON.parse( "["+ data + "]" );
-            initialize_map(data);
-            map.zoomOut();
-              
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
-        }
+    $("#filter").change(function(){
+        var data = {"filter" : $("#filter").val() } 
+        $.ajax({
+          type: "get",
+          data: data,
+          url: "<?php echo base_url("cms/main/visitor_map");?>" ,
+          success: function(data){
+              data = JSON.parse( "["+ data + "]" );
+              initialize_map(data);
+              map.zoomOut();
+                
+          },
+          error: function (request, status, error) {
+              alert(request.responseText);
+          }
+      });
     });
     
+    $("#filter").change();
    }
    $(document).ready(main);
 </script>

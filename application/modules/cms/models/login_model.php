@@ -37,7 +37,8 @@ class Login_model extends CI_Model {
                     $result = $result->row();
                     $full_name = str_replace("  "," ",ucwords($result->first_name." ".$result->middle_name." ".$result->last_name));
                     $this->session->set_userdata("FULLNM",$full_name);
-                    
+                    $this->session->set_userdata("USERIMG",$result->profile_image);
+
                     $this->logs->log = "Logged in" ;
                     $this->logs->details = $username;
                     $this->logs->module = "login";

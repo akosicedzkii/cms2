@@ -26,6 +26,7 @@ class Users extends CI_Controller {
         $this->users_model->address = $this->input->post("address");
         $this->users_model->role = $this->input->post("role");
         $this->users_model->email_address = $this->input->post("email_address");
+        $this->users_model->birthday = $this->input->post("birthday");
 		$existing =  $this->users_model->check_username_exist("add");
 		if(!$existing)
 		{
@@ -47,6 +48,7 @@ class Users extends CI_Controller {
         $this->users_model->address = $this->input->post("address");
         $this->users_model->role = $this->input->post("role");
         $this->users_model->email_address = $this->input->post("email_address");
+        $this->users_model->birthday = $this->input->post("birthday");
         $this->users_model->user_id = $this->input->post("user_id");
         $existing =  $this->users_model->check_username_exist("edit");
 		if(!$existing)

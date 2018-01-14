@@ -46,7 +46,7 @@ class Main extends CI_Controller {
 		$module["menu"] = $this->user_access;
 		$this->db->distinct();
 		$this->db->select("ip_address");
-		$module["unique_visitors"] = $this->db->get("visit_counts")->result();
+		$module["unique_visitors"] = $this->db->get("visit_counts")->num_rows();
 		$module["products"] = $this->db->get("products")->result();
 
 		$this->db->order_by("user_accounts.id","desc");
@@ -55,12 +55,16 @@ class Main extends CI_Controller {
 		$this->db->join('user_profiles', 'user_profiles.user_id = user_accounts.id');
 		$module["users"]= $this->db->get()->result();
 
-		$module["month_visitors"] = $this->db->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->result();
+		$module["month_visitors"] = $this->db->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->num_rows();
 		
-		$module["stations"] = $this->db->order_by("id","desc")->get("stations")->result();
+		$module["stations"] = $this->db->order_by("id","desc")->get("stations")->num_rows();
 		
 		$module["submissions_counter"] = $this->db->get("submissions_counter")->row();
 
+		$module["today_visitors"] = $this->db->where("day(date_created)",date("d"))->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->num_rows();
+		
+		$module["all_visitors"] = $this->db->get("visit_counts")->num_rows();
+		
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/main_view',$module);
 		$this->load->view('main/template/footer');
@@ -237,7 +241,39 @@ class Main extends CI_Controller {
     }
     
     public function update_profile()
-	{
+	{   
+		$upload_path = './uploads/profile_image/'; 
+        if(isset($_FILES["profile_image"]["name"]))  
+        {  
+            
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0777, TRUE);
+            } 
+
+            $this->db->where("id",$this->session->userdata("USERID"));
+			$result = $this->db->get("user_profiles");
+			if($result->row()->profile_image != null)
+			{
+				if($result->row()->profile_image != "default_dp.png")
+				{
+					unlink($upload_path.$result->row()->profile_image);
+				}
+			}
+            $config['upload_path'] = $upload_path;  
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
+            $new_filename = str_replace(" ","_","profile_".$this->input->post("username"))."_".date("YmdHisU");
+            $config['file_name']= $new_filename ;
+            $this->load->library('upload', $config); 
+            if(!$this->upload->do_upload('profile_image',$new_filename))  
+            {  
+                echo $this->upload->display_errors(); 
+                die(); 
+            }  
+                
+             
+            $data = $this->upload->data();
+            $this->users_model->profile_image = $data["file_name"];
+		}
         $this->users_model->username = $this->input->post("username");
         $this->users_model->first_name = $this->input->post("first_name");
         $this->users_model->middle_name = $this->input->post("middle_name");
@@ -248,6 +284,7 @@ class Main extends CI_Controller {
         $this->users_model->old_password = $this->input->post("old_password");
         $this->users_model->email_address = $this->input->post("email_address");
         $this->users_model->user_id = $this->session->userdata("USERID");
+        $this->users_model->birthday = $this->input->post("birthday");
 		echo $this->users_model->update_profile();
 	}
 	
@@ -257,9 +294,8 @@ class Main extends CI_Controller {
 		$return = "";
 		if($filter == "all")
 		{
-			$this->db->distinct();
-			$this->db->select("country");
 			$return = $this->db->get("visit_counts")->result();
+		
 		}
 		else if($filter == "this_month")
 		{
@@ -270,11 +306,14 @@ class Main extends CI_Controller {
 			$return = $this->db->where("day(date_created)",date("d"))->where("month(date_created)",date("m"))->where("year(date_created)",date("Y"))->get("visit_counts")->result();
 		}
 		$result ="";
-		foreach($return as $row)
-		{	
-			$result .= '{"zoomLevel": 5,"scale": 0.5,"title": "'.$row->country.'","latitude": '.$row->lat.',"longitude": '.$row->long.'},';
+		if($return != null)
+		{
+			foreach($return as $row)
+			{	
+					$result .= '{"zoomLevel": 5,"scale": 0.5,"title": "'.$row->country.'","latitude": '.$row->lat.',"longitude": '.$row->long.'},';
+			}
+			$result = rtrim($result,",");
 		}
-		$result = rtrim($result,",");
 		print_r($result);
 	}
 

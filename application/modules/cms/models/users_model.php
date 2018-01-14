@@ -14,6 +14,8 @@ class Users_model extends CI_Model {
         public $role;
         public $user_id;
         public $old_password;
+        public $profile_image;
+        public $birthday;
 
         public function insert_user()
         {
@@ -35,6 +37,8 @@ class Users_model extends CI_Model {
                 $data_profile["middle_name"] = $this->middle_name; 
                 $data_profile["contact_number"] = $this->contact_number;
                 $data_profile["email_address"] = $this->email_address;
+                $data_profile["birthday"] = $this->birthday;
+                $data_profile["profile_image"] = "default_dp.png";
                 $data_profile["address"] = $this->address; 
                 $data_profile["created_by"] = $this->session->userdata("USERID");
                 $data_profile["date_created"] = date("Y-m-d H:i:s A");
@@ -71,6 +75,7 @@ class Users_model extends CI_Model {
                 $data_profile["middle_name"] = $this->middle_name; 
                 $data_profile["contact_number"] = $this->contact_number;
                 $data_profile["email_address"] = $this->email_address;
+                $data_profile["birthday"] = $this->birthday;
                 $data_profile["address"] = $this->address; 
                 $data["date_modified"] = date("Y-m-d H:i:s A");
                 $data["modified_by"] = $this->session->userdata("USERID");
@@ -131,12 +136,18 @@ class Users_model extends CI_Model {
                         $data["modified_by"] = $this->session->userdata("USERID");
                         $this->db->where("id",$this->user_id);
                         $result = $this->db->update('user_accounts', $data);
-
+                        if($this->profile_image)
+                        {
+                                $data_profile["profile_image"] = $this->profile_image; 
+                                
+                                $this->session->set_userdata("USERIMG",$this->profile_image);
+                        }
                         $data_profile["last_name"] = $this->last_name; 
                         $data_profile["first_name"] = $this->first_name;
                         $data_profile["middle_name"] = $this->middle_name; 
                         $data_profile["contact_number"] = $this->contact_number;
                         $data_profile["email_address"] = $this->email_address;
+                        $data_profile["birthday"] = $this->birthday;
                         $data_profile["address"] = $this->address; 
                         $data["date_modified"] = date("Y-m-d H:i:s A");
                         $data["modified_by"] = $this->session->userdata("USERID");

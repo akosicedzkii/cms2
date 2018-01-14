@@ -13,6 +13,15 @@
                     <form class="form-horizontal" id="profileForm" data-toggle="validator">
                         <div class="box-body">
                           <div class="form-group">
+                              <label for="inputProfilePhoto" class="col-sm-4 control-label">Profile Photo</label>
+
+                              <div class="col-sm-8">
+                              <input type="file" class="form-control" id="inputProfilePhoto" placeholder="Profile Photo">
+                              <div class="help-block with-errors"></div>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
                               <label for="inputProfileUsername" class="col-sm-4 control-label">Username</label>
 
                               <div class="col-sm-8">
@@ -49,6 +58,14 @@
 
                               <div class="col-sm-8">
                               <input type="text" class="form-control" id="inputProfileContact" placeholder="Contact Number">
+                              <div class="help-block with-errors"></div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="inputProfileBirthday" class="col-sm-4 control-label">Birthday</label>
+
+                              <div class="col-sm-8">
+                              <input type="text" class="form-control" id="inputProfileBirthday" placeholder="Birthday">
                               <div class="help-block with-errors"></div>
                               </div>
                           </div>
@@ -107,6 +124,9 @@
 <!-- /.modal-dialog -->
 </div>
 <script>
+    $("#inputProfileBirthday").datepicker({
+            format: 'yyyy-mm-dd'
+            });
   $("#viewProfile").click(function(e){
     e.preventDefault();
         $.ajax({
@@ -123,6 +143,7 @@
                     $("#inputProfileContact").val(data.user_profile.contact_number);
                     $("#inputProfileAddress").val(data.user_profile.address);
                     
+                    $("#inputProfileBirthday").val(data.user_profile.birthday);
                     $("#inputProfilePassword").val("");
                     $("#inputProfilePassword2").val("");
                     $("#profileModal").modal("show");
@@ -142,37 +163,43 @@
            if (e.isDefaultPrevented()) {
                btn.button("reset"); 
            } else {
-               e.preventDefault();
-               var username = $("#inputProfileUsername").val();
-               var password = $("#inputProfilePassword2").val();
-               var old_password = $("#inputProfileOldPassword").val();
-               var first_name = $("#inputProfileFirstname").val();
-               var middle_name = $("#inputProfileMiddlename").val();
-               var last_name = $("#inputProfileLastname").val();
-               var email_address = $("#inputProfileEmail").val();
-               var contact_number = $("#inputProfileContact").val();
-               var address = $("#inputProfileAddress").val();
-               var user_id = $("#userID").val();
+                e.preventDefault();
+                var username = $("#inputProfileUsername").val();
+                var password = $("#inputProfilePassword2").val();
+                var old_password = $("#inputProfileOldPassword").val();
+                var first_name = $("#inputProfileFirstname").val();
+                var middle_name = $("#inputProfileMiddlename").val();
+                var last_name = $("#inputProfileLastname").val();
+                var email_address = $("#inputProfileEmail").val();
+                var contact_number = $("#inputProfileContact").val();
+                var address = $("#inputProfileAddress").val();
+                var birthday = $("#inputProfileBirthday").val();
+                var user_id = $("#userID").val();
+                var formData = new FormData();
 
-               var data = {
-                   "username" : username,
-                   "password" : password,
-                   "old_password" : old_password,
-                   "first_name" : first_name,
-                   "middle_name" : middle_name,
-                   "last_name" :  last_name,
-                   "email_address" : email_address,
-                   "contact_number" : contact_number,
-                   "address" : address
-               };
+                formData.append('profile_image', $('#inputProfilePhoto').prop("files")[0]);
+
+                formData.append("username" , username);
+                formData.append("password" , password);
+                formData.append("old_password" , old_password);
+                formData.append("first_name" , first_name);
+                formData.append("middle_name" , middle_name);
+                formData.append("last_name" ,  last_name);
+                formData.append("email_address" , email_address);
+                formData.append("contact_number" , contact_number);
+                formData.append("address" , address);
+              
+                formData.append("birthday" , birthday);
                
               url =  "<?php echo base_url()."cms/main/update_profile";?>";
               message = "Profile successfully updated";
           
                $.ajax({
-                       data: data,
+                       data: formData,
                        type: "post",
                        url: url ,
+                        processData: false,
+                        contentType: false,
                        success: function(data){
                            //alert("Data Save: " + data);
                            if(data){
