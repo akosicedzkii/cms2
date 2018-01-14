@@ -28,6 +28,9 @@ class Visitor_counter_model extends CI_Model {
                     $data["time"] = date("Y-m-d H:i:s A");
                     $data["date_created"] = date("Y-m-d");
                     $data["country"] = $data_curl["country_name"];
+                    $data["region"] = $data_curl["region_name"];
+                    $data["city"] = $data_curl["city"];
+                    $data["country_code"] = $data_curl["country_code"];
                     $this->db->insert("visit_counts",$data);
                 }
         }

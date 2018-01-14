@@ -310,7 +310,7 @@ class Main extends CI_Controller {
 		{
 			foreach($return as $row)
 			{	
-					$result .= '{"zoomLevel": 5,"scale": 0.5,"title": "'.$row->country.'","latitude": '.$row->lat.',"longitude": '.$row->long.'},';
+					$result .= '{"zoomLevel": 5,"scale": 0.5,"title": "'.str_replace(",,","",$row->city.",".$row->region.",".$row->country).'","latitude": '.$row->lat.',"longitude": '.$row->long.'},';
 			}
 			$result = rtrim($result,",");
 		}
