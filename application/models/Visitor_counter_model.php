@@ -4,9 +4,8 @@ class Visitor_counter_model extends CI_Model {
     
         public function insert_visitor()
         {
-                $externalContent = file_get_contents('http://checkip.dyndns.com/');
-                preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $externalContent, $m);
-                $externalIp = $m[1];
+                $externalIp = $_SERVER['REMOTE_ADDR']?:($_SERVER['HTTP_X_FORWARDED_FOR']?:$_SERVER['HTTP_CLIENT_IP']);
+                
 
                 $this->db->where("ip_address",$externalIp);
                 $this->db->where("date_created",date("Y-m-d"));
