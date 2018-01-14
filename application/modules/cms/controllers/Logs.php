@@ -43,4 +43,17 @@ class Logs extends CI_Controller {
         }
         echo json_encode( $output );
     }
+
+    public function delete_all_logs()
+	{
+        $action = $this->input->post("action");
+        if($action == "delete")
+        {
+            echo $result = $this->db->truncate("logs");
+            $this->logs->log = "Deleted All Logs" ;
+            $this->logs->created_by = $this->session->userdata("USERID");
+            $this->logs->insert_log();
+        }
+        
+	}
 }

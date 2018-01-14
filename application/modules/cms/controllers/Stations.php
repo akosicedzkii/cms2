@@ -221,7 +221,6 @@ class Stations extends CI_Controller {
                             $data_prices["price"] = $row[$fuel_prices];
                             $this->db->insert("stations_fuel_prices",$data_prices);
                             $fuel_prices++;
-                            var_dump($row[$fuel_prices]);
                         }
                     }
                     $counter++;
