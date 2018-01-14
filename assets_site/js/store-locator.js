@@ -284,6 +284,7 @@ var setResults = function() {
 	$('#step-3 .selected-branch').html(stores[area]['branches'][branch]['name']);
 	$('#step-3 .branch-map').attr('src', stores[area]['branches'][branch]['map-url']);
 	var data = { "station_name" : stores[area]['branches'][branch]['name'] , "branch_name" : stores[area]['name'] };
+	$("#tbl-price").html("");
 	$.ajax({
 		data: data,
 		type: "post",

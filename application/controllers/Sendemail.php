@@ -7,7 +7,6 @@ class Sendemail extends CI_Controller {
     {
         parent::__construct();
 		$this->settings_model->get_settings();  
-		$this->v_counter->insert_visitor();   
 	}
 	
 	public function send_contact_us()

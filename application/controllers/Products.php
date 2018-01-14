@@ -5,11 +5,11 @@ class Products extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->settings_model->get_settings();  
-		$this->v_counter->insert_visitor();   
+        $this->settings_model->get_settings();    
 	}
 	public function fuel()
 	{
+		$this->v_counter->insert_visitor(); 
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "FUEL - Unioil";
 
@@ -50,6 +50,7 @@ class Products extends CI_Controller {
     
 	public function asphalt()
 	{
+		$this->v_counter->insert_visitor(); 
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "ASPHALT - Unioil";
 		$data["asphalt_products"] = $this->db->where("product_category_id","3")->get("products")->result();
@@ -61,6 +62,7 @@ class Products extends CI_Controller {
     
 	public function lubricants()
 	{
+		$this->v_counter->insert_visitor(); 
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "LUBRICANTS - Unioil";
 		$data["lubricants_products"] = $this->db->where("product_category_id","2")->order_by("series_name","DESC")->get("product_series")->result();

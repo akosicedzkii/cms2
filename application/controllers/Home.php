@@ -7,10 +7,10 @@ class Home extends CI_Controller {
     {
         parent::__construct();
         $this->settings_model->get_settings();  
-		$this->v_counter->insert_visitor();   
     }
 	public function index()
 	{
+		$this->v_counter->insert_visitor();   
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "HOME - Unioil";
 		$data["banners"] = $this->db->where("status","1")->order_by("date_created","asc")->get("banners")->result();
