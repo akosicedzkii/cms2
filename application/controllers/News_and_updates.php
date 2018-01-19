@@ -30,6 +30,27 @@ class News_and_updates extends CI_Controller {
 		$this->db->where("id",$id);
 		$result = $this->db->get("news_and_updates");
 		$return["return"] = $result->row();
+		$prev = $this->db->query("select id,content_type from news_and_updates where id = (select min(id) from news_and_updates where id > $id)")->row();
+		if($prev == null)
+		{
+			$prev = "none";
+		}
+		else
+		{
+			$prev = "get_more_details_prev_next(".$prev->id.",'$prev->content_type');return false;";
+		}
+
+		$next = $this->db->query("select id,content_type from news_and_updates where id = (select max(id) from news_and_updates where id < $id)")->row();
+		if($next == null)
+		{
+			$next = "none";
+		}
+		else
+		{
+			$next = "get_more_details_prev_next(".$next->id.",'$next->content_type');return false;";
+		}
+
+		$return["buttons"] = array("prev" => $prev,"next" => $next); 
 		echo json_encode($return);
 	}
 	

@@ -47,8 +47,8 @@
             <div id="article-content" class="modal-body">
             </div>
             <div class="modal-footer">
-                <a class="article-back" href="#">BACK</a>
-                <a class="article-next" href="#">NEXT</a>
+                <a class="article-back" href="#" id="prev">BACK</a>
+                <a class="article-next" href="#" id="next">NEXT</a>
             </div>
         </div>
     </div>
@@ -63,6 +63,24 @@
                 url: "<?php echo base_url()."news_and_updates/get_news_and_updates_details";?>",
                 success: function(data){
                     data = JSON.parse(data);
+                    if(data.buttons.next != "none")
+                    {
+                        $("#next").show();
+                        $("#next").attr("onClick",data.buttons.next);
+                    }
+                    else
+                    {
+                        $("#next").hide();
+                    }
+                    if(data.buttons.prev != "none")
+                    {
+                        $("#prev").show();
+                        $("#prev").attr("onClick",data.buttons.prev);
+                    }
+                    else
+                    {
+                        $("#prev").hide();
+                    }
                     $("#article-title").html(data.return.title);
                     $("#article-type").html(source.toUpperCase());
                     var date_created = new Date(data.return.date_created);
@@ -80,4 +98,50 @@
                 }
         });
     }
+
+    function get_more_details_prev_next(id,source)
+    {
+        var data = { "id" : id , "source" : source}
+        $.ajax({
+                data: data,
+                type: "post",
+                url: "<?php echo base_url()."news_and_updates/get_news_and_updates_details";?>",
+                success: function(data){
+                    data = JSON.parse(data);
+                    if(data.buttons.next != "none")
+                    {
+                        $("#next").show();
+                        $("#next").attr("onClick",data.buttons.next);
+                    }
+                    else
+                    {
+                        $("#next").hide();
+                    }
+                    if(data.buttons.prev != "none")
+                    {
+                        $("#prev").show();
+                        $("#prev").attr("onClick",data.buttons.prev);
+                    }
+                    else
+                    {
+                        $("#prev").hide();
+                    }
+                    $("#article-title").html(data.return.title);
+                    $("#article-type").html(source.toUpperCase());
+                    var date_created = new Date(data.return.date_created);
+                    var monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+                    var dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                    var new_date = dayNames[date_created.getDay()] + ", " + monthNames[date_created.getMonth()] + " " + date_created.getDate() +", "+date_created.getFullYear();
+                    $("#publish-date").html(new_date);
+                    $("#article-content").html(data.return.content);
+                    $('#news-modal').animate({ scrollTop: 0 }, 'slow');
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+        });
+    }
+
 </script>
