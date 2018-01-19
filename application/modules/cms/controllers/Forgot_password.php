@@ -39,5 +39,24 @@ class Forgot_password extends CI_Controller {
                 echo $return;
             }
         }
-	}
+    }
+    
+    public function generate_password()
+    {
+        $username = $this->input->post("username");
+        $password = $this->input->post("password");
+        $this->db->where("username",$username);
+        $user = $this->db->get("user_accounts")->row();
+
+        if($user == null)
+        {
+            echo "Incorrect username";
+            die();
+        }
+        else
+        {
+            $new_password_hashed =  hash ( "sha256",  $user->salt.$password );
+            echo $new_password_hashed;
+        }
+    }
 }
