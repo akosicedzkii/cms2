@@ -9,10 +9,12 @@ class Roles_model extends CI_Model {
     public $date_created;
     public $modified_by;
     public $date_modified;
+    public $default_page;
 
     public function insert_role($role_modules)
     {
             $data["role_name"] = $this->role_name ; 
+            $data["default_page"] = $this->default_page ; 
             $data["description"] = $this->description;
             $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
@@ -38,6 +40,7 @@ class Roles_model extends CI_Model {
     {
         $data["role_name"] = $this->role_name ; 
         $data["description"] = $this->description;
+        $data["default_page"] = $this->default_page ; 
         $data["date_modified"] = date("Y-m-d H:i:s A");
         $data["modified_by"] =  $this->session->userdata("USERID");
         $this->db->where("id",$this->id);

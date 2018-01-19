@@ -53,6 +53,24 @@ class Products extends CI_Controller {
                         $this->products_model->product_sub_image = $data_inner["file_name"];
                     }
                 }
+
+                if (!empty($_FILES['pdf']['name']))
+                {
+                    $config_pdf['upload_path'] = $upload_path;  
+                    $config_pdf['allowed_types'] = 'pdf';  
+                    $new_filename_pdf = str_replace(" ","_",$this->input->post("product_name"))."_inner_".date("YmdHisU");
+                    $config_pdf['file_name']= $new_filename_pdf ;
+                    $this->load->library('upload', $config_pdf); 
+                    if(!$this->upload->do_upload('pdf',$new_filename_pdf))  
+                    {  
+                        echo $this->upload->display_errors(); 
+                        die(); 
+                    }else{
+                        $data_pdf = $this->upload->data();
+                        $this->products_model->pdf = $data_pdf["file_name"];
+                    }
+                }
+
                 $this->products_model->product_vendor_id = $this->input->post("vendor_id");
                 $this->products_model->product_category_id = $this->input->post("product_category_id");
                 if($this->input->post("product_series_id") != "None")
@@ -72,10 +90,10 @@ class Products extends CI_Controller {
 	public function edit_products()
 	{
         $products_id = $this->input->post("id");
+        $upload_path = './uploads/products/'; 
         if(isset($_FILES["product_image"]["name"]))  
         {  
             
-           $upload_path = './uploads/products/'; 
             if (!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             } 
@@ -114,6 +132,24 @@ class Products extends CI_Controller {
                 $this->products_model->product_sub_image = $data_sub["file_name"];
             }
         }
+
+        if (!empty($_FILES['pdf']['name']))
+        {
+            $config_pdf['upload_path'] = $upload_path;  
+            $config_pdf['allowed_types'] = 'pdf';  
+            $new_filename_pdf = str_replace(" ","_",$this->input->post("product_name"))."_inner_".date("YmdHisU");
+            $config_pdf['file_name']= $new_filename_pdf ;
+            $this->load->library('upload', $config_pdf); 
+            if(!$this->upload->do_upload('pdf',$new_filename_pdf))  
+            {  
+                echo $this->upload->display_errors(); 
+                die(); 
+            }else{
+                $data_pdf = $this->upload->data();
+                $this->products_model->pdf = $data_pdf["file_name"];
+            }
+        }
+
         $this->products_model->product_vendor_id = $this->input->post("vendor_id");
         $this->products_model->product_category_id = $this->input->post("product_category_id");
         $this->products_model->product_name = $this->input->post("product_name"); 

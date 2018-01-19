@@ -51,6 +51,7 @@ class Roles extends CI_Controller {
     public function add_role()
     {
         $this->roles_model->role_name = $this->input->post("name");
+        $this->roles_model->default_page = $this->input->post("default_page");
         $this->roles_model->description = $this->input->post("description");
         echo $this->roles_model->insert_role(explode(",",$this->input->post("role_modules")));
     }
@@ -59,6 +60,7 @@ class Roles extends CI_Controller {
     {
         $this->roles_model->id = $this->input->post("role_id");
         $this->roles_model->role_name = $this->input->post("name");
+        $this->roles_model->default_page = $this->input->post("default_page");
         $this->roles_model->description = $this->input->post("description");
         echo $this->roles_model->update_role(explode(",",$this->input->post("role_modules")));
     }
@@ -95,7 +97,7 @@ class Roles extends CI_Controller {
         {
             array_push($role_modules,$row->module);
         }
-        $this->db->select("id,role_name,description,date_created,date_modified,created_by,modified_by");
+        $this->db->select("id,role_name,description,default_page,date_created,date_modified,created_by,modified_by");
         $this->db->where("id",$id);
         $result = $this->db->get("roles");
         $roles = $result->row();

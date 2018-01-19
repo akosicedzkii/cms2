@@ -4,6 +4,7 @@ class Login_model extends CI_Model {
     
         public $username;
         public $password;
+        public $email_address;
 
         public function validate_login()
         {
@@ -50,6 +51,60 @@ class Login_model extends CI_Model {
                 {
                     return "false";
                 }
+            }
+        }
+
+        public function forgot_password()
+        {
+            $this->db->where("username",$this->username);
+            $query = $this->db->get("user_accounts");
+            if($query->row() == null)
+            {
+                echo "User not found";
+            }
+            else
+            {
+                
+                $username = $query->row()->username;
+                $user_id = $query->row()->id;
+                $salt = $query->row()->salt;
+                if($username != $this->username)
+                {
+                    echo "User not found";
+                    die();
+                }
+                $new_password = random_string('alnum', 8);
+                $new_password_hashed =  hash ( "sha256",  $salt.$new_password );
+                $this->db->where("user_id",$user_id);
+                $result = $this->db->get("user_profiles");
+                $email_address = $result->row()->email_address;
+                if($email_address != $this->email_address)
+                {
+                    echo "Email Address not found";
+                    die();
+                }
+                //send new password to email
+                $this->db->where("id",$user_id);
+                $data["password"] = $new_password_hashed;
+                $this->db->update("user_accounts",$data);
+                $to = $email_address;
+                $body = "Username: ".$username."<br>Your new password is: " . $new_password ."<br>Login on: ".base_url("cms/login");;
+                $subject = "Password Reset(".SITE_NAME.")";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                $server_output = curl_exec ($ch);
+
+                curl_close ($ch);
+                $this->logs->log = "Reset Password" ;
+                $this->logs->details = $username;
+                $this->logs->module = "forgot_password";
+                $this->logs->created_by = $this->session->userdata("USERID");
+                $this->logs->insert_log();
+                return "true";
             }
         }
 

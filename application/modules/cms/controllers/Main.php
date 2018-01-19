@@ -19,6 +19,7 @@ class Main extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	private $user_access;
+	private $default_page;
     public function __construct()
     {
         parent::__construct();
@@ -29,19 +30,20 @@ class Main extends CI_Controller {
             redirect(base_url()."cms/login");
 		}
 		$this->user_access = $this->settings_model->get_user_access();
+		$this->default_page = $this->settings_model->get_role_default_page();
     }
 
 	public function index()
 	{
-		/*if (in_array("branches", $menu)) 
-		{
-
-		}*/
-		redirect(base_url()."cms/main/dashboard");
+		
+		redirect(base_url()."cms/main/".$this->default_page);
     }
 	public function dashboard()
 	{
-		
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->db->distinct();
@@ -71,6 +73,10 @@ class Main extends CI_Controller {
 	}
     public function users()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["roles"] = $this->db->get("roles")->result();
@@ -81,6 +87,10 @@ class Main extends CI_Controller {
 
 	public function roles()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -90,6 +100,10 @@ class Main extends CI_Controller {
 
 	public function banners()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -99,6 +113,10 @@ class Main extends CI_Controller {
 
 	public function mid_banners()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -108,6 +126,10 @@ class Main extends CI_Controller {
 
 	public function fuels()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -117,6 +139,10 @@ class Main extends CI_Controller {
 
 	public function station_location()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["branches"] = $this->db->get("branches")->result();
@@ -128,6 +154,10 @@ class Main extends CI_Controller {
 
 	public function branches()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["branches"] = $this->db->order_by("branch_name","ASC")->get("branches")->result();
@@ -138,6 +168,10 @@ class Main extends CI_Controller {
 
 	public function news()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -147,6 +181,10 @@ class Main extends CI_Controller {
 
 	public function updates()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -165,6 +203,10 @@ class Main extends CI_Controller {
 	
 	public function site_settings()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["site_settings"] = $this->db->get("site_settings")->row();
@@ -176,6 +218,10 @@ class Main extends CI_Controller {
 
 	public function products()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["product_categories"] = $this->db->order_by("category_name","ASC")->get("product_categories")->result();
 		$module["product_vendors"] = $this->db->order_by("vendor_name","ASC")->get("product_vendors")->result();
 		$module["product_series"] = $this->db->order_by("series_name","ASC")->get("product_series")->result();
@@ -188,6 +234,10 @@ class Main extends CI_Controller {
 
 	public function product_categories()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -197,6 +247,10 @@ class Main extends CI_Controller {
 
 	public function product_vendors()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
@@ -206,6 +260,10 @@ class Main extends CI_Controller {
 
 	public function product_series()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["product_categories"] = $this->db->order_by("category_name","ASC")->get("product_categories")->result();
 		$module["product_vendors"] = $this->db->order_by("vendor_name","ASC")->get("product_vendors")->result();
 		$module["module_name"] = $this->router->fetch_method();
@@ -219,10 +277,29 @@ class Main extends CI_Controller {
 
 	public function careers()
     {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/careers_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+
+
+	public function loyalty()
+    {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_view',$module);
 		$this->load->view('main/template/footer');
 	}
 

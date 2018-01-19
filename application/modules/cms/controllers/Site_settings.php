@@ -40,6 +40,31 @@ class Site_settings extends CI_Controller {
            
             $data["site_logo"] = $data_upload["file_name"];
         }
+
+        if(isset($_FILES["site_icon"]["name"]))  
+        {
+            $upload_path = './uploads/site_icon/'; 
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0777, TRUE);
+            } 
+
+            $result = $this->db->get("site_settings");
+            unlink($upload_path.$result->row()->site_logo);
+            $config_icon['upload_path'] = $upload_path;  
+            $config_icon['allowed_types'] = 'ico';  
+            $new_filename = "site_icon";
+            $config_icon['file_name']= $new_filename ;
+            $this->load->library('upload', $config_icon); 
+            if(!$this->upload->do_upload('site_icon',$new_filename))  
+            {  
+                echo $this->upload->display_errors(); 
+                die(); 
+            }  
+            $data_icon = $this->upload->data();
+           
+            $data["site_icon"] = $data_icon["file_name"];
+        }
+
         $data["site_name"] = $this->input->post("site_name");
         $data["company_address"] = $this->input->post("company_address");
         $data["contact_number"] = $this->input->post("contact_number");

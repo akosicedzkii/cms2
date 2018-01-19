@@ -24,6 +24,7 @@ class Settings_model extends CI_Model {
                         $careers_body_reply = "";
                         $franchise_subject_reply = "";
                         $careers_subject_reply = "";
+                        $site_icon = "";
                 }
                 else
                 {
@@ -44,10 +45,12 @@ class Settings_model extends CI_Model {
                         $careers_body_reply = $query->row()->careers_body_reply;
                         $franchise_subject_reply = $query->row()->franchise_subject_reply;
                         $careers_subject_reply = $query->row()->careers_subject_reply;
+                        $site_icon = $query->row()->site_icon;
 
                 }
                 define("SITE_NAME", $site_name);
                 define("SITE_LOGO", $site_logo);
+                define("SITE_ICON", $site_icon);
                 define("COMPANY_ADDRESS", $company_address);
                 define("CONTACT_NUMBER", $contact_number);
                 define("FAX_NUMBER", $fax_number);
@@ -82,6 +85,16 @@ class Settings_model extends CI_Model {
             }
             return $return;
         }
+        public function get_role_default_page()
+        {
+                $id = $this->session->userdata("USERID");
+                $this->db->where("id",$id);
+                $user_account = $this->db->get("user_accounts");
 
+                $this->db->where("id",$user_account->row()->role_id);
+                $this->db->select("default_page");
+                $default_page = $this->db->get("roles")->row()->default_page;
+                return $default_page;
+        }
 }
 

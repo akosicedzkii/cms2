@@ -185,8 +185,42 @@
                                         Logs
                                         </label>
                                     </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty">
+                                        Loyalty
+                                        </label>
+                                    </div>
+
                                     <div class="help-block with-errors"></div>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="inputDescription" class="col-sm-4 control-label">Default Page</label>
+
+                            <div class="col-sm-8">
+                            <select id="inputDefaultPage">
+                                <option value="dashboard">Dashboard</option>
+                                <option value="banners">Banners</option>
+                                <option value="branches">Branches
+                                <option value="station_location">Station Locations</option>
+                                <option value="news">News</option>
+                                <option value="updates">Updates</option>
+                                <option value="product_categories">Product Categories</option>
+                                <option value="product_series">Product Series</option>
+                                <option value="product_vendors">Product Vendors</option>
+                                <option value="products">Products</option>
+                                <option value="careers">Careers</option>
+                                <option value="roles">Roles</option>
+                                <option value="users">Users</option>
+                                <option value="site_settings">Site Settings</option>
+                                <option value="logs">Logs</option>
+                                <option value="loyalty">Loyalty</option>
+                            </select>
+                            <div class="help-block with-errors" id="errorDefault"></div>
                             </div>
                         </div>
                     </form>
@@ -228,6 +262,7 @@
 <!-- /.modal -->
 
 <script>
+    $("#inputDefaultPage").select2();
     var main = function(){
         var table = $('#roleList').DataTable({  
             'autoWidth'   : true,
@@ -254,11 +289,24 @@
         
         $("#roleForm").validator().on('submit', function (e) {
             var ids = [];
+            var is_default_in_selected = 0;
             $('#modules:checked').each(function(i, e) {
                 ids.push($(this).val());
+                if($(this).val() == $("#inputDefaultPage").val())
+                {
+                    is_default_in_selected = 1;
+                }
             });
             console.log(ids.join());
-
+            if(is_default_in_selected == 0)
+            {
+                $("#errorDefault").html("<span style='color:red;'>Please select one checked on the role modules.</span>");
+                return false;
+            }
+            else
+            {
+                $("#errorDefault").html("");
+            }
             var btn = $("#saveRole");
             var action = $("#action").val();
             btn.button("loading");
@@ -267,6 +315,7 @@
             } else {
                 e.preventDefault();
                 var name = $("#inputRoleName").val();
+                var default_page = $("#inputDefaultPage").val();
                 var description = $("#inputDescription").val();
                 var role_modules = ids.join();
                 var role_id = $("#roleID").val();
@@ -275,7 +324,8 @@
                     "role_id" : role_id,
                     "name" : name,
                     "description" : description,
-                    "role_modules" : role_modules
+                    "role_modules" : role_modules,
+                    "default_page" : default_page
                 };
                 
                 var url = "<?php echo base_url()."cms/roles/add_role";?>";
@@ -341,6 +391,7 @@
             $(this).find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
+            $("#roleForm").validator('destroy');
         });
 
         function resetForm($form) {
@@ -363,6 +414,7 @@
                     $("#roleID").val(data.roles.id);
                     $("#inputRoleName").val(data.roles.role_name);
                     $("#inputDescription").val(data.roles.description);
+                    $("#inputDefaultPage").val(data.roles.default_page);
                     data.role_modules.forEach(function(entry) {
                         $(":checkbox[value='"+entry+"']").prop("checked","true");
                     });

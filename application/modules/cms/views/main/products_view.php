@@ -158,6 +158,15 @@
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="inputProductPdf" class="col-sm-2 control-label">PDF file</label>
+
+                                <div class="col-sm-10">
+                                <input type="file" class="form-control" id="inputProductPdf" placeholder="PDF file" style="resize:none" accept=".pdf">
+                                <div class="help-block with-errors" id="pdfError"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                     </div>
@@ -297,6 +306,7 @@
                 // Attach file
                 formData.append('product_image', $('#inputProductImage').prop("files")[0]);
                 formData.append('product_sub_image', $('#inputProductSubImage').prop("files")[0]);
+                formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
                 var messageLength = specification.replace(/<[^>]*>/gi, '').trim().length;
 
                 if( !messageLength ) {

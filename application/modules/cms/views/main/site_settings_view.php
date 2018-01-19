@@ -15,7 +15,7 @@
 <section class="content">
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
+        <h3 class="box-title"><?php echo ucfirst($module_name);?></h3>
     </div>
     <!-- /.box-header -->
 <div class="box-body">
@@ -45,7 +45,20 @@
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="inputSiteIcon" class="col-sm-2 control-label">Site Icon</label>
 
+                <div class="col-sm-4">
+                <input type="file" class="form-control" id="inputSiteIcon" placeholder="Site Icon">
+                <?php if($site_settings->site_icon != ""){
+                    ?>
+                            <br><input id="previewIconImage" data-toggle="imgIconPreviewModal" class="btn btn-success" value="Preview">
+                    <?php
+                }?>
+                <br>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="inputCompanyAddress" class="col-sm-2 control-label">Company Address</label>
 
@@ -218,6 +231,30 @@
 </div>
 <!-- /.modal -->
 
+<!-- /.modal -->
+<div class="modal fade" id="imgIconPreviewModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Site Logo Preview</h3>
+            </div>
+            <div class="modal-body">
+                <center><img src="<?php echo base_url()."uploads/site_icon/".$site_settings->site_icon;?>" id="imgIconPreview" style="width:50%;"></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 <script>
 
     var main = function(){
@@ -252,6 +289,7 @@
 
             formData.append("site_name",site_name);
             formData.append('site_logo', $('#inputSiteLogo').prop("files")[0]);
+            formData.append('site_icon', $('#inputSiteIcon').prop("files")[0]);
             formData.append("company_address" ,  company_address);
             formData.append("contact_number" , contact_number);
             formData.append("fax_number" , fax_number);
@@ -295,6 +333,9 @@
 
             $("#previewImage").click(function(){
                 $("#imgPreviewModal").modal("show");
+            });
+            $("#previewIconImage").click(function(){
+                $("#imgIconPreviewModal").modal("show");
             });
     };
 

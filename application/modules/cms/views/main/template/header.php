@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="<?php echo base_url()."uploads/site_icon/".SITE_ICON;?>" /> 
   <title><?php echo SITE_NAME;?> | <?php echo ucwords(str_replace("_"," ",$module_name));?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -322,8 +323,13 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>  
-        <li <?php if($module_name == "dashboard"){echo 'class="active"';}?>><a href="<?php echo base_url("cms/main/dashboard"); ?>"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-  
+        <?php 
+          if (in_array("dashboard", $menu) ) {
+             ?>
+               <li <?php if($module_name == "dashboard"){echo 'class="active"';}?>><a href="<?php echo base_url("cms/main/dashboard"); ?>"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+               <?php
+          } 
+        ?>
         <?php 
           if (in_array("banners", $menu) ) {
              ?>
@@ -388,7 +394,7 @@
              <?php
           } 
         ?>
-
+        
        <?php 
           if (in_array("products", $menu) ) {
              ?>
@@ -439,7 +445,14 @@
               <li <?php if($module_name == "careers"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/careers"?>"><i class="fa fa-suitcase"></i><span>Careers</span></a></li>
             <?php
           } 
-        ?>
+        ?> 
+        <?php 
+        if (in_array("loyalty", $menu)) {
+           ?>
+            <li <?php if($module_name == "loyalty"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty"?>"><i class="fa fa-star"></i><span>Loyalty</span></a></li>
+          <?php
+        } 
+      ?>
         <?php 
           if (in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
              ?>

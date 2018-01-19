@@ -102,6 +102,11 @@ class Products extends CI_Controller {
 					$return_ol .= '<li data-target="#product-carousel" data-slide-to="'.$count.'" class="'.ltrim($active." ").'">
 										<img src="'.base_url().'uploads/products/'.$row->product_image.'" alt="" class="img-fluid product-thumbnail">
 									</li>';
+					$pdf = "";
+					if($row->pdf != null)
+					{
+						$pdf = "<a href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download PDF</a>";
+					}
 					$return_carousel .= '<div class="carousel-item'.$active.'">
 											<div class="container">
 												<div class="row justify-content-center">
@@ -114,6 +119,9 @@ class Products extends CI_Controller {
 														<div class="modal-divider"></div>
 														<p>
 															'.$row->specification.'
+														</p>
+														<p>
+															'.$pdf.'
 														</p>
 													</div>
 												</div>
