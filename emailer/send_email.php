@@ -16,7 +16,7 @@ $mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for Gmail
 $mail->Host = "smtp.gmail.com";
 $mail->Port = 587; // or 587
 $mail->IsHTML(true);
-$mail->Username = "mailerunioil@gmail.com";
+$mail->Username = "malerunioil@gmail.com";
 $mail->Password = "p@ssw0rd123";
 $mail->SetFrom("mailerunioil@gmail.com","Unioil Mailer");
 $mail->Subject = $_POST["subject"];
