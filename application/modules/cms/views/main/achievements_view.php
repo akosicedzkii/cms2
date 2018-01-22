@@ -23,12 +23,12 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="careerList" class="table table-bordered table-striped">
+        <table id="achievementList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Career</th>
-            <th>Description</th>
+            <th>Year</th>
+            <th>Achievement</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -48,34 +48,34 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="careerModal">
+<div class="modal fade" id="achievementModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add Career</h3>
+             <h3 class="modal-title">Add Achievement</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="careerID">
+             <input type="hidden" id="achievementID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="careerForm" data-toggle="validator">
+                    <form class="form-horizontal" id="achievementForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputCareerTitle" class="col-sm-2 control-label">Job title</label>
+                                <label for="inputAchievementYear" class="col-sm-2 control-label">Year</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputCareerTitle" placeholder="Job title" required>
+                                <input type="text" class="form-control" id="inputAchievementYear" placeholder="Year" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputCareerDescription" class="col-sm-2 control-label">Job Description</label>
+                                <label for="inputAchievement" class="col-sm-2 control-label">Achievement</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputCareerDescription" placeholder="Job Description" style="resize:none" required></textarea>
+                                <textarea class="form-control" id="inputAchievement" placeholder="Achievement" style="resize:none" required></textarea>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveCareer">Save Career</button>
+            <button type="button" class="btn btn-primary" id="saveAchievement">Save Achievement</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -94,14 +94,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteCareerModal">
+<div class="modal fade" id="deleteAchievementModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete Career</h3>
+             <h3 class="modal-title">Delete Achievement</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -109,7 +109,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteCareer">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteAchievement">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -119,58 +119,61 @@
 <!-- /.modal -->
 
 <script>
-
-    var editor = CKEDITOR.replace('inputCareerDescription');
+    $("#inputAchievementYear").datepicker( {
+        format: " yyyy", // Notice the Extra space at the beginning
+        viewMode: "years", 
+        minViewMode: "years"
+    });
     var main = function(){
-        var table = $('#careerList').DataTable({  
+        var table = $('#achievementList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/careers/get_career_list";?>",
+            "ajax" : "<?php echo base_url()."cms/achievements/get_achievement_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
-            { "width": "20%",  "targets": [ 1 ] }
+            { "width": "5%",  "targets": [ 1 ] }
         ]
         });
         $("#addBtn").click(function(){
-            $("#careerModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#achievementModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
             $("#inputCoverImage").attr("required","required");
-            $('#careerForm').validator();
-            $("#careerModal").modal("show");
+            $('#achievementForm').validator();
+            $("#achievementModal").modal("show");
         });
 
-        $("#saveCareer").click(function(){
-            $("#careerForm").submit();
+        $("#saveAchievement").click(function(){
+            $("#achievementForm").submit();
         });
-        $("#careerForm").validator().on('submit', function (e) {
+        $("#achievementForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveCareer");
+            var btn = $("#saveAchievement");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var job_title = $("#inputCareerTitle").val();
-                var job_description = editor.getData();
-                var career_id = $("#careerID").val();
+                var year = $("#inputAchievementYear").val();
+                var achievement = $("#inputAchievement").val();
+                var achievement_id = $("#achievementID").val();
 
                 var data = {
-                    'id':career_id,
-                    "job_title" : job_title,
-                    "job_description" : job_description
+                    'id':achievement_id,
+                    "year" : year,
+                    "achievement" : achievement
                 };
                
-                var url = "<?php echo base_url()."cms/careers/add_career";?>";
-                var message = "New Career successfully added";
+                var url = "<?php echo base_url()."cms/achievements/add_achievement";?>";
+                var message = "New Achievement successfully added";
                 if(action == "edit")
                 {
-                    url =  "<?php echo base_url()."cms/careers/edit_career";?>";
-                    message = "Career successfully updated";
+                    url =  "<?php echo base_url()."cms/achievements/edit_achievement";?>";
+                    message = "Achievement successfully updated";
                 }
                 $.ajax({
                         data: data,
@@ -188,8 +191,8 @@
                                 btn.button("reset");
                                 table.draw();
                                 toastr.success(message);
-                                $("#careerForm").validator('destroy');
-                                $("#careerModal").modal("hide");     
+                                $("#achievementForm").validator('destroy');
+                                $("#achievementModal").modal("hide");     
                             }
                         
                         },
@@ -201,7 +204,7 @@
                return false;
         });
 
-        $("#deleteCareer").click(function(){
+        $("#deleteAchievement").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -211,13 +214,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/careers/delete_career";?>",
+                        url: "<?php echo base_url()."cms/achievements/delete_achievement";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw();
-                            $("#deleteCareerModal").modal("hide");
-                            toastr.error('Career ' + deleteItem + ' successfully deleted');
+                            $("#deleteAchievementModal").modal("hide");
+                            toastr.error('Achievement ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -225,7 +228,7 @@
                 });
         });
 
-        $('#careerModal').on('hidden.bs.modal', function (e) {
+        $('#achievementModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -233,9 +236,8 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $("#careerForm").validator('destroy');
+            $("#achievementForm").validator('destroy');
         });
 
         function resetForm($form) {
@@ -247,22 +249,22 @@
     };
     function _edit(id)
     {
-        $("#careerModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#achievementModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#careerForm').validator();    
+        $('#achievementForm').validator();    
         $("#action").val("edit");
         $("#inputCoverImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/careers/get_career_data";?>",
+                url: "<?php echo base_url()."cms/achievements/get_achievement_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputCareerTitle").val(data.career.job_title);
-                    editor.setData(data.career.job_description);
-                    $("#careerID").val(data.career.id);
-                    $("#careerModal").modal("show");
+                    $("#inputAchievementYear").val(data.achievement.year);
+                    $("#inputAchievement").val(data.achievement.achievement);
+                    $("#achievementID").val(data.achievement.id);
+                    $("#achievementModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -271,10 +273,10 @@
     }
     function _delete(id,item)
     {
-        $("#deleteCareerModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteAchievementModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteCareerModal").modal("show");
+        $("#deleteAchievementModal").modal("show");
     }
     
     $(document).ready(main);

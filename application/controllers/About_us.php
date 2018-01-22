@@ -12,6 +12,7 @@ class About_us extends CI_Controller {
 	{
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "ABOUT US - Unioil";
+		$data["achievements"] = $this->db->order_by("year","asc")->get("achievements")->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('about_us_view');
 		$this->load->view('template/footer.php',$data);

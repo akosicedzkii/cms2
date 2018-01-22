@@ -288,8 +288,31 @@ class Main extends CI_Controller {
 		$this->load->view('main/template/footer');
 	}
 
-
-
+	public function achievements()
+    {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/achievements_view',$module);
+		$this->load->view('main/template/footer');
+	}
+	public function opportunities()
+    {
+		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$module["site_settings"] = $this->db->get("site_settings")->row();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/opportunities_view',$module);
+		$this->load->view('main/template/footer');
+	}
 	public function loyalty()
     {
 		if (!in_array($this->router->fetch_method(), $this->user_access)) 

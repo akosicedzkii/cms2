@@ -322,18 +322,22 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>  
         <?php 
           if (in_array("dashboard", $menu) ) {
              ?>
+               <li class="header">MAIN NAVIGATION</li>  
                <li <?php if($module_name == "dashboard"){echo 'class="active"';}?>><a href="<?php echo base_url("cms/main/dashboard"); ?>"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
                <?php
           } 
         ?>
+        <?php  if ( in_array("banners", $menu) ||  in_array("branches", $menu) ||  in_array("station_location", $menu) ||  in_array("news", $menu) ||  in_array("updates", $menu) ) {?>
+        <li class="header">HOME</li> 
+        <?php }?>
+        
         <?php 
           if (in_array("banners", $menu) ) {
              ?>
-              <li class="<?php if($module_name == "banners" || $module_name == "mid_banners" ){echo 'active ';}?>treeview">
+              <li class="<?php if($module_name == "banners" ){echo 'active ';}?>treeview">
                 <a href="#">
                   <i class="glyphicon glyphicon-picture"></i> <span>Banners</span>
                   <span class="pull-right-container">
@@ -351,7 +355,7 @@
                   <?php 
                     if (in_array("banners", $menu)) {
                      ?>
-                       <li <?php if($module_name == "mid_banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/mid_banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Mid Banners</span></a></li>
+                       <li <?php if($module_name == "banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/mid_banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Mid Banners</span></a></li>
                        <?php
                      } 
                   ?>
@@ -398,6 +402,7 @@
        <?php 
           if (in_array("products", $menu) ) {
              ?>
+             <li class="header">PRODUCTS</li> 
               <li class="<?php if($module_name == "vendors" || $module_name == "product_categories" || $module_name == "product_series" || $module_name == "products" ){echo 'active ';}?>treeview">
                 <a href="#">
                   <i class="fa fa-tags"></i> <span>Products</span>
@@ -439,6 +444,9 @@
         <?php
           } 
         ?>
+        <?php  if ( in_array("careers", $menu) ||  in_array("opportunities", $menu)) {?>
+        <li class="header">OPPORTUNITIES</li> 
+        <?php }?>
       <?php 
           if (in_array("careers", $menu)) {
              ?>
@@ -446,19 +454,37 @@
             <?php
           } 
         ?> 
-        <?php 
+       
+       <?php 
+        if (in_array("opportunities", $menu)) {
+           ?>
+            <li <?php if($module_name == "opportunities"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/opportunities"?>"><i class="fa fa-book"></i><span>Opportunities Settings</span></a></li>
+          <?php
+        } 
+      ?>
+       <?php 
+        if (in_array("achievements", $menu)) {
+           ?>
+           <li class="header">ABOUT US</li> 
+            <li <?php if($module_name == "achievements"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/achievements"?>"><i class="fa fa-star"></i><span>Achievements</span></a></li>
+          <?php
+        } 
+      ?>
+       <?php 
         if (in_array("loyalty", $menu)) {
            ?>
-            <li <?php if($module_name == "loyalty"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty"?>"><i class="fa fa-star"></i><span>Loyalty</span></a></li>
+            <li class="header">LOYALTY</li> 
+            <li <?php if($module_name == "loyalty"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty"?>"><i class="fa fa-gift"></i><span>Loyalty</span></a></li>
           <?php
         } 
       ?>
         <?php 
-          if (in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
+          if ( in_array("roles", $menu) ||  in_array("users", $menu) ||  in_array("site_settings", $menu) ||  in_array("logs", $menu) ) {
              ?>
+              <li class="header">SYSTEM ADMINISTRATOR</li> 
               <li class="<?php if($module_name == "roles" || $module_name == "users" || $module_name == "site_settings" || $module_name == "logs"){echo 'active ';}?>treeview">
                 <a href="#">
-                  <i class="fa fa-dashboard"></i> <span>System Administrator</span>
+                  <i class="fa fa-gear"></i> <span>System Administrator</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>

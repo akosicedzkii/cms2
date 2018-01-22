@@ -25,6 +25,7 @@ class Settings_model extends CI_Model {
                         $franchise_subject_reply = "";
                         $careers_subject_reply = "";
                         $site_icon = "";
+                        $franchise_video = "";
                 }
                 else
                 {
@@ -46,6 +47,8 @@ class Settings_model extends CI_Model {
                         $franchise_subject_reply = $query->row()->franchise_subject_reply;
                         $careers_subject_reply = $query->row()->careers_subject_reply;
                         $site_icon = $query->row()->site_icon;
+                        $franchise_video = $query->row()->franchise_video;
+                        $franchise_video_poster = $query->row()->franchise_video_poster;
 
                 }
                 define("SITE_NAME", $site_name);
@@ -66,6 +69,8 @@ class Settings_model extends CI_Model {
                 define("CONTACT_US_SUBJECT_REPLY", $contact_us_subject_reply);
                 define("FRANCHISE_SUBJECT_REPLY", $franchise_subject_reply);
                 define("CAREERS_SUBJECT_REPLY", $careers_subject_reply);
+                define("FRANCHISE_VIDEO", $franchise_video);
+                define("FRANCHISE_VIDEO_POSTER", $franchise_video_poster);
                 
         }
         

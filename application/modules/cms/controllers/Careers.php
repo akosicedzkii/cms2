@@ -24,10 +24,10 @@ class Careers extends CI_Controller {
 
 	public function edit_career()
 	{
-        $products_id = $this->input->post("id");
+        $careers_id = $this->input->post("id");
         $this->careers_model->job_title = $this->input->post("job_title");
         $this->careers_model->job_description = $this->input->post("job_description");
-        $this->careers_model->id = $products_id;
+        $this->careers_model->id = $careers_id;
         echo $this->careers_model->update_career();
 	}
 

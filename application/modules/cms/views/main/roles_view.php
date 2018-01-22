@@ -81,13 +81,14 @@
                         <div class="form-group">
                              <label for="inputDescription" class="col-sm-4 control-label">Role Modules</label>
                              <div class="col-sm-8">
+                                    <b>Main Navigation</b>
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="dashboard">
                                         Dashboard
                                         </label>
                                     </div>
-
+                                    <b>Home</b>
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="banners">
@@ -122,7 +123,8 @@
                                         Updates
                                         </label>
                                     </div>
-
+                                    
+                                    <b>Products</b>
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="product_categories">
@@ -150,14 +152,40 @@
                                         Products
                                         </label>
                                     </div>
-
+                                    
+                                    <b>Opportunities</b>
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="careers">
                                         Careers
                                         </label>
                                     </div>
+                              
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="opportunities">
+                                        Opportunities Settings
+                                        </label>
+                                    </div>
 
+                                    <b>About Us</b>
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="achievements">
+                                        Achievements
+                                        </label>
+                                    </div>
+
+
+                                    <b>Loyalty</b>
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty">
+                                        Loyalty
+                                        </label>
+                                    </div>
+      
+                                    <b>System Administrator</b>
                                     <div class="checkbox">
                                         <label>
                                         <input type="checkbox" id="modules" value="roles">
@@ -186,13 +214,6 @@
                                         </label>
                                     </div>
 
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" id="modules" value="loyalty">
-                                        Loyalty
-                                        </label>
-                                    </div>
-
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -216,9 +237,11 @@
                                 <option value="careers">Careers</option>
                                 <option value="roles">Roles</option>
                                 <option value="users">Users</option>
+                                <option value="loyalty">Loyalty</option>
+                                <option value="opportunities">Opportunities</option>
+                                <option value="achievements">Achievements</option>
                                 <option value="site_settings">Site Settings</option>
                                 <option value="logs">Logs</option>
-                                <option value="loyalty">Loyalty</option>
                             </select>
                             <div class="help-block with-errors" id="errorDefault"></div>
                             </div>
@@ -414,7 +437,7 @@
                     $("#roleID").val(data.roles.id);
                     $("#inputRoleName").val(data.roles.role_name);
                     $("#inputDescription").val(data.roles.description);
-                    $("#inputDefaultPage").val(data.roles.default_page);
+                    $("#inputDefaultPage").val(data.roles.default_page).trigger("change");
                     data.role_modules.forEach(function(entry) {
                         $(":checkbox[value='"+entry+"']").prop("checked","true");
                     });

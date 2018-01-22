@@ -166,6 +166,13 @@
     <?php }?>
     <script src="<?php echo base_url()."assets_site/"?>js/careers.js"></script>
     <script src="<?php echo base_url()."assets_site/"?>js/franchise-application.js"></script>
+    <script>
+        var main = function(){
+            $('#video-banner').click(function(){this.paused?this.play():this.pause();});
+        };
+
+        $(document).ready(main);
+    </script>
     <!--Start of Zendesk Chat Script
     <script type="text/javascript">
     window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=

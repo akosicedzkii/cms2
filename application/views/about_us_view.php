@@ -42,102 +42,49 @@
     </section>
     <section id="company-history">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-1 col-sm-1 push-sm-4 push-md-4 push-lg-4 push-xl-4">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-1966"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 pull-sm-1 pull-md-1 pull-lg-1 pull-xl-1 milestone animate fade-in from-right" data-group="history-1966">
-                    <h4>1966</h4>
-                    <p>Unioil started as a lubricants blending facility in Valenzuela</p>
-                </div>
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-                <div class="col-1 col-sm-1">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-1970"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 milestone animate fade-in from-left" data-group="history-1970">
-                    <h4>1970</h4>
-                    <p>Unioil started its shift to producing high quality lubricants</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-1 col-sm-1 push-sm-4 push-md-4 push-lg-4 push-xl-4">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-1994"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 pull-sm-1 pull-md-1 pull-lg-1 pull-xl-1 milestone animate fade-in from-right" data-group="history-1994">
-                    <h4>1994</h4>
-                    <p>Unioil’s partnership with Idemitsu made us the exclusive and licensed distributor and blender of Idemitsu products in the Philippines.</p>
-                </div>
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-                <div class="col-1 col-sm-1">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-1997"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 milestone animate fade-in from-left" data-group="history-1997">
-                    <h4>1997</h4>
-                    <p>Unioil started its shift to producing high quality lubricants</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-1 col-sm-1 push-sm-4 push-md-4 push-lg-4 push-xl-4">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-2002"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 pull-sm-1 pull-md-1 pull-lg-1 pull-xl-1 milestone animate fade-in from-right" data-group="history-2002">
-                    <h4>2002</h4>
-                    <p>Unioil ventured into the retail service station business, starting on NAIA road, making Unioil the FIRST INDEPENDENT PETROLEUM COMPANY to build a retail station</p>
-                </div>
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-                <div class="col-1 col-sm-1">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-2003"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 milestone animate fade-in from-left" data-group="history-2003">
-                    <h4>2003</h4>
-                    <p>Unioil pioneered the introduction of Euro II Compliant Diesel 6 months before the major oil companies in the Philippines (2000 ppm to 500 ppm)</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-1 col-sm-1 push-sm-4 push-md-4 push-lg-4 push-xl-4">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-2013"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 pull-sm-1 pull-md-1 pull-lg-1 pull-xl-1 milestone animate fade-in from-right" data-group="history-2013">
-                    <h4>2013</h4>
-                    <p>Unioil launched its Go Green Campaign and led the introduction of Euro 4 fuels, the cleanest and most advanced fuels in the country, with a sulfur content of 50ppm</p>
-                </div>
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
-                <div class="col-1 col-sm-1">
-                    <div class="timeline">
-                        <div class="dot animate zoom zoom-small" data-group="history-2017"></div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 milestone animate fade-in from-left" data-group="history-2017">
-                    <h4>2017</h4>
-                    <p>Unioil pioneered the introduction of the complete range of Euro 5 fuels – the cleanest, high performance fuels in the Philippines with a sulfur content of 10ppm</p>
-                </div>
-            </div>
+
+            <?php if($achievements != null){
+                $counter = 0;
+                foreach($achievements as $row)
+                {
+                    if($counter == 0)
+                    {
+                        ?>
+                            <div class="row justify-content-center">
+                                <div class="col-1 col-sm-1 push-sm-4 push-md-4 push-lg-4 push-xl-4">
+                                    <div class="timeline">
+                                        <div class="dot animate zoom zoom-small" data-group="history-<?php echo $row->year;?>"></div>
+                                    </div>
+                                </div>
+                                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 pull-sm-1 pull-md-1 pull-lg-1 pull-xl-1 milestone animate fade-in from-right" data-group="history-<?php echo $row->year;?>">
+                                    <h4><?php echo $row->year;?></h4>
+                                    <p><?php echo ucfirst($row->achievement);?></p>
+                                </div>
+                                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
+                            </div>
+                        <?php
+                        $counter++;
+                    }
+                    else if($counter == 1)
+                    {
+                        ?>
+                            <div class="row justify-content-center">
+                                <div class="col-0 col-sm-4 col-md-4 col-lg-4 col-xl-4 hidden-xs-down"></div>
+                                <div class="col-1 col-sm-1">
+                                    <div class="timeline">
+                                        <div class="dot animate zoom zoom-small" data-group="history-<?php echo $row->year;?>"></div>
+                                    </div>
+                                </div>
+                                <div class="col-10 col-sm-4 col-md-4 col-lg-4 col-xl-4 milestone animate fade-in from-left" data-group="history-<?php echo $row->year;?>">
+                                <h4><?php echo $row->year;?></h4>
+                                <p><?php echo ucfirst($row->achievement);?></p>
+                                </div>
+                            </div>
+                        <?php
+                        $counter = 0;
+                    }
+                }
+            }?>
         </div>
     </section>
 </section>

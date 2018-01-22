@@ -3,7 +3,17 @@
             <h3>GAS STATION FRANCHISE &amp; LUBRICANT DISTRIBUTORSHIP</h3>
         </section>
         <section id="video-banner-container">
-            <video id="video-banner" src="#" autoplay poster="<?php echo base_url()."assets_site"?>/images/unioil-franchise-banner-poster.jpg"></video>
+            <?php
+                if(FRANCHISE_VIDEO != null){
+                    ?>    
+                        <video id="video-banner" src="<?php echo base_url()."uploads/franchise_video/".FRANCHISE_VIDEO;?>" loop poster="<?php echo base_url()."uploads/franchise_video/".FRANCHISE_VIDEO_POSTER;?>"></video>
+                    <?php
+                        }else{
+                    ?>   
+                        <video id="video-banner" src="#" loop poster="<?php echo base_url()."assets_site"?>/images/unioil-franchise-banner-poster.jpg"></video>
+                <?php   
+                }
+            ?>
         </section>
         <section id="lead-in">
             <div class="copy-wrapper clearfix">
