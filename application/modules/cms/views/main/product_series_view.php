@@ -29,6 +29,7 @@
             <th>ID</th>
             <th>Series Name</th>
             <th>Series Image</th>
+            <th>Series Title Image</th>
             <th>Product Type</th>
             <th>Vendor</th>
             <th>Date Created</th>
@@ -87,6 +88,15 @@
 
                                 <div class="col-sm-10">
                                 <input type="file" class="form-control" id="inputProductSeriesImage" placeholder="Series Image" style="resize:none" required>
+                                <div class="help-block with-errors" id="coverError"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputProductSeriesTitleImage" class="col-sm-2 control-label">Series Title Image</label>
+
+                                <div class="col-sm-10">
+                                <input type="file" class="form-control" id="inputProductSeriesTitleImage" placeholder="Series Title Image" style="resize:none" required>
                                 <div class="help-block with-errors" id="coverError"></div>
                                 </div>
                             </div>
@@ -190,6 +200,30 @@
 </div>
 <!-- /.modal -->
 
+
+<!-- /.modal -->
+<div class="modal fade" id="imgTitlePreviewModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Product Series Title Image Preview</h3>
+            </div>
+            <div class="modal-body">
+                <center><img src="" id="imgTitlePreview" style="width:100%;"></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
  var inputRoleConfig = {
         dropdownAutoWidth : true,
@@ -214,7 +248,7 @@
         $("#addBtn").click(function(){
             $("#productSeriesModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
-            $("#inputCoverImage").attr("required","required");
+            $("#inputProductSeriesImage").attr("required","required");
             $('#productSeriesForm').validator();
             $("#productSeriesModal").modal("show");
         });
@@ -245,6 +279,7 @@
                 formData.append('product_category_id', product_category_id);
                 // Attach file
                 formData.append('series_image', $('#inputProductSeriesImage').prop("files")[0]);
+                formData.append('series_title_image', $('#inputProductSeriesTitleImage').prop("files")[0]);
 
               /*   var fileUpload = document.getElementById("inputProductSeriesImage");
                 
@@ -377,7 +412,7 @@
         $(".add").hide();    
         $('#productSeriesForm').validator();    
         $("#action").val("edit");
-        $("#inputCoverImage").removeAttr("required");
+        $("#inputProductSeriesImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
@@ -409,6 +444,11 @@
     {
         $("#imgPreview").attr("src","<?php echo base_url()."uploads/product_series/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
+    }
+    function img_title_preview(img_src)
+    {
+        $("#imgTitlePreview").attr("src","<?php echo base_url()."uploads/product_series/"?>"+img_src);
+        $("#imgTitlePreviewModal").modal("show");
     }
     $(document).ready(main);
 </script>

@@ -164,7 +164,7 @@
 #store-locator #step-3 .selected-branch {
 	font-size: 30px;
 	color: #eb4a1c;
-	margin-bottom: 30px;
+	margin-bottom: 0;
 	text-align: left;
     line-height: 35px;
 }
@@ -281,6 +281,28 @@
 
 #store-locator .store-pagination a.spbutton.disabled {
 	opacity: .6;
+}
+
+#store-locator #store-branch {
+	cursor: pointer;
+}
+
+#store-locator .selected-contact {
+	margin: 7px 0 30px;
+	text-align: left;
+}
+
+#store-locator .selected-contact p {
+	display: inline;
+	font-size: 15px;
+	color: #eb4a1c;
+}
+
+#store-locator .selected-contact img {
+	display: inline;
+	margin-right: 10px;
+	width: 100%;
+	max-width: 15px;
 }
 
 @media (max-width: 575px) {

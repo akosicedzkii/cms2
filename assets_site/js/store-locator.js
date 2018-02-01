@@ -41,22 +41,29 @@ var checkCurrentViewport = function() {
 	}
 }
 
-var displaySuggestions = function() {
-	var input = convertToKey($(this).val());
-	var searchTemplate = convertToRegex(input);
+var displaySuggestions = function(mode) {
 	var field = $(this).attr('id');
-	var scope = (field === 'store-area') ? stores : stores[userInput['storeArea']]['branches'];
 	var $step = (field === 'store-area') ? $('#step-1') : $('#step-2');
 
 	$step.find('.suggestion-list').html('');
 
-	for(key in scope) { 
-		if(key.match(searchTemplate)) {
+	if(mode === 'all') {
+		var scope = stores[userInput['storeArea']]['branches'];
+		for(key in scope) {
 			$step.find('.suggestion-list').append('<div class="suggestion-item">' + scope[key]['name'] + '</div>');
 		}
 	}
+	else {
+		var input = convertToKey($(this).val());
+		var searchTemplate = convertToRegex(input);
+		var scope = (field === 'store-area') ? stores : stores[userInput['storeArea']]['branches'];
+		for(key in scope) { 
+			if(key.match(searchTemplate)) {
+				$step.find('.suggestion-list').append('<div class="suggestion-item">' + scope[key]['name'] + '</div>');
+			}
+		}
+	}
 };
-
 var changePriceValue = function($priceContainer) {
 	var price, ctr;
 
@@ -282,6 +289,7 @@ var setResults = function() {
 	var branch = userInput['storeBranch'];
 	$('#step-3 .selected-area').html(stores[area]['name']);
 	$('#step-3 .selected-branch').html(stores[area]['branches'][branch]['name']);
+	$('#step-3 .selected-contact>.contact-num').html(stores[area]['branches'][branch]['contact']);
 	$('#step-3 .branch-map').attr('src', stores[area]['branches'][branch]['map-url']);
 	var data = { "station_name" : stores[area]['branches'][branch]['name'] , "branch_name" : stores[area]['name'] };
 	$("#tbl-price").html("");
@@ -335,7 +343,11 @@ $(document).ready(function() {
 		$(this).closest('.input-wrapper').find('input').val($(this).html());
 	});
 
-	$('#store-area, #store-branch').on('keyup focus', displaySuggestions);
+	$('#store-area').on('keyup focus', displaySuggestions);
+
+	$('#store-branch').on('click', function() {
+		displaySuggestions('all')
+	});
 
 	$('.locator-back').on('click', returnToPrevious);
 

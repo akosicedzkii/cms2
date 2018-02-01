@@ -38,6 +38,7 @@ class Home extends CI_Controller {
 							foreach($stations->result() as $row_stations)
 							{
 								$return_station .= '"'.strtolower(str_replace(" ","",$row_stations->station_name)).'" : {';
+									$return_station .= '"contact" : "'.ucwords($row_stations->contact_number).'",';
 									$return_station .= '"name" : "'.ucwords($row_stations->station_name).'",';
 									$return_station .= '"map-url" : "'.$row_stations->map_url.'"';
 								$return_station .= '},';

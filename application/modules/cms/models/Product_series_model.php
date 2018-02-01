@@ -6,6 +6,7 @@ class Product_series_model extends CI_Model {
         public $series_name;
         public $series_description;
         public $series_image;
+        public $series_title_image;
         public $vendor_id;
         public $product_category_id;
 
@@ -15,6 +16,12 @@ class Product_series_model extends CI_Model {
                 $data["series_description"] = $this->series_description;
                 $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["series_image"] = $this->series_image;
+                
+                if($this->series_title_image != null)
+                {
+                     $data["series_title_image"] = $this->series_title_image;
+                }
+
                 $data["vendor_id"] = $this->vendor_id;
                 $data["product_category_id"] = $this->product_category_id;
                 $data["created_by"] =  $this->session->userdata("USERID");
@@ -41,6 +48,12 @@ class Product_series_model extends CI_Model {
                 {
                      $data["series_image"] = $this->series_image;
                 }
+
+                if($this->series_title_image != null)
+                {
+                     $data["series_title_image"] = $this->series_title_image;
+                }
+
                 $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);
                 echo $result = $this->db->update('product_series', $data);

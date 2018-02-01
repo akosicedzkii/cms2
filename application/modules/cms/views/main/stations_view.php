@@ -81,6 +81,15 @@
                                 <div class="help-block with-errors"></div>
                                 </div>
                              </div>
+                             <div class="form-group">
+                                <label for="inputContact" class="col-sm-2 control-label">Contact Number</label>
+
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputContact" placeholder="Contact Number" required>
+                                <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="inputBranch" class="col-sm-2 control-label">Branch</label>
 
@@ -255,10 +264,12 @@
                 var station_name = $("#inputStationName").val();
                 var map_url = $("#inputMapUrl").val();
                 var branch_id = $("#inputBranch").val();
+                var contact_number = $("#inputContact").val();
                 var id = $("#stationID").val();
                 var data = {
                     "id" : id,
                     "station_name" : station_name,
+                    "contact_number" : contact_number,
                     "fuel_price" : fuel_price,
                     "map_url" : map_url,
                     "branch_id" : branch_id
@@ -387,6 +398,7 @@
                     console.log(data);
                     $("#inputStationName").val(data.stations.station_name);
                     $("#inputMapUrl").val(data.stations.map_url);
+                    $("#inputContact").val(data.stations.contact_number);
                     $("#inputBranch").val(data.stations.branch_id).trigger("change");
                     data_station_prices = JSON.parse( data.stations_fuel_prices );
                     for(var key in data_station_prices) {

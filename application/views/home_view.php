@@ -103,7 +103,10 @@
                     <div class="row justify-content-center my-auto">
                         <div class="col-12 col-md-6">
                             <p class="selected-area"></p>
-                            <p class="selected-branch"></p>
+                            <p class="selected-branch"></p> 
+                            <div class="selected-contact">
+                                <img class="contact-icon" src="<?php echo base_url()."assets_site/images/unioil-thumbnail-phone-locator.png";?>" alt=""><p class="contact-num"></p>
+                            </div>
                             <div class="embed-responsive embed-responsive-1by1">
                                 <iframe class="embed-responsive-item branch-map" src=""></iframe>
                             </div>
@@ -203,7 +206,7 @@
                            Your support of Unioil’s complete line of Euro 5-compliant products allows you to be a partner in #DoingOurPart. We consider your patronage a gift and a privilege, so allow us to give something back in return. Sign up for a Unioil Loyalty Card today, and be on the road to the top deals and the best discounts. This is our way of saying thanks for the ride, and may we continue being on the same journey together!
                         </p>
                         <div class="btn-spacer text-center text-md-left animate fade-in" data-group="loyalty">
-                            <a href="#" class="ghost-btn white">LEARN MORE</a>
+                            <a href="<?php echo base_url()."loyalty";?>" class="ghost-btn white">LEARN MORE</a>
                         </div>
                     </div>
                 </div>

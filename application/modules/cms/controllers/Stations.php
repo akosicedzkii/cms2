@@ -18,6 +18,7 @@ class Stations extends CI_Controller {
 	public function add_station()
 	{
         $this->stations_model->station_name = $this->input->post("station_name");
+        $this->stations_model->contact_number = $this->input->post("contact_number");
         $this->stations_model->map_url = $this->input->post("map_url");
         $this->stations_model->id = $this->input->post("id");
         $this->stations_model->branch_id = $this->input->post("branch_id");
@@ -29,6 +30,7 @@ class Stations extends CI_Controller {
 	{
         $this->stations_model->station_name = $this->input->post("station_name");
         $this->stations_model->map_url = $this->input->post("map_url");
+        $this->stations_model->contact_number = $this->input->post("contact_number");
         $this->stations_model->id = $this->input->post("id");
         $this->stations_model->branch_id = $this->input->post("branch_id");
         echo $this->stations_model->update_station($this->input->post("fuel_price")); 

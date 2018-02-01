@@ -26,7 +26,7 @@ class Product_series extends CI_Controller {
             } 
             $config['upload_path'] = $upload_path;  
             $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
+            $new_filename = str_replace(" ","_",$this->input->post("series_name"))."_".date("YmdHisU");
             $config['file_name']= $new_filename ;
             $this->load->library('upload', $config); 
             if(!$this->upload->do_upload('series_image',$new_filename))  
@@ -36,6 +36,33 @@ class Product_series extends CI_Controller {
             }  
             else  
             {  
+                if(isset($_FILES["series_title_image"]["name"]))  
+                {  
+                    
+                   $upload_path = './uploads/product_series/'; 
+                    if (!is_dir($upload_path)) {
+                        mkdir($upload_path, 0777, TRUE);
+                    } 
+        
+                    $this->db->where("id",$product_series_id);
+                    $result = $this->db->get("product_series");
+                    unlink($upload_path.$result->row()->series_title_image);
+                    $config_title_image['upload_path'] = $upload_path;  
+                    $config_title_image['allowed_types'] = 'jpg|jpeg|png|gif';  
+                    $new_filename_title_image = str_replace(" ","_",$this->input->post("series_name"))."_title_image_".date("YmdHisU");
+                    $config_title_image['file_name']= $new_filename_title_image ;
+                    $this->load->library('upload', $config_title_image); 
+                    if(!$this->upload->do_upload('series_title_image',$new_filename_title_image))  
+                    {  
+                        echo $this->upload->display_errors(); 
+                        die(); 
+                    }  
+                        
+                     
+                    $data = $this->upload->data();
+                    $this->product_series_model->series_title_image = $data["file_name"];;
+                } 
+
                 $data = $this->upload->data();
                 $this->product_series_model->vendor_id = $this->input->post("vendor_id");
                 $this->product_series_model->product_category_id = $this->input->post("product_category_id");
@@ -64,7 +91,7 @@ class Product_series extends CI_Controller {
             unlink($upload_path.$result->row()->series_image);
             $config['upload_path'] = $upload_path;  
             $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
+            $new_filename = str_replace(" ","_",$this->input->post("series_name"))."_".date("YmdHisU");
             $config['file_name']= $new_filename ;
             $this->load->library('upload', $config); 
             if(!$this->upload->do_upload('series_image',$new_filename))  
@@ -77,6 +104,33 @@ class Product_series extends CI_Controller {
             $data = $this->upload->data();
             $this->product_series_model->series_image = $data["file_name"];;
         }  
+
+        if(isset($_FILES["series_title_image"]["name"]))  
+        {  
+            
+           $upload_path = './uploads/product_series/'; 
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0777, TRUE);
+            } 
+
+            $this->db->where("id",$product_series_id);
+            $result = $this->db->get("product_series");
+            unlink($upload_path.$result->row()->series_title_image);
+            $config_title_image['upload_path'] = $upload_path;  
+            $config_title_image['allowed_types'] = 'jpg|jpeg|png|gif';  
+            $new_filename_title_image = str_replace(" ","_",$this->input->post("series_name"))."_title_image_".date("YmdHisU");
+            $config_title_image['file_name']= $new_filename_title_image ;
+            $this->load->library('upload', $config_title_image); 
+            if(!$this->upload->do_upload('series_title_image',$new_filename_title_image))  
+            {  
+                echo $this->upload->display_errors(); 
+                die(); 
+            }  
+                
+             
+            $data = $this->upload->data();
+            $this->product_series_model->series_title_image = $data["file_name"];;
+        } 
 
         $this->product_series_model->vendor_id = $this->input->post("vendor_id");
         $this->product_series_model->product_category_id = $this->input->post("product_category_id");
@@ -118,9 +172,9 @@ class Product_series extends CI_Controller {
     public function get_product_series_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.series_name","t1.series_image","t4.category_name","t5.vendor_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.series_name","t1.series_image","t4.category_name","t5.vendor_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","series_name","series_image","category_name","vendor_name","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.series_name","t1.series_image","t1.series_title_image","t4.category_name","t5.vendor_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.series_name","t1.series_image","t1.series_title_image","t4.category_name","t5.vendor_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","series_name","series_image","series_title_image","category_name","vendor_name","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "product_series AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN product_categories AS t4 ON t4.id = t1.product_category_id  LEFT JOIN product_vendors AS t5 ON t5.id = t1.vendor_id ";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -134,9 +188,24 @@ class Product_series extends CI_Controller {
                     {
                         $row[] = $aRow[$col];
                     }
-                    else if($col == "series_image")
+                    else if($col == "series_image" || $col == "series_title_image")
                     {
-                        $row[] = "<a href=\"#\" onclick='return false;'><img class='img-thumbnail' src='".base_url()."uploads/product_series/".$aRow[$col]."' style='height:70px;' onclick='img_preview(\"".$aRow[$col]."\");return false;'></a>";
+                        if($aRow[$col] != null)
+                        {     
+                            if($col == "series_image")
+                            {
+                                $onclick = "img_preview(\"".$aRow[$col]."\")";
+                            }
+                            else
+                            {
+                                $onclick = "img_title_preview(\"".$aRow[$col]."\")";
+                            }
+                            $row[] = "<a href=\"#\" onclick='return false;'><img class='img-thumbnail' src='".base_url()."uploads/product_series/".$aRow[$col]."' style='height:70px;' onclick='$onclick;return false;'></a>";
+                        }
+                        else
+                        {
+                            $row[] = "None";
+                        }
                     }
                     else
                     {

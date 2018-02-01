@@ -105,7 +105,8 @@ class Products extends CI_Controller {
 					$pdf = "";
 					if($row->pdf != null)
 					{
-						$pdf = "<a href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download PDF</a>";
+
+						$pdf = "<div class='btn-spacer' style='padding-left: 14px;padding-bottom: 14px;'><a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download</a></div>";
 					}
 					$return_carousel .= '<div class="carousel-item'.$active.'">
 											<div class="container">

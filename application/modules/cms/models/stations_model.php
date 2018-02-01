@@ -6,6 +6,7 @@ class Stations_model extends CI_Model {
         public $station_name;
         public $map_url;
         public $branch_id;
+        public $contact_number;
 
         public function insert_station($fuel_price)
         {
@@ -15,6 +16,7 @@ class Stations_model extends CI_Model {
             $data["station_name"] = $this->station_name; 
             $data["map_url"] = $this->map_url; 
             $data["branch_id"] = $this->branch_id; 
+            $data["contact_number"] = $this->contact_number; 
             $data["date_created"] = date("Y-m-d H:i:s A");
             $data["created_by"] =  $this->session->userdata("USERID");
             $result = $this->db->insert('stations', $data);
@@ -50,6 +52,7 @@ class Stations_model extends CI_Model {
             $data["station_name"] = $this->station_name; 
             $data["map_url"] = $this->map_url; 
             $data["branch_id"] = $this->branch_id; 
+            $data["contact_number"] = $this->contact_number; 
             $data["date_modified"] = date("Y-m-d H:i:s A");
             $data["modified_by"] =  $this->session->userdata("USERID");
             $this->db->where("id",$this->id);
