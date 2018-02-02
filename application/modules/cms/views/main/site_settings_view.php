@@ -113,59 +113,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="inputFranchiseEmail" class="col-sm-2 control-label">Franchise Email Address</label>
-
-                <div class="col-sm-4">
-                <input type="email" class="form-control" id="inputFranchiseEmail" placeholder="Franchise Email Address" value="<?php echo $site_settings->franchise_email_address;?>">
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputFranchiseReplySubject" class="col-sm-2 control-label">Franchise Email Reply Subject</label>
-
-                <div class="col-sm-4">
-                <input type="text" class="form-control" id="inputFranchiseReplySubject" placeholder="Franchise Email Reply Subject" value="<?php echo $site_settings->franchise_subject_reply;?>">
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputFranchiseReplyBody" class="col-sm-2 control-label">Franchise Email Reply Body</label>
-
-                <div class="col-sm-4">
-                <textarea class="form-control" id="inputFranchiseReplyBody" placeholder="Franchise Email Reply Body"><?php echo $site_settings->franchise_body_reply;?></textarea>
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCareersEmail" class="col-sm-2 control-label">Careers Email Address</label>
-
-                <div class="col-sm-4">
-                <input type="email" class="form-control" id="inputCareersEmail" placeholder="Careers Email Address" value="<?php echo $site_settings->franchise_email_address;?>">
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="inputCareersReplySubject" class="col-sm-2 control-label">Careers Email Reply Subject</label>
-
-                <div class="col-sm-4">
-                <input type="text" class="form-control" id="inputCareersReplySubject" placeholder="Careers Email Reply Subject" value="<?php echo $site_settings->careers_subject_reply;?>">
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCareersReplyBody" class="col-sm-2 control-label">Careers Email Reply Body</label>
-
-                <div class="col-sm-4">
-                <textarea class="form-control" id="inputCareersReplyBody" placeholder="Careers Email Reply Body"><?php echo $site_settings->careers_body_reply;?></textarea>
-                <div class="help-block with-errors"></div>
-                </div>
-            </div>
 
             <div class="form-group">
                 <label for="inputFacebook" class="col-sm-2 control-label">Facebook URL</label>
@@ -271,19 +218,13 @@
             var contact_number = $("#inputCompanyContact").val();
             var fax_number = $("#inputCompanyContactFax").val();
             var contact_us_email_address = $("#inputContactUsEmail").val();
-            var franchise_email_address = $("#inputFranchiseEmail").val();
-            var careers_email_address = $("#inputCareersEmail").val();
             var facebook_url = $("#inputFacebook").val();
             var twitter_url = $("#inputTwitter").val();
             var instagram_url = $("#inputInstagram").val();
 
             var contact_us_subject_reply = $("#inputContactUsReplySubject").val();
-            var careers_subject_reply = $("#inputCareersReplySubject").val();
-            var franchise_subject_reply = $("#inputFranchiseReplySubject").val();
             
             var contact_us_body_reply = $("#inputContactUsReplyBody").val();
-            var careers_body_reply = $("#inputCareersReplyBody").val();
-            var franchise_body_reply = $("#inputFranchiseReplyBody").val();
 
             var formData = new FormData();
 
@@ -295,20 +236,14 @@
             formData.append("fax_number" , fax_number);
 
             formData.append("contact_us_email_address" , contact_us_email_address);
-            formData.append("franchise_email_address" , franchise_email_address);
-            formData.append("careers_email_address" , careers_email_address);
 
             formData.append("facebook_url" , facebook_url);
             formData.append("twitter_url" , twitter_url);
             formData.append( "instagram_url" , instagram_url);
 
             formData.append("contact_us_subject_reply" , contact_us_subject_reply);
-            formData.append("careers_subject_reply" , careers_subject_reply);
-            formData.append("franchise_subject_reply" , franchise_subject_reply);
 
             formData.append("contact_us_body_reply" , contact_us_body_reply);
-            formData.append("careers_body_reply" , careers_body_reply);
-            formData.append("franchise_body_reply" , franchise_body_reply);
             
 
             $.ajax({

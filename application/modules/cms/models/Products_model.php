@@ -12,6 +12,7 @@ class Products_model extends CI_Model {
         public $product_category_id;
         public $product_series_id;
         public $pdf;
+        public $visibility;
 
         public function insert_products()
         {
@@ -23,6 +24,7 @@ class Products_model extends CI_Model {
                 $data["product_vendor_id"] = $this->product_vendor_id;
                 $data["product_series_id"] = $this->product_series_id;
                 $data["product_category_id"] = $this->product_category_id;
+                $data["visibility"] = $this->visibility;
                 if($this->product_sub_image != null)
                 {
                      $data["product_sub_image"] = $this->product_sub_image;
@@ -53,6 +55,7 @@ class Products_model extends CI_Model {
                 $data["product_series_id"] = $this->product_series_id;
                 $data["product_category_id"] = $this->product_category_id;
                 $data["specification"] = $this->specification;
+                $data["visibility"] = $this->visibility;
                 if($this->product_image != null)
                 {
                      $data["product_image"] = $this->product_image;

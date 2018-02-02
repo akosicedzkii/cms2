@@ -70,8 +70,6 @@ class Site_settings extends CI_Controller {
         $data["contact_number"] = $this->input->post("contact_number");
         $data["fax_number"] = $this->input->post("fax_number");
         $data["contact_us_email_address"] = $this->input->post("contact_us_email_address");
-        $data["franchise_email_address"] = $this->input->post("franchise_email_address");
-        $data["careers_email_address"] = $this->input->post("careers_email_address");
         $data["facebook_url"] = $this->input->post("facebook_url");
         $data["twitter_url"] = $this->input->post("twitter_url");
         $data["instagram_url"] = $this->input->post("instagram_url");
@@ -80,10 +78,6 @@ class Site_settings extends CI_Controller {
         
         $data["contact_us_subject_reply"] = $this->input->post("contact_us_subject_reply");
         $data["contact_us_body_reply"] = $this->input->post("contact_us_body_reply");
-        $data["franchise_body_reply"] =$this->input->post("franchise_body_reply");
-        $data["careers_body_reply"] = $this->input->post("careers_body_reply");
-        $data["franchise_subject_reply"] = $this->input->post("franchise_subject_reply");
-        $data["careers_subject_reply"] = $this->input->post("careers_subject_reply");
 
         echo $this->db->update("site_settings",$data);
         $this->logs->log = "Updated Site Settings";

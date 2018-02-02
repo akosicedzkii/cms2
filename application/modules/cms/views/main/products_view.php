@@ -33,6 +33,7 @@
             <th>Product Type</th>
             <th>Product Series</th>
             <th>Vendor</th>
+            <th>Visibility</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -52,7 +53,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="productProductModal">
+<div class="modal fade" id="productModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,12 +62,74 @@
            
              <h3 class="modal-title">Add Product Product</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="productProductID">
+             <input type="hidden" id="productID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="productProductForm" data-toggle="validator">
+                    <form class="form-horizontal" id="productForm" data-toggle="validator">
                         <div class="box-body">
+                            <div class="form-group">
+                                    <label for="inputProductVendorID" class="col-sm-2 control-label">Vendor</label>
+
+                                    <div class="col-sm-10">
+                                    <select class="form-control" id="inputProductVendorID" style="resize:none" required>
+                                        <option value=""></option>
+                                        <?php 
+                                            if($product_vendors != null){
+                                                foreach($product_vendors as $row){
+                                                    ?>
+                                                        <option value="<?php echo $row->id;?>"><?php echo ucfirst($row->vendor_name);?></option>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputProductCategoryID" class="col-sm-2 control-label">Product Category</label>
+
+                                    <div class="col-sm-10">
+                                    <select class="form-control" id="inputProductCategoryID"  style="resize:none" required>
+                                        <option value=""></option>
+                                        <?php 
+                                            if($product_categories != null){
+                                                foreach($product_categories as $row){
+                                                    ?>
+                                                        <option value="<?php echo $row->id;?>"><?php echo ucfirst($row->category_name);?></option>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputProductSeriesID" class="col-sm-2 control-label">Product Series</label>
+
+                                    <div class="col-sm-10">
+                                    <select class="form-control" id="inputProductSeriesID"  style="resize:none">
+                                        <option value=""></option>
+                                    
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="inputVisibility" class="col-sm-2 control-label">Visibility</label>
+
+                                    <div class="col-sm-10">
+                                    <select class="form-control" id="inputVisibility"  style="resize:none" required>
+                                        <option value="promotion_only">Promotion Only</option>
+                                        <option value="price_only">Price Only</option>
+                                        <!--<option value="price_and_promotion">Price And Promotion</option>-->
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
                             <div class="form-group">
                                 <label for="inputProductName" class="col-sm-2 control-label">Product Name</label>
 
@@ -83,7 +146,7 @@
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group promotion">
                                 <label for="inputSpecification" class="col-sm-2 control-label">Specification</label>
 
                                 <div class="col-sm-10">
@@ -91,74 +154,28 @@
                                 <div class="help-block with-errors" id="ckEditorError"></div>
                                 </div>
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group promotion">
                                 <label for="inputProductImage" class="col-sm-2 control-label">Product Image</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputProductImage" placeholder="Product Image" style="resize:none" required>
+                                <center><img  id="prodImgPrev" class='img-thumbnail' style='height:300px;'><center>
+                                <input type="file" class="form-control" id="inputProductImage" placeholder="Product Image" style="resize:none">
                                 <div class="help-block with-errors" id="coverError"></div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group promotion">
                                 <label for="inputProductSubImage" class="col-sm-2 control-label">Product Sub Image(For Fuels)</label>
 
-                                <div class="col-sm-10">
+                                <div class="col-sm-10"> 
+                                <center><img  id="prodSubImgPrev" class='img-thumbnail' style='height:300px;'><center>
                                 <input type="file" class="form-control" id="inputProductSubImage" placeholder="Product Sub Image" style="resize:none">
                                 <div class="help-block with-errors" id="coverError"></div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="inputProductVendorID" class="col-sm-2 control-label">Vendor</label>
-
-                                <div class="col-sm-10">
-                                <select class="form-control" id="inputProductVendorID" style="resize:none" required>
-                                    <option value=""></option>
-                                    <?php 
-                                        if($product_vendors != null){
-                                            foreach($product_vendors as $row){
-                                                ?>
-                                                    <option value="<?php echo $row->id;?>"><?php echo ucfirst($row->vendor_name);?></option>
-                                                <?php
-                                            }
-                                        }
-                                    ?>
-                                </select>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputProductCategoryID" class="col-sm-2 control-label">Product Category</label>
-
-                                <div class="col-sm-10">
-                                <select class="form-control" id="inputProductCategoryID"  style="resize:none" required>
-                                    <option value=""></option>
-                                    <?php 
-                                        if($product_categories != null){
-                                            foreach($product_categories as $row){
-                                                ?>
-                                                    <option value="<?php echo $row->id;?>"><?php echo ucfirst($row->category_name);?></option>
-                                                <?php
-                                            }
-                                        }
-                                    ?>
-                                </select>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputProductSeriesID" class="col-sm-2 control-label">Product Series</label>
-
-                                <div class="col-sm-10">
-                                <select class="form-control" id="inputProductSeriesID"  style="resize:none">
-                                    <option value=""></option>
-                                   
-                                </select>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
+                            <div class="form-group promotion lubricant">
                                 <label for="inputProductPdf" class="col-sm-2 control-label">PDF file</label>
 
                                 <div class="col-sm-10">
@@ -166,7 +183,6 @@
                                 <div class="help-block with-errors" id="pdfError"></div>
                                 </div>
                             </div>
-
                         </div>
                     </form>
                     </div>
@@ -249,12 +265,20 @@
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
             { "width": "15%",  "targets": [ 1 ] }
-        ]
+        ], "order": [[ 8, 'desc' ]]
         });
         
         $('#inputProductCategoryID,#inputProductVendorID').select2(inputRoleConfig);
         $('#inputProductCategoryID').on('change', function() {
             check_series();
+            if($("#inputProductCategoryID").val() != "2")
+            {
+                $(".lubricant").hide();
+            }
+            else
+            {
+                $(".lubricant").show();
+            }
         });
         $('#inputProductVendorID').on('change', function() {
             check_series();
@@ -262,15 +286,15 @@
         
         check_series();
         $("#addBtn").click(function(){
-            $("#productProductModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#productModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
             $("#inputCoverImage").attr("required","required");
-            $('#productProductForm').validator();
-            $("#productProductModal").modal("show");
+            $('#productForm').validator();
+            $("#productModal").modal("show");
         });
 
         $("#saveProducts").click(function(){
-            $("#productProductForm").submit();
+            $("#productForm").submit();
         });
         $('#inputProductSeriesID').select2({
             dropdownAutoWidth : true,
@@ -278,7 +302,12 @@
             placeholder: "--- Select Item ---"
         });
 
-        $("#productProductForm").validator().on('submit', function (e) {
+        $('#inputVisibility').select2({
+            dropdownAutoWidth : true,
+            width: 'auto',
+            placeholder: "--- Select Item ---"
+        });
+        $("#productForm").validator().on('submit', function (e) {
            
             var btn = $("#saveProducts");
             var action = $("#action").val();
@@ -289,11 +318,12 @@
                 e.preventDefault();
                 var product_name = $("#inputProductName").val();
                 var product_description = $("#inputProductDescription").val();
-                var products_id = $("#productProductID").val();
+                var products_id = $("#productID").val();
                 var vendor_id = $("#inputProductVendorID").val();
                 var specification = editor.getData();
                 var product_category_id = $("#inputProductCategoryID").val();
                 var product_series_id = $("#inputProductSeriesID").val();
+                var visibility = $("#inputVisibility").val();
 
                 var formData = new FormData();
                 formData.append('id', products_id);
@@ -303,6 +333,7 @@
                 formData.append('vendor_id', vendor_id);
                 formData.append('product_category_id', product_category_id);
                 formData.append('product_series_id', product_series_id);
+                formData.append('visibility', visibility);
                 // Attach file
                 formData.append('product_image', $('#inputProductImage').prop("files")[0]);
                 formData.append('product_sub_image', $('#inputProductSubImage').prop("files")[0]);
@@ -369,8 +400,8 @@
                                                     btn.button("reset");
                                                     table.draw();
                                                     toastr.success(message);
-                                                    $("#productProductForm").validator('destroy');
-                                                    $("#productProductModal").modal("hide");     
+                                                    $("#productForm").validator('destroy');
+                                                    $("#productModal").modal("hide");     
                                                 }
                                             
                                             },
@@ -420,7 +451,7 @@
                 });
         });
 
-        $('#productProductModal').on('hidden.bs.modal', function (e) {
+        $('#productModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -429,8 +460,8 @@
                 .prop("checked", "")
                 .end();
                 editor.setData('');
-            $("#inputProductCategoryID,#inputProductVendorID,#inputProductCategoryID,#inputProductSeriesID").val('').trigger('change');
-            $("#productProductForm").validator('destroy');
+            $("#inputProductCategoryID,#inputProductVendorID,#inputProductCategoryID,#inputProductSeriesID,#inputVisibility").val('').trigger('change');
+            $("#productForm").validator('destroy');
         });
 
         function resetForm($form) {
@@ -442,9 +473,9 @@
     };
     function _edit(id)
     {
-        $("#productProductModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#productModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#productProductForm').validator();    
+        $('#productForm').validator();    
         $("#action").val("edit");
         $("#inputProductImage").removeAttr("required");
         var data = { "id" : id }
@@ -457,17 +488,48 @@
                     $("#inputProductName").val(data.products.product_name);
                     $("#inputProductDescription").val(data.products.product_description);
                     editor.setData(data.products.specification);
-                    $("#productProductID").val(data.products.id);
+                    $("#productID").val(data.products.id);
+                    if(data.products.product_image != null)
+                    {
+                        $("#prodImgPrev").show();
+                        $("#prodImgPrev").attr("src","<?php echo base_url()."uploads/products/";?>"+data.products.product_image);
+                    }
+                    else
+                    {
+                        $("#prodImgPrev").hide();
+                    }
+                    if(data.products.product_sub_image != null)
+                    {
+                        $("#prodSubImgPrev").show();
+                        $("#prodSubImgPrev").attr("src","<?php echo base_url()."uploads/products/";?>"+data.products.product_sub_image);
+                    }
+                    else
+                    {
+                        $("#prodSubImgPrev").hide();
+                    }
                     $("#inputProductCategoryID").val(data.products.product_category_id).trigger("change");
+                    $("#inputVisibility").val(data.products.visibility).trigger("change");
                     $("#inputProductVendorID").val(data.products.product_vendor_id).trigger("change");
                     set_series(data.products.product_series_id);
-                    $("#productProductModal").modal("show");
+                    $("#productModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
                 }
         });
     }
+    $("#inputVisibility").change(function(){
+        if($("#inputVisibility").val() != "promotion_only")
+        {
+            $(".promotion").hide();
+        }
+        else
+        {
+            $(".promotion").show();
+        }
+    });
+
+
     function _delete(id,item)
     {
         $("#deleteProductsModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");

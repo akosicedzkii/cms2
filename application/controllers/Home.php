@@ -59,9 +59,10 @@ class Home extends CI_Controller {
 		$result = $this->db->query($query);
 
 
-		$fuel_list = $this->db->where("product_category_id","1")->get("products");
+		$query = "SELECT * from products where product_category_id = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
+		$fuel_list =  $this->db->query($query)->result();
 		$return = "<tbody>";
-		foreach($fuel_list->result() as $row)
+		foreach($fuel_list as $row)
 		{
 			$this->db->where("station_id",$result->row()->station_id);
 			$this->db->where("fuel_id",$row->id);
@@ -71,21 +72,24 @@ class Home extends CI_Controller {
 			{	
 				$price = $fuel_price_query->row()->price;
 			}
-			$return .='<tr>
-				<td>'.ucwords($row->product_name).'</td>
-			<td>
-				<div class="price-container" data-price="'.$price.'">';
-
-				
-				$str_price = str_split($price);
-				foreach($str_price as $char  ) {
-					if($char != null){
-						$return .= '<div class="price-digit">'.$char.'</div>';
+			if($price != "00.00")
+			{
+				$return .='<tr>
+					<td>'.ucwords($row->product_name).'</td>
+				<td>
+					<div class="price-container" data-price="'.$price.'">';
+	
+					
+					$str_price = str_split($price);
+					foreach($str_price as $char  ) {
+						if($char != null){
+							$return .= '<div class="price-digit">'.$char.'</div>';
+						}
 					}
-				}
-				$return .= '</div>
-			</td>
-			</tr>';
+					$return .= '</div>
+				</td>
+				</tr>';
+			}
 		}
 		$return .= "</tbody>";
 		echo $return;

@@ -121,8 +121,9 @@ class Stations extends CI_Controller {
 
             // send the column headers
             $headers = array('Station Name', 'Branch Name');
-            $this->db->where("product_category_id","1");
-            $result = $this->db->get("products")->result();
+            
+            $query = "SELECT * from products where product_category_id = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
+            $result = $this->db->query($query)->result();
             if($result != null)
             {
                 foreach($result as $row)
