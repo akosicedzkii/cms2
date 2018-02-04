@@ -1,0 +1,137 @@
+/*My Style*/
+.product{
+	 padding: 5px 102px;
+}
+#texts{
+  padding-left: 6rem;
+}
+#texts2{
+  padding: 7rem;
+}
+
+#idimage{
+	  margin-left: 6rem;
+    padding-top: 4rem;
+}
+.uvc-headings-line{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+}
+
+#cover-image{
+    margin-top: 4rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: inherit;
+    z-index: 20;
+}
+.button-details {
+    background-color: #222222;
+    border: none;
+    color: white;
+    padding: 12px 63px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 40px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 2rem;
+}
+.button1-details:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.w3-shake:hover {
+  animation: shake 0.82s infinite cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.slider{
+  width: 640px; /*Same as width of the large image*/
+  position: relative;
+  /*Instead of height we will use padding*/
+  padding-top: 320px; /*That helps bring the labels down*/
+  
+  margin: 100px auto;
+  background: white;
+  /*Lets add a shadow*/
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
+}
+
+
+/*Last thing remaining is to add transitions*/
+.slider>img{
+  position: absolute;
+  left: 0; top: 0;
+  transition: all 0.5s;
+}
+
+.slider input[name='slide_switch'] {
+  display: none;
+}
+
+.slider label {
+  /*Lets add some spacing for the thumbnails*/
+  margin: 18px 0 0 18px;
+  float: left;
+  cursor: pointer;
+  transition: all 0.5s;
+  
+  /*Default style = low opacity*/
+  opacity: 0.6;
+}
+
+.slider label img{
+  display: block;
+}
+
+/*Time to add the click effects*/
+.slider input[name='slide_switch']:checked+label {
+  border-color: #666;
+  opacity: 1;
+}
+/*Clicking any thumbnail now should change its opacity(style)*/
+/*Time to work on the main images*/
+.slider input[name='slide_switch'] ~ img {
+  opacity: 0;
+  transform: scale(1.1);
+  margin-left: 4rem;
+}
+/*That hides all main images at a 110% size
+On click the images will be displayed at normal size to complete the effect
+*/
+.slider input[name='slide_switch']:checked+label+img {
+  opacity: 1;
+  transform: scale(1);
+}
+/*Clicking on any thumbnail now should activate the image related to it*/
+

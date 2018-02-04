@@ -1,0 +1,48 @@
+/*Main css*/
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 5px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 151px; background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 10px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+
+@font-face{
+	font-family: 'Helvetica-Roman';
+	src: url('fonts/Helvetica-Roman.ttf');/* IE9 Compat Modes */
+}
+@font-face{
+  font-family: 'cheesepizza';
+  src: url('fonts/MyWebFont.ttf');/* IE9 Compat Modes */
+}
+@font-face{
+  font-family: 'nexablack';
+  src: url('fonts/NexaBold.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+#fontnav{
+  font-size: 13px;
+  font-family: "Helvetica-Roman";
+}
+
+#contact{
+	background-image: url(GOLDEN LION2.png);
+}
+.item-s img {
+  max-width: 100%;
+  
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.item-s:hover img {
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+
+
+

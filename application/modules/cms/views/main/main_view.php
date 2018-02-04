@@ -175,7 +175,7 @@
           <!-- PRODUCT LIST -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Recently Added Products</h3>
+              <h3 class="box-title">Recently Added News And Updates</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -187,25 +187,25 @@
             <div class="box-body">
               <ul class="products-list product-list-in-box">
               <?php 
-                      if($products != null)
+                      if($news_and_updates != null)
                       {
                         $count = 0;
-                        foreach($products as $row)
+                        foreach($news_and_updates as $row)
                         {
                           if($count==4)
                           {
                             break;
                           }
                             ?>
-                               <li class="item" data-toggle="tooltip"  title="<?php echo ucfirst($row->product_description);?>">
+                               <li class="item" data-toggle="tooltip"  title="<?php echo ucfirst($row->description);?>">
                                 <div class="product-img">
-                                  <img src="<?php echo base_url("uploads/products/".$row->product_image);?>" alt="Product Image">
+                                  <img src="<?php echo base_url("uploads/".$row->content_type."/".$row->cover_image);?>" alt="Cover Image">
                                 </div>
                                 <div class="product-info">
-                                  <a href="javascript:void(0)"  class="product-title"><?php echo ucfirst($row->product_name);?>
+                                  <a href="javascript:void(0)"  class="product-title"><?php echo ucfirst($row->title);?>
                                    
                                   <span class="product-description">
-                                        <?php echo substr(ucfirst($row->product_description),0,80);?>
+                                        <?php echo substr(ucfirst($row->description),0,80);?>
                                       </span>
                                 </div>
                               </li>
