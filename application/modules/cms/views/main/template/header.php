@@ -73,7 +73,7 @@
 <script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
 <!--toastr  <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/pace/pace.min.css">-->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+<script src="<?php echo base_url();?>assets/validator/validator.js"></script>
 
 
 <!--ckeditor-->

@@ -75,20 +75,20 @@
                                 <label for="inputProductVendorDescription" class="col-sm-2 control-label">Description</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputProductVendorDescription" placeholder="Description" style="resize:none" required></textarea>
-                                <div class="help-block with-errors"></div>
+                                    <textarea class="form-control" id="inputProductVendorDescription" placeholder="Description" style="resize:none" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputProductVendorImage" class="col-sm-2 control-label">Vendor Image</label>
 
                                 <div class="col-sm-10">
-                                    <center><img id="vendorImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"><center>
+                                        <center><img id="vendorImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"></center>
                                         <input type="hidden" id="inputProductVendorImage" value="">
-                                        <a class="btn btn-info" onclick="set_image_loader('inputProductVendorImage','vendorImgPrev');">Select from Gallery</a>
-                                        <div class="help-block with-errors" id="inputProductVendorImageError"></div>
+                                        <center><a class="btn btn-info" onclick="set_image_loader('inputProductVendorImage','vendorImgPrev');">Select from Gallery</a></center>
+                                        <center><div class="help-block with-errors" id="inputProductVendorImageError"></div></center>
                                     </div>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <div id="uploadBoxMain" class="col-md-12">
@@ -281,13 +281,27 @@
                 var vendor_name = $("#inputProductVendorName").val();
                 var vendor_description = $("#inputProductVendorDescription").val();
                 var product_vendor_id = $("#productVendorsID").val();
-
+                var vendor_image =  $('#inputProductVendorImage').val() ;
+                if(vendor_name == "" || vendor_description == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+                if(vendor_image == "")
+                {
+                    $("#inputProductVendorImageError").html("<span style='color:red;'>Please fill out this field.</span>");
+                    btn.button("reset"); 
+                    return false;
+                }else{
+                    
+                    $("#inputProductVendorImageError").html("");
+                }
                 var formData = new FormData();
                 formData.append('id', product_vendor_id);
                 formData.append('vendor_name', vendor_name);
                 formData.append('vendor_description', vendor_description);
                 // Attach file
-                formData.append('vendor_image', $('#inputProductVendorImage').val());
+                formData.append('vendor_image',vendor_image);
 
                 var url = "<?php echo base_url()."cms/product_vendors/add_product_vendors";?>";
                 var message = "New Product Vendor successfully added";
@@ -332,7 +346,6 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
                         btn.button("reset");
                         if(action == "edit")
                         {
@@ -345,7 +358,7 @@
                         toastr.success(message);
                         $("#productVendorsForm").validator('destroy');
                         $("#productVendorsModal").modal("hide");
-                        $('#uploadBoxMain').html('');        
+                        $('#uploadBoxMain').html('');     
                     }
                 });              
             }

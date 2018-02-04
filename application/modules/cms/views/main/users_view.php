@@ -142,7 +142,7 @@
                             <label for="inputEmail" class="col-sm-4 control-label">Email Address</label>
 
                             <div class="col-sm-8">
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email Address">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email Address" required>
                             <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -271,6 +271,7 @@
                 e.preventDefault();
                 var username = $("#inputUsername").val();
                 var password = $("#inputPassword2").val();
+                var password1 = $("#inputPassword").val();
                 var first_name = $("#inputFirstname").val();
                 var middle_name = $("#inputMiddlename").val();
                 var last_name = $("#inputLastname").val();
@@ -280,7 +281,21 @@
                 var role = $("#inputRole").val();
                 var user_id = $("#userID").val();
                 var birthday = $("#inputBirthday").val();
-
+                if(username == "" ||  password == "" || first_name == "" || last_name == "" || email_address == "" || role == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+                if(password1 != password)
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+                if(password1.length < 5 || password.length < 8)
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var data = {
                     "user_id" : user_id,
                     "username" : username,
@@ -337,10 +352,9 @@
 
                     }
                     else
-                    {
-                         //alert("Data Save: " + data);
-                         btn.button("reset");
-                         if(action == "edit")
+                    { 
+                        btn.button("reset");
+                        if(action == "edit")
                          {
                              table.draw("page");
                          }
@@ -354,8 +368,8 @@
                          $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
                          $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
                          $("#inputRole").select2("val", "null");
-                        $('#uploadBoxMain').html('');     
-    
+                         $('#uploadBoxMain').html('');   
+                         $("#userForm").modal("hide");      
                     }
                 });
 

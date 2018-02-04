@@ -76,7 +76,7 @@
 
                                 <div class="col-sm-10">
                                 <textarea class="form-control" id="inputCareerDescription" placeholder="Job Description" style="resize:none" required></textarea>
-                                <div class="help-block with-errors"></div>
+                                <div class="help-block with-errors" id="ckEditorError"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -162,7 +162,19 @@
                 var job_title = $("#inputCareerTitle").val();
                 var job_description = editor.getData();
                 var career_id = $("#careerID").val();
-
+                if(job_title == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+                var messageLength = job_description.replace(/<[^>]*>/gi, '').trim().length;
+                if( !messageLength ) {
+                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
+                    btn.button("reset"); 
+                    return false;
+                }else{
+                    $("#ckEditorError").html("");
+                }
                 var data = {
                     'id':career_id,
                     "job_title" : job_title,
@@ -209,20 +221,20 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        $("#careerForm").validator('destroy');
-                        $("#careerModal").modal("hide");    
-                        $('#uploadBoxMain').html('');        
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         $("#careerForm").validator('destroy');
+                         $("#careerModal").modal("hide");    
+                         $('#uploadBoxMain').html('');         
                     }
                 });              
 

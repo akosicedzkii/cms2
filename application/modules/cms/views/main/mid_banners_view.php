@@ -318,6 +318,12 @@
                 var status = $("#inputStatus").val();
                 var mid_banners_id = $("#mid_bannersID").val();
 
+                if(title == "" || description == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+
                 var formData = new FormData();
                 formData.append('id', mid_banners_id);
                 formData.append('title', title);
@@ -407,7 +413,7 @@
                         toastr.success(message);
                         $("#mid_bannersForm").validator('destroy');
                         $('#uploadBoxMain').html('');       
-                        $("#mid_bannersModal").modal("hide");     
+                        $("#mid_bannersModal").modal("hide");         
                     }
                 });
             }

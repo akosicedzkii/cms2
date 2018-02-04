@@ -346,7 +346,11 @@
                 var description = $("#inputDescription").val();
                 var role_modules = ids.join();
                 var role_id = $("#roleID").val();
-
+                if( name == "" )
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var data = {
                     "role_id" : role_id,
                     "name" : name,
@@ -398,8 +402,8 @@
                     }
                     else
                     { 
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
+                          //alert("Data Save: " + data);
+                          btn.button("reset");
                         if(action == "edit")
                         {
                             table.draw("page");
@@ -413,9 +417,7 @@
                         $("#roleModal").modal("hide");
                         $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
                         $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
-                        $("#inputRole").select2("val", "null");
-                        $('#uploadBoxMain').html('');     
-    
+                        $('#uploadBoxMain').html('');      
                     }
                 });
 

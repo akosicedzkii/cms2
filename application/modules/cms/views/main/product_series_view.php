@@ -90,7 +90,7 @@
                                     <center><img id="seriesImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"></center>
                                     <input type="hidden" id="inputProductSeriesImage" value="">
                                     <center><a class="btn btn-info" onclick="set_image_loader('inputProductSeriesImage','seriesImgPrev');">Select from Gallery</a></center>
-                                    <div class="help-block with-errors" id="inputProductSeriesImageError"></div>
+                                    <center><div class="help-block with-errors" id="inputProductSeriesImageError"></div></center>
                                 </div>
                             </div>
 
@@ -363,6 +363,21 @@
                 var product_series_id = $("#productSeriesID").val();
                 var vendor_id = $("#inputProductVendorID").val();
                 var product_category_id = $("#inputProductCategoryID").val();
+                if(series_name == "" || series_description == "" || vendor_id == ""|| product_category_id == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+                if($('#inputProductSeriesImage').val() == "")
+                {
+                    $("#inputProductSeriesImageError").html("<span style='color:red;'>Please fill out this field.</span>");
+                    btn.button("reset"); 
+                    return false;
+                }else{
+                    
+                    $("#inputProductSeriesImageError").html("");
+                }
+
 
                 var formData = new FormData();
                 formData.append('id', product_series_id);
@@ -418,20 +433,20 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        $("#productSeriesForm").validator('destroy');
-                        $("#productSeriesModal").modal("hide"); 
-                        $('#uploadBoxMain').html('');        
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         $("#productSeriesForm").validator('destroy');
+                         $("#productSeriesModal").modal("hide"); 
+                         $('#uploadBoxMain').html('');       
                     }
                 });              
             }

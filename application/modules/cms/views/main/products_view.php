@@ -466,7 +466,11 @@
                 var product_category_id = $("#inputProductCategoryID").val();
                 var product_series_id = $("#inputProductSeriesID").val();
                 var visibility = $("#inputVisibility").val();
-
+                if(product_name == "" || product_description == "" || vendor_id == "" || product_category_id == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var formData = new FormData();
                 formData.append('id', products_id);
                 formData.append('product_name', product_name);
@@ -560,8 +564,7 @@
                         toastr.success(message);
                         $("#productForm").validator('destroy');
                         $('#uploadBoxMain').html('');       
-                        $("#productModal").modal("hide");
-    
+                        $("#productModal").modal("hide"); 
                     }
                 });
             }

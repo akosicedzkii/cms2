@@ -260,7 +260,6 @@
             $("#stationForm").submit();
         });
         $("#stationForm").validator().on('submit', function (e) {
-            console.log(e.isDefaultPrevented());
            fuel_price = "";
             $('#fuelTextbox input[type=text]').each(function (){
                 fuel_price += $(this).attr('id') + "||" + $(this).val() + "__";//used || __ as delimiter
@@ -275,6 +274,11 @@
                 var map_url = $("#inputMapUrl").val();
                 var branch_id = $("#inputBranch").val();
                 var contact_number = $("#inputContact").val();
+                if(station_name == "" || map_url =="" || contact_number == "" || branch_id == "")
+                {
+                    btn.button("reset");
+                    return false;
+                }
                 var id = $("#stationID").val();
                 var data = {
                     "id" : id,
@@ -328,20 +332,20 @@
                     }
                     else
                     {
-                         //alert("Data Save: " + data);
-                         btn.button("reset");
-                         if(action == "edit")
-                         {
-                             table.draw("page");
-                         }
-                         else
-                         {
-                             table.draw();
-                         }
-                         toastr.success(message);
-                         $("#stationForm").validator('destroy');
-                         $("#stationModal").modal("hide");        
-                        $('#uploadBoxMain').html('');     
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        if(action == "edit")
+                        {
+                            table.draw("page");
+                        }
+                        else
+                        {
+                            table.draw();
+                        }
+                        toastr.success(message);
+                        $("#stationForm").validator('destroy');
+                        $("#stationModal").modal("hide");        
+                       $('#uploadBoxMain').html('');      
     
                     }
                 });

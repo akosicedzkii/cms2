@@ -317,7 +317,11 @@
                 var description = $("#inputDescription").val();
                 var status = $("#inputStatus").val();
                 var banners_id = $("#bannersID").val();
-
+                if(title == "" || description == "")
+                {
+                    btn.button("reset");
+                    return false;
+                }
                 var formData = new FormData();
                 formData.append('id', banners_id);
                 formData.append('title', title);
@@ -411,20 +415,20 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        $("#bannersForm").validator('destroy');
-                        $('#uploadBoxMain').html('');       
-                        $("#bannersModal").modal("hide");     
+                      //alert("Data Save: " + data);
+                      btn.button("reset");
+                      if(action == "edit")
+                      {
+                          table.draw("page");
+                      }
+                      else
+                      {
+                          table.draw();
+                      }
+                      toastr.success(message);
+                      $("#bannersForm").validator('destroy');
+                      $('#uploadBoxMain').html('');       
+                      $("#bannersModal").modal("hide");       
                     }
                 });
 
@@ -500,6 +504,8 @@
                     $("#bannerImgPrev").attr("src","<?php echo base_url()."uploads/banners/";?>"+data.banners.banner_image);
                     $("#innerBannerImgPrev").attr("src","<?php echo base_url()."uploads/banners/";?>"+data.banners.inner_banner_image);
                     $("#inputStatus").val(data.banners.status).trigger('change');
+                    $("#inputBannerImage").val(data.banners.banner_image_id);
+                    $("#inputInnerBannerImage").val(data.banners.inner_banner_image_id);
                     $("#bannersID").val(data.banners.id);
                     $("#bannersModal").modal("show");
                 },

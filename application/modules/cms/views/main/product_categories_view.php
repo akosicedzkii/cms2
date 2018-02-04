@@ -161,7 +161,11 @@
                 var category_name = $("#inputProductCategoryName").val();
                 var category_description = $("#inputProductCategoryDescription").val();
                 var productCategory_id = $("#productCategoryID").val();
-
+                if(category_name == "" || category_description == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var data = {
                     'id':productCategory_id,
                     "category_name" : category_name,
@@ -222,8 +226,7 @@
                 
                         $("#productCategoryForm").validator('destroy');
                         $("#productCategoryModal").modal("hide");     
-                        $('#uploadBoxMain').html('');  
-                              
+                        $('#uploadBoxMain').html('');   
                     }
                 }); 
             }              

@@ -324,25 +324,16 @@
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('content', content);
+
+                if(title == "" || description == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 formData.append('status', status);
                 // Attach file
                 formData.append('cover_image', $('#inputCoverImage').val());
                 var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
-
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }
-
-                var url = "<?php echo base_url()."cms/updates/add_updates";?>";
-                var message = "New updates successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/updates/edit_updates";?>";
-                    message = "Updates successfully updated";
-                }
-               
                 var img = document.getElementById('coverImgPrev'); 
                 //or however you get a handle to the IMG
                 var width = img.naturalWidth;
@@ -366,6 +357,23 @@
                     $("#coverError").html("");  
                 }
 
+                if( !messageLength ) {
+                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
+                    btn.button("reset"); 
+                    return false;
+                }else{
+                    $("#ckEditorError").html("");
+                }
+
+                var url = "<?php echo base_url()."cms/updates/add_updates";?>";
+                var message = "New updates successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."cms/updates/edit_updates";?>";
+                    message = "Updates successfully updated";
+                }
+               
+               
                 $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
                     data: formData,
@@ -402,21 +410,21 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        editor.setData('');
-                        $("#updatesForm").validator('destroy');
-                        $("#updatesModal").modal("hide"); 
-                        $('#uploadBoxMain').html('');          
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         editor.setData('');
+                         $("#updatesForm").validator('destroy');
+                         $("#updatesModal").modal("hide"); 
+                         $('#uploadBoxMain').html('');      
                     }
                 });
 

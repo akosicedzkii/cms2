@@ -318,6 +318,12 @@
                 var status = $("#inputStatus").val();
                 var news_id = $("#newsID").val();
 
+                if(title == "" || description == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
+
                 var formData = new FormData();
                 formData.append('id', news_id);
                 formData.append('title', title);
@@ -327,26 +333,6 @@
                 // Attach file
                 formData.append('cover_image', $('#inputCoverImage').val());
                 var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
-
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }
-                
-                 //fromthis    
-                 var url = "<?php echo base_url()."cms/news/add_news";?>";
-                var message = "New news successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/news/edit_news";?>";
-                    message = "News successfully updated";
-                }
-
-                var img = document.getElementById('coverImgPrev'); 
-                //or however you get a handle to the IMG
-                var width = img.naturalWidth;
-                var height = img.naturalHeight;
                 if($('#inputCoverImage').val() == "")
                 {   
                     img_error = "<span style='color:red;'>Banner image is required</span>";   
@@ -354,6 +340,13 @@
                     $("#coverError").html(img_error);
                     return false;
                 }
+                
+                var img = document.getElementById('coverImgPrev'); 
+                //or however you get a handle to the IMG
+                var width = img.naturalWidth;
+                var height = img.naturalHeight;
+              
+                
                 if(width != "582" || height != "498")
                 {                  
                     img_error = "<span style='color:red;'>Invalid cover size use 582x498</span>";   
@@ -365,6 +358,23 @@
                 {
                     $("#coverError").html("");  
                 }
+                if( !messageLength ) {
+                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
+                    btn.button("reset"); 
+                    return false;
+                }else{
+                    $("#ckEditorError").html("");
+                }
+
+                 //fromthis    
+                 var url = "<?php echo base_url()."cms/news/add_news";?>";
+                var message = "New news successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."cms/news/edit_news";?>";
+                    message = "News successfully updated";
+                }
+
 
                 $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
@@ -402,21 +412,21 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        editor.setData('');
-                        $("#newsForm").validator('destroy');
-                        $("#newsModal").modal("hide"); 
-                        $('#uploadBoxMain').html('');          
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         editor.setData('');
+                         $("#newsForm").validator('destroy');
+                         $("#newsModal").modal("hide"); 
+                         $('#uploadBoxMain').html('');          
                     }
                 });
             }

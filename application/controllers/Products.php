@@ -18,6 +18,9 @@ class Products extends CI_Controller {
 		$return = "";
 		if($fuel_series != null){
 			foreach($fuel_series as $row){
+				
+				$this->db->where("id",$row->series_image);
+				$row->series_image = $this->db->get("media")->row()->file_name;
 				$return .= '<section id="euro-5-content">
 					<div class="custom-column fuel-item animate fade-in">
 						<div class="item-wrapper">

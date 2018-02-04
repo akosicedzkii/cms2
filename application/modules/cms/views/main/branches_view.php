@@ -168,6 +168,11 @@
                 var branch_name = $("#inputBranchName").val();
                 var details = $("#inputDetails").val();
                 var id = $("#branchID").val();
+                if(branch_name == "" || details == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var data = {
                     "id" : id,
                     "branch_name" : branch_name,
@@ -215,20 +220,20 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        $("#branchForm").validator('destroy');
-                        $("#branchModal").modal("hide");     
-                        $('#uploadBoxMain').html('');        
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         $("#branchForm").validator('destroy');
+                         $("#branchModal").modal("hide");     
+                         $('#uploadBoxMain').html('');        
                     }
                 });              
             }

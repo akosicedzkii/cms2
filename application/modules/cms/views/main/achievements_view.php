@@ -165,7 +165,11 @@
                 var year = $("#inputAchievementYear").val();
                 var achievement = $("#inputAchievement").val();
                 var achievement_id = $("#achievementID").val();
-
+                if(year == "" || achievement == "")
+                {
+                    btn.button("reset"); 
+                    return false;
+                }
                 var data = {
                     'id':achievement_id,
                     "year" : year,
@@ -212,20 +216,20 @@
                     }
                     else
                     {
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        if(action == "edit")
-                        {
-                            table.draw("page");
-                        }
-                        else
-                        {
-                            table.draw();
-                        }
-                        toastr.success(message);
-                        $("#achievementForm").validator('destroy');
-                        $("#achievementModal").modal("hide");       
-                        $('#uploadBoxMain').html('');        
+                          //alert("Data Save: " + data);
+                          btn.button("reset");
+                          if(action == "edit")
+                          {
+                              table.draw("page");
+                          }
+                          else
+                          {
+                              table.draw();
+                          }
+                          toastr.success(message);
+                          $("#achievementForm").validator('destroy');
+                          $("#achievementModal").modal("hide");       
+                          $('#uploadBoxMain').html('');       
                     }
                 });              
             }              
