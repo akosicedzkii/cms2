@@ -13,8 +13,10 @@ class Home extends CI_Controller {
 		$this->v_counter->insert_visitor();   
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "HOME - Unioil";
-		$data["banners"] = $this->db->where("status","1")->order_by("date_created","asc")->get("banners")->result();
-		$data["mid_banners"] = $this->db->where("status","1")->order_by("date_created","asc")->get("mid_banners")->result();
+		$query = "SELECT t2.file_name as banner_image, t3.file_name as inner_banner_image FROM banners as t1 LEFT JOIN media as t2 on t2.id = t1.banner_image LEFT JOIN media as t3 on t3.id = t1.inner_banner_image WHERE t1.status = 1";
+		$data["banners"] = $this->db->query($query)->result();
+		$query = "SELECT t2.file_name as banner_image,t1.link FROM mid_banners as t1 LEFT JOIN media as t2 on t2.id = t1.banner_image WHERE t1.status = 1";
+		$data["mid_banners"] = $this->db->query($query)->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('home_view');
 		$this->load->view('template/footer.php',$data);
@@ -37,10 +39,10 @@ class Home extends CI_Controller {
 						$return_station = ""; 
 							foreach($stations->result() as $row_stations)
 							{
-								$return_station .= '"'.strtolower(str_replace(" ","",$row_stations->station_name)).'" : {';
-									$return_station .= '"contact" : "'.ucwords($row_stations->contact_number).'",';
-									$return_station .= '"name" : "'.ucwords($row_stations->station_name).'",';
-									$return_station .= '"map-url" : "'.$row_stations->map_url.'"';
+								$return_station .= '"'. str_replace("'", "",  str_replace('"', '',strtolower(str_replace(" ","",$row_stations->station_name)))).'" : {';
+									$return_station .= '"name" : "'.  str_replace('"', '',str_replace("'", "", ucwords($row_stations->station_name))).'",';
+									$return_station .= '"contact" : "'.  str_replace('"', '',str_replace("'", "", ucwords($row_stations->contact_number))).'",';
+									$return_station .= '"map-url" : "'.  str_replace('"', '', str_replace("'", "", $row_stations->map_url)).'"';
 								$return_station .= '},';
 							}
 							$return_station = rtrim($return_station,",") . "}";

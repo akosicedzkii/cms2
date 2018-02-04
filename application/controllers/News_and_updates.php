@@ -14,9 +14,8 @@ class News_and_updates extends CI_Controller {
 		$this->v_counter->insert_visitor();    
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "NEWS &amp; UPDATES - Unioil";
-		$this->db->where("status","1");
-		$this->db->order_by("date_created","DESC");
-		$result = $this->db->get("news_and_updates");
+		$query = "SELECT t1.description,t1.title,t2.file_name as cover_image,t1.date_created,t1.content_type,t1.id FROM news_and_updates as t1 LEFT JOIN media as t2 on t2.id = t1.cover_image WHERE status = 1 ORDER BY t1.date_created DESC";
+		$result = $this->db->query($query);
 		
 		$data["news_and_updates"] = $result->result();
 		$this->load->view('template/header.php',$data);

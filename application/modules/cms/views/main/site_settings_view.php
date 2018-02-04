@@ -35,10 +35,10 @@
                 <label for="inputSiteLogo" class="col-sm-2 control-label">Site Logo</label>
 
                 <div class="col-sm-4">
-                <input type="file" class="form-control" id="inputSiteLogo" placeholder="Site Logo">
+                <input type="file" class="form-control" id="inputSiteLogo"  accept=".png, .jpeg, .gif" placeholder="Site Logo">
                 <?php if($site_settings->site_logo != ""){
                     ?>
-                            <br><input id="previewImage" data-toggle="imgPreviewModal" class="btn btn-success" value="Preview">
+                            <br><input type="button" id="previewImage" data-toggle="imgPreviewModal" class="btn btn-success" value="Preview">
                     <?php
                 }?>
                 <br>
@@ -49,10 +49,10 @@
                 <label for="inputSiteIcon" class="col-sm-2 control-label">Site Icon</label>
 
                 <div class="col-sm-4">
-                <input type="file" class="form-control" id="inputSiteIcon" placeholder="Site Icon">
+                <input type="file" class="form-control" id="inputSiteIcon" accept=".ico" placeholder="Site Icon">
                 <?php if($site_settings->site_icon != ""){
                     ?>
-                            <br><input id="previewIconImage" data-toggle="imgIconPreviewModal" class="btn btn-success" value="Preview">
+                            <br><input type="button" id="previewIconImage" data-toggle="imgIconPreviewModal" class="btn btn-success" value="Preview">
                     <?php
                 }?>
                 <br>
@@ -136,6 +136,10 @@
                 <div class="col-sm-4">
                 <input type="text" class="form-control" id="inputTwitter" placeholder="Twitter URL" value="<?php echo $site_settings->twitter_url;?>">
                 <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="uploadBoxMain" class="col-md-12">
                 </div>
             </div>
             <div class="form-group">
@@ -244,27 +248,51 @@
             formData.append("contact_us_subject_reply" , contact_us_subject_reply);
 
             formData.append("contact_us_body_reply" , contact_us_body_reply);
-            
-
+        
+            $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
             $.ajax({
-                    data: formData,
-                    type: "post",
-                    processData: false,
-                    contentType: false,
-                    url: "<?php echo base_url()."cms/site_settings/update_settings";?>",
-                    success: function(data){
-                        //alert("Data Save: " + data);
-                        btn.button("reset");
-                        toastr.success('Settings successfully updated');
-                        setTimeout(function() {
-                            window.location = "";
-                        }, 200);
-                    },
-                    error: function (request, status, error) {
-                        alert(request.responseText);
+                data: formData,
+                type: "post",
+                processData: false,
+                contentType: false,
+                cache: false,
+                url: "<?php echo base_url()."cms/site_settings/update_settings";?>" ,
+                xhr: function(){
+                    //upload Progress
+                    var xhr = $.ajaxSettings.xhr();
+                    if (xhr.upload) {
+                        xhr.upload.addEventListener('progress', function(event) {
+                            var percent = 0;
+                            var position = event.loaded || event.position;
+                            var total = event.total;
+                            if (event.lengthComputable) {
+                                percent = Math.ceil(position / total * 100);
+                            }
+                            //update progressbar
+                            
+                            $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                            
+                        }, true);
                     }
-                });
+                    return xhr;
+                },
+                mimeType:"multipart/form-data"
+            }).done(function(data){ 
+              if(data == true)
+              { 
+                   btn.button("reset");
+                    toastr.success('Settings successfully updated');
+                    setTimeout(function() {
+                       window.location = "";
+                    }, 200);
+
+              }else{
+                    btn.button("reset");
+                    toastr.error(data); $('#uploadBoxMain').html('');     
+              }
             });
+
+        });
 
             $("#previewImage").click(function(){
                 $("#imgPreviewModal").modal("show");

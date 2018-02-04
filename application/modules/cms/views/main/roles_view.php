@@ -47,7 +47,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="roleModal">
+<div class="modal fade" id="roleModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -245,6 +245,10 @@
                             </select>
                             <div class="help-block with-errors" id="errorDefault"></div>
                             </div>
+                        </div> 
+                        <div class="form-group">
+                            <div id="uploadBoxMain" class="col-md-12">
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -260,7 +264,7 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteRoleModal">
+<div class="modal fade" id="deleteRoleModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -297,7 +301,7 @@
             }
             ,"columnDefs": [
                 { "visible": false,  "targets": [ 0 ] }
-            ]
+            ], "order": [[ 3, 'desc' ]]
         });
         $("#addBtn").click(function(){
             $("#roleModal .modal-title").html("Add <?php echo rtrim(ucfirst($module_name),"s");?>");
@@ -358,26 +362,63 @@
                     url =  "<?php echo base_url()."cms/roles/edit_role";?>";
                     message = "Role successfully updated";
                 }
+
+                $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
-                        data: data,
-                        type: "post",
-                        url: url ,
-                        success: function(data){
-                            //alert("Data Save: " + data);
-                            btn.button("reset");
-                            table.draw();
-                            toastr.success(message);
-                            $("#roleForm").validator('destroy');
-                            $("#roleModal").modal("hide");
-                            $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
-                            $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
-                            $("#inputRole").select2("val", "null");
-                           
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
+                    data: data,
+                    type: "post",
+                    url: url ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
                         }
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(!data)
+                    {
+                        btn.button("reset");
+                        toastr.error(data);
+                        $('#uploadBoxMain').html('<div id="progressOverlay"><div class="progress progress-striped"><div class="bar" id="progressBar" style="width: 0%;">0%</div></div></div>');       
+
+                    }
+                    else
+                    { 
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        if(action == "edit")
+                        {
+                            table.draw("page");
+                        }
+                        else
+                        {
+                            table.draw();
+                        }
+                        toastr.success(message);
+                        $("#roleForm").validator('destroy');
+                        $("#roleModal").modal("hide");
+                        $(".select2-inputRole-container").attr("html", "--- Select Item ---"); 
+                        $(".select2-inputRole-container").attr("title", "--- Select Item ---"); 
+                        $("#inputRole").select2("val", "null");
+                        $('#uploadBoxMain').html('');     
+    
+                    }
                 });
+
             }
                return false;
         });
@@ -390,19 +431,19 @@
             btn.button("loading");
 
             $.ajax({
-                        data: data,
-                        type: "post",
-                        url: "<?php echo base_url()."cms/roles/delete_role";?>",
-                        success: function(data){
-                            //alert("Data Save: " + data);
-                            btn.button("reset");
-                            table.draw();
-                            $("#deleteRoleModal").modal("hide");
-                            toastr.error('Role ' + deleteItem + ' successfully deleted');
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
+                    data: data,
+                    type: "post",
+                    url: "<?php echo base_url()."cms/roles/delete_role";?>",
+                    success: function(data){
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        table.draw("page");
+                        $("#deleteRoleModal").modal("hide");
+                        toastr.error('Role ' + deleteItem + ' successfully deleted');
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
                 });
         });
 

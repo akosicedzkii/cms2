@@ -40,7 +40,7 @@ class Achievements extends CI_Controller {
         $this->db->where("id",$id);
         echo $result = $this->db->delete("achievements");
         $data = json_encode($data_achievement->row());
-        $this->logs->log = "Deleted Products - ID:". $this->id .", Products Category: ".$data_achievement->row()->year ;
+        $this->logs->log = "Deleted Achievement - ID:". $id .", Achievement: ".$data_achievement->row()->year ;
         $this->logs->details = json_encode($data);
         $this->logs->module = "achievements";
         $this->logs->created_by = $this->session->userdata("USERID");

@@ -30,7 +30,7 @@
                 <input type="file" class="form-control" id="inputFranchiseVideo" placeholder="Franchise Video">
                 <?php if($site_settings->franchise_video != ""){
                     ?>
-                            <br><input id="previewVideo" data-toggle="videoPreviewModal" class="btn btn-success" value="Preview">
+                            <br><input type="button" id="previewVideo" data-toggle="videoPreviewModal" class="btn btn-success" value="Preview">
                     <?php
                 }?>
                 <br>
@@ -44,7 +44,7 @@
                 <input type="file" class="form-control" id="inputFranchiseVideoPoster" placeholder="Franchise Video Poster">
                 <?php if($site_settings->franchise_video_poster != ""){
                     ?>
-                            <br><input id="previewVideoPoster" data-toggle="videoPosterPreviewModal" class="btn btn-success" value="Preview">
+                            <br><input type="button" id="previewVideoPoster" data-toggle="videoPosterPreviewModal" class="btn btn-success" value="Preview">
                     <?php
                 }?>
                 <br>
@@ -104,11 +104,14 @@
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-12">
                 <input type="submit" class="btn btn-success pull-right" id="saveSettings" value="Save Settings">
                 <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="uploadBoxMain" class="col-md-12">
                 </div>
             </div>
         </div>
@@ -123,7 +126,7 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="videoPreviewModal">
+<div class="modal fade" id="videoPreviewModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -146,7 +149,7 @@
 <!-- /.modal -->
 
 <!-- /.modal -->
-<div class="modal fade" id="videoPosterPreviewModal">
+<div class="modal fade" id="videoPosterPreviewModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -201,26 +204,49 @@
             formData.append("franchise_email_address" , franchise_email_address);
             formData.append("careers_email_address" , careers_email_address);
 
-            $.ajax({
+            $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
+                $.ajax({
                     data: formData,
                     type: "post",
                     processData: false,
                     contentType: false,
-                    url: "<?php echo base_url()."cms/opportunities/update_opportunities_settings";?>",
-                    success: function(data){
-                        //alert("Data Save: " + data);
+                    cache: false,
+                    url: "<?php echo base_url()."cms/opportunities/update_opportunities_settings";?>" ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
+                        }
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(data == true)
+                    { 
                         btn.button("reset");
                         toastr.success('Opportunities settings successfully updated');
                         setTimeout(function() {
-                            window.location = "";
+                        window.location = "";
                         }, 200);
-                    },
-                    error: function (request, status, error) {
-                        alert(request.responseText);
-                    }
-                });
-            });
 
+                    }else{
+                            btn.button("reset");
+                            toastr.error(data); $('#uploadBoxMain').html('');     
+                    }
+                });   
+            });           
             $("#previewVideo").click(function(){
                 $("#videoPreviewModal").modal("show");
             });

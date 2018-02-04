@@ -25,12 +25,23 @@ class Opportunities extends CI_Controller {
             } 
 
             $result = $this->db->get("site_settings");
-            unlink($upload_path.$result->row()->franchise_video);
+            $ext = pathinfo($_FILES["franchise_video"]["name"], PATHINFO_EXTENSION); 
+            $allowed =  array('mp4','flv','ogg','3gp','webm');
+            if(!in_array($ext,$allowed) ) 
+            {
+                echo 'Invalid Video type';
+                die();
+            }
+            if(file_exists ( $upload_path.$result->row()->franchise_video ))
+            {
+                unlink($upload_path.$result->row()->franchise_video);
+            }
             $config['upload_path'] = $upload_path;  
             $config['allowed_types'] = 'mp4|flv|ogg|3gp|webm';  
             $new_filename = "franchise_video";
             $config['file_name'] = $new_filename ;
             $this->load->library('upload', $config); 
+            $this->upload->initialize($config);
             if(!$this->upload->do_upload('franchise_video',$new_filename))  
             {  
                 echo $this->upload->display_errors(); 
@@ -49,12 +60,23 @@ class Opportunities extends CI_Controller {
             } 
 
             $result = $this->db->get("site_settings");
-            unlink($upload_path.$result->row()->franchise_video_poster);
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'png|jpg';  
+            $ext = pathinfo($_FILES["franchise_video_poster"]["name"], PATHINFO_EXTENSION); 
+            $allowed =  array('png','jpg');
+            if(!in_array($ext,$allowed) ) 
+            {
+                echo 'Invalid Poster Image type';
+                die();
+            }
+            if(file_exists ( $upload_path.$result->row()->franchise_video_poster ))
+            {
+                unlink($upload_path.$result->row()->franchise_video_poster);
+            }
+            $config_poster['upload_path'] = $upload_path;  
+            $config_poster['allowed_types'] = 'png|jpg';  
             $new_filename = "franchise_video_poster";
-            $config['file_name'] = $new_filename ;
-            $this->load->library('upload', $config); 
+            $config_poster['file_name'] = $new_filename ;
+            $this->load->library('upload', $config_poster); 
+            $this->upload->initialize($config_poster);
             if(!$this->upload->do_upload('franchise_video_poster',$new_filename))  
             {  
                 echo $this->upload->display_errors(); 

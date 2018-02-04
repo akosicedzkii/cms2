@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="profileModal">
+<div class="modal fade" id="profileModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -109,7 +109,11 @@
                               <input type="password" class="form-control" id="inputProfileOldPassword" placeholder="Old Password" required>
                               <div class="help-block with-errors"></div>
                               </div>
-                          </div>
+                          </div>  
+                            <div class="form-group">
+                                <div id="uploadBoxMainProfile" class="col-md-12">
+                                </div>
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -194,35 +198,53 @@
               url =  "<?php echo base_url()."cms/main/update_profile";?>";
               message = "Profile successfully updated";
           
-               $.ajax({
-                       data: formData,
-                       type: "post",
-                       url: url ,
-                        processData: false,
-                        contentType: false,
-                       success: function(data){
-                           //alert("Data Save: " + data);
-                           if(data){
-                            btn.button("reset");
-                            toastr.success(message);
-                            $("#profileForm").validator('destroy');
-                            $("#profileModal").modal("hide");
-                           }
-                           else
-                           {
-                            btn.button("reset");
-                            toastr.error(data);
-                           }
-                          
-                       },
-                       error: function (request, status, error) {
-                           alert(request.responseText);
-                       }
-               });
+               $('#uploadBoxMainProfile').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMainProfile" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
+                $.ajax({
+                    data: formData,
+                    type: "post",
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    url: url ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMainProfile').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
+                        }
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(!data)
+                    {
+                        btn.button("reset");
+                        toastr.error(data);
+                    }
+                    else
+                    {
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        toastr.success(message);
+                        $("#profileForm").validator('destroy');
+                        $("#profileModal").modal("hide");
+                        $('#uploadBoxMainProfile').html('');        
+                    }
+                });              
            }
               return false;
        });
-
 </script>
  <footer class="main-footer">
     <div class="pull-right hidden-xs">

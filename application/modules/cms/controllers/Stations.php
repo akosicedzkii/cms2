@@ -208,11 +208,20 @@ class Stations extends CI_Controller {
                         $this->db->select("id");
                         $this->db->where("branch_name",$row[1]);
                         $branch = $this->db->get("branches")->row();
-
+                        if($branch == null)
+                        {
+                            echo "Error! Please check file uploaded";
+                            die();
+                        }
                         $this->db->select("id");
                         $this->db->where("station_name",$row[0]);
                         $this->db->where("branch_id",$branch->id);
                         $station = $this->db->get("stations")->row();
+                        if($station == null)
+                        {
+                            echo "Error! Please check file uploaded";
+                            die();
+                        }
                         $fuel_prices =  2;///removed 2 columns
                         $this->db->where("station_id",$station->id);
                         $this->db->delete("stations_fuel_prices");
@@ -232,6 +241,7 @@ class Stations extends CI_Controller {
                 $this->logs->module = "stations";
                 $this->logs->created_by = $this->session->userdata("USERID");
                 $this->logs->insert_log();
+                echo true;
             }  
         }  
 		

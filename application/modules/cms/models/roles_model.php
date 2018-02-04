@@ -34,6 +34,7 @@ class Roles_model extends CI_Model {
             $this->logs->details =  $data ." Access: " . json_encode($role_modules) ;
             $this->logs->created_by = $this->session->userdata("USERID");
             $this->logs->insert_log();
+            echo true;
     }
 
     public function update_role($role_modules)
@@ -60,6 +61,7 @@ class Roles_model extends CI_Model {
         $this->logs->details =  $data ." Access: " . json_encode($role_modules) ;
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
+        echo true;
     }
 
     public function get_user_roles($search)

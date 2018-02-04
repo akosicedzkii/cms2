@@ -18,45 +18,7 @@ class Products extends CI_Controller {
 	public function add_products()
 	{
         $upload_path = './uploads/products/'; 
-        if(isset($_FILES["product_image"]["name"]))  
-        {  
-            
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("product_name"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('product_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-            else  
-            {  
-                $data = $this->upload->data();
-                $this->products_model->product_image = $data["file_name"];
-            }  
-        }  
-        if (!empty($_FILES['product_sub_image']['name']))
-        {
-            $config_inner['upload_path'] = $upload_path;  
-            $config_inner['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename_inner = str_replace(" ","_",$this->input->post("product_name"))."_inner_".date("YmdHisU");
-            $config_inner['file_name']= $new_filename_inner ;
-            $this->load->library('upload', $config_inner); 
-            if(!$this->upload->do_upload('product_sub_image',$new_filename_inner))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }else{
-                $data_inner = $this->upload->data();
-                $this->products_model->product_sub_image = $data_inner["file_name"];
-            }
-        }
-
+        $upload_path = './uploads/products/'; 
         if (!empty($_FILES['pdf']['name']))
         {
             $config_pdf['upload_path'] = $upload_path;  
@@ -73,7 +35,9 @@ class Products extends CI_Controller {
                 $this->products_model->pdf = $data_pdf["file_name"];
             }
         }
-
+        
+        $this->products_model->product_sub_image = $this->input->post("product_sub_image");
+        $this->products_model->product_image = $this->input->post("product_image");
         $this->products_model->product_vendor_id = $this->input->post("vendor_id");
         $this->products_model->product_category_id = $this->input->post("product_category_id");
         if($this->input->post("product_series_id") != "None")
@@ -92,54 +56,16 @@ class Products extends CI_Controller {
 	public function edit_products()
 	{
         $products_id = $this->input->post("id");
+       
+        $this->products_model->product_sub_image = $this->input->post("product_sub_image");
+        $this->products_model->product_image = $this->input->post("product_image");
+       
         $upload_path = './uploads/products/'; 
-        if(isset($_FILES["product_image"]["name"]))  
-        {  
-            
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-
-            $this->db->where("id",$products_id);
-            $result = $this->db->get("products");
-            unlink($upload_path.$result->row()->product_image);
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("product_name"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('product_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-                
-             
-            $data = $this->upload->data();
-            $this->products_model->product_image = $data["file_name"];;
-        }  
-        if (!empty($_FILES['product_sub_image']['name']))
-        {
-            $config_inner['upload_path'] = $upload_path;  
-            $config_inner['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename_sub = str_replace(" ","_",$this->input->post("product_name"))."_sub_".date("YmdHisU");
-            $config_inner['file_name']= $new_filename_sub ;
-            $this->load->library('upload', $config_inner); 
-            if(!$this->upload->do_upload('product_sub_image',$new_filename_sub))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }else{
-                $data_sub = $this->upload->data();
-                $this->products_model->product_sub_image = $data_sub["file_name"];
-            }
-        }
-
         if (!empty($_FILES['pdf']['name']))
         {
             $config_pdf['upload_path'] = $upload_path;  
             $config_pdf['allowed_types'] = 'pdf';  
-            $new_filename_pdf = str_replace(" ","_",$this->input->post("product_name"))."_inner_".date("YmdHisU");
+            $new_filename_pdf = str_replace(" ","_",$this->input->post("product_name"))."_pdf_".date("YmdHisU");
             $config_pdf['file_name']= $new_filename_pdf ;
             $this->load->library('upload', $config_pdf); 
             if(!$this->upload->do_upload('pdf',$new_filename_pdf))  
@@ -175,8 +101,7 @@ class Products extends CI_Controller {
         $data_products = $this->db->get("products");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("products");
-        unlink($dir.$data_products->row()->product_image);
-        unlink($dir.$data_products->row()->product_sub_image);
+        unlink($dir.$data_products->row()->pdf);
         $data = json_encode($data_products->row());
         $this->logs->log = "Deleted Products - ID:". $data_products->row()->id .", Products Name: ".$data_products->row()->product_name ;
         $this->logs->details = json_encode($data);
@@ -192,6 +117,22 @@ class Products extends CI_Controller {
         $this->db->where("id",$id);
         $result = $this->db->get("products");
         $products = $result->row();
+        if($products->product_sub_image != null)
+        {
+            if(is_numeric( $products->product_sub_image ))
+            {
+                $products->product_sub_image_id = $products->product_sub_image;
+                $products->product_sub_image = $this->db->where("id",$products->product_sub_image)->get("media")->row()->file_name;
+            }
+        }
+        if($products->product_image != null)
+        {
+            if(is_numeric( $products->product_image ))
+            {
+                $products->product_image_id = $products->product_image;
+                $products->product_image = $this->db->where("id",$products->product_image)->get("media")->row()->file_name;
+            }
+        }
         $return["products"] = $products;
         echo json_encode($return); 
     }
@@ -199,10 +140,10 @@ class Products extends CI_Controller {
     public function get_products_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.product_name","t1.product_image","t1.product_sub_image","t4.category_name","t6.series_name","t5.vendor_name","t1.visibility","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.product_name","t1.product_image","t1.product_sub_image","t4.category_name","t6.series_name","t5.vendor_name","t1.visibility","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","product_name","product_image","product_sub_image","category_name","series_name","vendor_name","visibility","date_created","created_by","date_modified","modified_by");  
-        $this->dt_model->table = "products AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN product_categories AS t4 ON t4.id = t1.product_category_id  LEFT JOIN product_vendors AS t5 ON t5.id = t1.product_vendor_id  LEFT JOIN product_series AS t6 ON t6.id = t1.product_series_id";  
+        $this->dt_model->select_columns = array("t1.id","t1.product_name","t7.file_name as product_image","t8.file_name as product_sub_image","t4.category_name","t6.series_name","t5.vendor_name","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.product_name","t7.file_name","t8.file_name","t4.category_name","t6.series_name","t5.vendor_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","product_name","product_image","product_sub_image","category_name","series_name","vendor_name","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->table = "products AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN product_categories AS t4 ON t4.id = t1.product_category_id  LEFT JOIN product_vendors AS t5 ON t5.id = t1.product_vendor_id  LEFT JOIN product_series AS t6 ON t6.id = t1.product_series_id LEFT JOIN media as t7 ON t7.id = t1.product_image LEFT JOIN media as t8 ON t8.id = t1.product_sub_image ";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];

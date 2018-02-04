@@ -30,11 +30,13 @@ class Products extends CI_Controller {
 					</div>
 					<div class="custom-column fuel-item animate fade-in from-right">';
 					
-						$products = $this->db->where("product_series_id",$row->id)->get("products")->result();
+						$products = $this->db->where("visibility","promotion_only")->where("product_series_id",$row->id)->get("products")->result();
 										
 						if($products != null){
 							foreach($products as $row_prod){
-								$return .= '<a href="#" onclick="view_product_details('.$row_prod->id.');return false;"><img src="'.base_url()."uploads/products/".$row_prod->product_image.'" alt="" class="img-fluid" /></a>';
+								$this->db->where("id",$row_prod->product_image);
+								$img = $this->db->get("media")->row()->file_name;
+								$return .= '<a href="#" onclick="view_product_details('.$row_prod->id.');return false;"><img src="'.base_url()."uploads/products/".$img.'" alt="" class="img-fluid" /></a>';
 							}
 						}
 					$return.='</div>
@@ -65,7 +67,8 @@ class Products extends CI_Controller {
 		$this->v_counter->insert_visitor(); 
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "LUBRICANTS - Unioil";
-		$data["lubricants_products"] = $this->db->where("product_category_id","2")->order_by("series_name","DESC")->get("product_series")->result();
+		$query = "SELECT t1.id,t1.series_name,t1.series_description,t2.file_name as series_image,t3.file_name as series_title_image FROM product_series as t1 LEFT JOIN media as t2 on t2.id = t1.series_image  LEFT JOIN media as t3 on t3.id = t1.series_title_image WHERE t1.product_category_id = 2 ORDER BY t1.series_name DESC";
+		$data["lubricants_products"] = $this->db->query($query)->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('lubricants_view');
 		$this->load->view('template/footer.php',$data);
@@ -76,7 +79,9 @@ class Products extends CI_Controller {
 		$id = $this->input->post("id");
 		$this->db->where("id",$id);
 		$return = $this->db->get("products");
-		echo json_encode($return->row());
+		$data = $return->row();
+		$data->product_sub_image = $this->db->where("id",$data->product_sub_image)->get("media")->row()->file_name;
+		echo json_encode($data);
 	}
 
 	public function get_lubricants()
@@ -108,6 +113,8 @@ class Products extends CI_Controller {
 
 						$pdf = "<div class='btn-spacer' style='padding-left: 14px;padding-bottom: 14px;'><a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download</a></div>";
 					}
+					
+					$row->product_image = $this->db->where("id",$row->product_image)->get("media")->row()->file_name;
 					$return_carousel .= '<div class="carousel-item'.$active.'">
 											<div class="container">
 												<div class="row justify-content-center">

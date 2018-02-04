@@ -17,65 +17,16 @@ class Product_vendors extends CI_Controller {
 
 	public function add_product_vendors()
 	{
-        if(isset($_FILES["vendor_image"]["name"]))  
-        {  
-            
-           $upload_path = './uploads/product_vendors/'; 
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('vendor_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-            else  
-            {  
-                $data = $this->upload->data();
-                $this->product_vendors_model->vendor_name = $this->input->post("vendor_name");
-                $this->product_vendors_model->vendor_description = $this->input->post("vendor_description");
-                $this->product_vendors_model->vendor_image = $data["file_name"];
-                echo $this->product_vendors_model->insert_product_vendor();
-            }  
-        }  
-		
+        $this->product_vendors_model->vendor_name = $this->input->post("vendor_name");
+        $this->product_vendors_model->vendor_description = $this->input->post("vendor_description");
+        $this->product_vendors_model->vendor_image = $this->input->post("vendor_image");
+        echo $this->product_vendors_model->insert_product_vendor();
 	}
 
 	public function edit_product_vendors()
 	{
         $product_vendors_id = $this->input->post("id");
-        if(isset($_FILES["vendor_image"]["name"]))  
-        {  
-            
-           $upload_path = './uploads/product_vendors/'; 
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-
-            $this->db->where("id",$product_vendors_id);
-            $result = $this->db->get("product_vendors");
-            unlink($upload_path.$result->row()->vendor_image);
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('vendor_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-                
-             
-            $data = $this->upload->data();
-            $this->product_vendors_model->vendor_image = $data["file_name"];;
-        }  
-
+        $this->product_vendors_model->vendor_image = $this->input->post("vendor_image");
         $this->product_vendors_model->vendor_name = $this->input->post("vendor_name");
         $this->product_vendors_model->vendor_description = $this->input->post("vendor_description");
         $this->product_vendors_model->id = $product_vendors_id;
@@ -84,16 +35,13 @@ class Product_vendors extends CI_Controller {
 
 	public function delete_product_vendors()
 	{
-        
-        $dir = './uploads/product_vendors/'; 
         $id = $this->input->post("id");
         $this->db->where("id",$id);
         $data_product_vendors = $this->db->get("product_vendors");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("product_vendors");
-        unlink($dir.$data_product_vendors->row()->vendor_image);
         $data = json_encode($data_product_vendors->row());
-        $this->logs->log = "Deleted Products - ID:". $data_product_vendors->row()->id .", Products Name: ".$data_product_vendors->row()->vendor_name ;
+        $this->logs->log = "Deleted Product Vendor - ID:". $data_product_vendors->row()->id .", Product Vendor Name: ".$data_product_vendors->row()->vendor_name ;
         $this->logs->details = json_encode($data);
         $this->logs->module = "product_vendors";
         $this->logs->created_by = $this->session->userdata("USERID");
@@ -107,6 +55,14 @@ class Product_vendors extends CI_Controller {
         $this->db->where("id",$id);
         $result = $this->db->get("product_vendors");
         $product_vendors = $result->row();
+        if($product_vendors->vendor_image != null)
+        {
+            if(is_numeric( $product_vendors->vendor_image ))
+            {
+                $product_vendors->vendor_image_id = $product_vendors->vendor_image;
+                $product_vendors->vendor_image = $this->db->where("id",$product_vendors->vendor_image)->get("media")->row()->file_name;
+            }
+        }
         $return["product_vendors"] = $product_vendors;
         echo json_encode($return); 
     }
@@ -114,10 +70,10 @@ class Product_vendors extends CI_Controller {
     public function get_product_vendors_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.vendor_name","t1.vendor_image","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.vendor_name","t1.vendor_image","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $this->dt_model->select_columns = array("t1.id","t1.vendor_name","t4.file_name as vendor_image","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.vendor_name","t4.file_name","t1.date_created","t2.username","t1.date_modified","t3.username");  
         $select_columns = array("id","vendor_name","vendor_image","date_created","created_by","date_modified","modified_by");  
-        $this->dt_model->table = "product_vendors AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
+        $this->dt_model->table = "product_vendors AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN media as t4 on t4.id = t1.vendor_image";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];

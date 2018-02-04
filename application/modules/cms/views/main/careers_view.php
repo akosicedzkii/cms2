@@ -48,7 +48,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="careerModal">
+<div class="modal fade" id="careerModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,6 +79,10 @@
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div id="uploadBoxMain" class="col-md-12">
+                                </div>
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -94,7 +98,7 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteCareerModal">
+<div class="modal fade" id="deleteCareerModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,7 +137,7 @@
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
             { "width": "20%",  "targets": [ 1 ] }
-        ]
+        ], "order": [[ 3, 'desc' ]]
         });
         $("#addBtn").click(function(){
             $("#careerModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
@@ -172,31 +176,56 @@
                     url =  "<?php echo base_url()."cms/careers/edit_career";?>";
                     message = "Career successfully updated";
                 }
+                $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
-                        data: data,
-                        type: "post",
-                        url: url ,
-                        success: function(data){
-                            if(!data)
-                            {
-                                btn.button("reset");
-                                toastr.error(data);
-                            }
-                            else
-                            {
-                                //alert("Data Save: " + data);
-                                btn.button("reset");
-                                table.draw();
-                                toastr.success(message);
-                                $("#careerForm").validator('destroy');
-                                $("#careerModal").modal("hide");     
-                            }
-                        
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
+                    data: data,
+                    type: "post",
+                    url: url ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
                         }
-                });
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(!data)
+                    {
+                        btn.button("reset");
+                        toastr.error(data);
+                    }
+                    else
+                    {
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        if(action == "edit")
+                        {
+                            table.draw("page");
+                        }
+                        else
+                        {
+                            table.draw();
+                        }
+                        toastr.success(message);
+                        $("#careerForm").validator('destroy');
+                        $("#careerModal").modal("hide");    
+                        $('#uploadBoxMain').html('');        
+                    }
+                });              
+
             }              
                return false;
         });
@@ -215,7 +244,7 @@
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
-                            table.draw();
+                            table.draw("page");
                             $("#deleteCareerModal").modal("hide");
                             toastr.error('Career ' + deleteItem + ' successfully deleted');
                         },

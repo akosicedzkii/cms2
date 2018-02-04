@@ -25,20 +25,36 @@ class Site_settings extends CI_Controller {
             } 
 
             $result = $this->db->get("site_settings");
-            unlink($upload_path.$result->row()->site_logo);
+            $ext = pathinfo($_FILES["site_logo"]["name"], PATHINFO_EXTENSION);
+            $allowed =  array('gif','png' ,'jpg','jpeg');
+            if(!in_array($ext,$allowed) ) 
+            {
+                echo 'Invalid Logo type';
+                die();
+            }
+            if(file_exists ( $upload_path.$result->row()->site_logo ))
+            {
+                unlink($upload_path.$result->row()->site_logo);
+            }
             $config['upload_path'] = $upload_path;  
+            
             $config['allowed_types'] = 'jpg|jpeg|png|gif';  
             $new_filename = "site_logo";
             $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config); 
             if(!$this->upload->do_upload('site_logo',$new_filename))  
             {  
-                echo $this->upload->display_errors(); 
+                echo $this->upload->display_errors(). " For Logo " ; 
                 die(); 
+            }
+            else
+            {
+                
+                $data_upload = $this->upload->data();
+               
+                $data["site_logo"] = $data_upload["file_name"];
             }  
-            $data_upload = $this->upload->data();
-           
-            $data["site_logo"] = $data_upload["file_name"];
         }
 
         if(isset($_FILES["site_icon"]["name"]))  
@@ -48,21 +64,36 @@ class Site_settings extends CI_Controller {
                 mkdir($upload_path, 0777, TRUE);
             } 
 
+           
             $result = $this->db->get("site_settings");
-            unlink($upload_path.$result->row()->site_logo);
+            
+            $ext = pathinfo($_FILES["site_icon"]["name"], PATHINFO_EXTENSION); 
+            $allowed =  array('ico');
+            if(!in_array($ext,$allowed) ) 
+            {
+                echo 'Invalid Icon type';
+                die();
+            }
+            if(file_exists ( $upload_path.$result->row()->site_icon ))
+            {
+                unlink($upload_path.$result->row()->site_icon);
+            }
             $config_icon['upload_path'] = $upload_path;  
             $config_icon['allowed_types'] = 'ico';  
             $new_filename = "site_icon";
             $config_icon['file_name']= $new_filename ;
             $this->load->library('upload', $config_icon); 
+            $this->upload->initialize($config_icon);
             if(!$this->upload->do_upload('site_icon',$new_filename))  
             {  
-                echo $this->upload->display_errors(); 
+                echo $this->upload->display_errors() . " For Icon " ; 
                 die(); 
+            }
+            else
+            {
+                $data_icon = $this->upload->data();
+                $data["site_icon"] = $data_icon["file_name"];
             }  
-            $data_icon = $this->upload->data();
-           
-            $data["site_icon"] = $data_icon["file_name"];
         }
 
         $data["site_name"] = $this->input->post("site_name");

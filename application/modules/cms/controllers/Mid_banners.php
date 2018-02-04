@@ -17,66 +17,18 @@ class Mid_banners extends CI_Controller {
 
 	public function add_mid_banner()
 	{
-        $upload_path = './uploads/mid_banners/'; 
-        if(isset($_FILES["banner_image"]["name"]))  
-        {  
-            
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('banner_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-            else  
-            {  
-                $data = $this->upload->data();
-                $this->mid_banners_model->title = $this->input->post("title");
-                $this->mid_banners_model->description = $this->input->post("description");
-                $this->mid_banners_model->link = $this->input->post("link");
-                $this->mid_banners_model->status = $this->input->post("status");
-                $this->mid_banners_model->banner_image = $data["file_name"];
-                echo $this->mid_banners_model->insert_mid_banners();
-            }  
-        }  
-		
+        $this->mid_banners_model->banner_image = $this->input->post("banner_image");
+        $this->mid_banners_model->title = $this->input->post("title");
+        $this->mid_banners_model->description = $this->input->post("description");
+        $this->mid_banners_model->link = $this->input->post("link");
+        $this->mid_banners_model->status = $this->input->post("status");
+        echo $this->mid_banners_model->insert_mid_banners();
 	} 
 
 	public function edit_mid_banner()
 	{
         $banners_id = $this->input->post("id");
-        $upload_path = './uploads/mid_banners/'; 
-        if(isset($_FILES["banner_image"]["name"]))  
-        {  
-            
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, TRUE);
-            } 
-
-            $this->db->where("id",$banners_id);
-            $result = $this->db->get("mid_banners");
-            unlink($upload_path.$result->row()->banner_image);
-            $config['upload_path'] = $upload_path;  
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
-            $new_filename = str_replace(" ","_",$this->input->post("title"))."_".date("YmdHisU");
-            $config['file_name']= $new_filename ;
-            $this->load->library('upload', $config); 
-            if(!$this->upload->do_upload('banner_image',$new_filename))  
-            {  
-                echo $this->upload->display_errors(); 
-                die(); 
-            }  
-                
-             
-            $data = $this->upload->data();
-            $this->mid_banners_model->banner_image = $data["file_name"];
-        }  
+        $this->mid_banners_model->banner_image = $this->input->post("banner_image");
         $this->mid_banners_model->title = $this->input->post("title");
         $this->mid_banners_model->description = $this->input->post("description");
         $this->mid_banners_model->link = $this->input->post("link");
@@ -87,21 +39,16 @@ class Mid_banners extends CI_Controller {
 
 	public function delete_mid_banner()
 	{
-        
-        $dir = './uploads/mid_banners/'; 
         $id = $this->input->post("id");
         $this->db->where("id",$id);
         
-        $this->db->select("id,title,description,banner_image,created_by,date_created,date_modified,modified_by,content,status");
+        $this->db->select("id,title,description,banner_image,link,created_by,date_created,date_modified,modified_by,content,status");
          $data_banners = $this->db->get("mid_banners");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("mid_banners");
-        if($data_banners->row()->banner_image != null)
-        {
-            unlink($dir.$data_banners->row()->banner_image);
-        }
         $data = json_encode($data_banners->row());
-        $this->logs->log = "Deleted Mid Banner: ". $data ;
+        $this->logs->log = "Deleted Mid Banner: ". $id ;
+        $this->logs->details = $data ;
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         
@@ -113,6 +60,14 @@ class Mid_banners extends CI_Controller {
         $this->db->where("id",$id);
         $result = $this->db->get("mid_banners");
         $banners = $result->row();
+        if($banners->banner_image != null)
+        {
+            if(is_numeric( $banners->banner_image ))
+            {
+                $banners->banner_image_id = $banners->banner_image;
+                $banners->banner_image = $this->db->where("id",$banners->banner_image)->get("media")->row()->file_name;
+            }
+        }
         $return["mid_banners"] = $banners;
         echo json_encode($return); 
     }
@@ -120,10 +75,10 @@ class Mid_banners extends CI_Controller {
     public function get_mid_banners_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.title","t1.banner_image","t1.link","IF(t1.status = 1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.title","t1.banner_image","t1.link","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $this->dt_model->select_columns = array("t1.id","t1.title","t4.file_name as banner_image","t1.link","IF(t1.status = 1,'Enabled','Disabled') as status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.title","t4.file_name","t1.link","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
         $select_columns = array("id","title","banner_image","link","status","date_created","created_by","date_modified","modified_by");  
-        $this->dt_model->table = "mid_banners AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
+        $this->dt_model->table = "mid_banners AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by LEFT JOIN media as t4 on t4.id = t1.banner_image";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
         $output = $result["output"];

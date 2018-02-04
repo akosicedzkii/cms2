@@ -113,7 +113,7 @@ class Main extends CI_Controller {
 
 	public function mid_banners()
     {
-		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		if (!in_array("banners", $this->user_access)) 
 		{
 			redirect(base_url()."cms/main/".$this->default_page);
 		}

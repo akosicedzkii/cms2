@@ -48,7 +48,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="productVendorsModal">
+<div class="modal fade" id="productVendorsModal"  role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,23 +72,28 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                                <label for="inputProductVendorDescription" class="col-sm-2 control-label">Description</label>
 
                                 <div class="col-sm-10">
                                 <textarea class="form-control" id="inputProductVendorDescription" placeholder="Description" style="resize:none" required></textarea>
                                 <div class="help-block with-errors"></div>
-                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputProductVendorImage" class="col-sm-2 control-label">Vendor Image (Recommended Size: 570x267)</label>
+                                <label for="inputProductVendorImage" class="col-sm-2 control-label">Vendor Image</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputProductVendorImage" placeholder="Vendor Image" style="resize:none" required>
-                                <div class="help-block with-errors" id="coverError"></div>
+                                    <center><img id="vendorImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"><center>
+                                        <input type="hidden" id="inputProductVendorImage" value="">
+                                        <a class="btn btn-info" onclick="set_image_loader('inputProductVendorImage','vendorImgPrev');">Select from Gallery</a>
+                                        <div class="help-block with-errors" id="inputProductVendorImageError"></div>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <div id="uploadBoxMain" class="col-md-12">
+                                </div>
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -104,7 +109,7 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteProductVendorsModal">
+<div class="modal fade" id="deleteProductVendorsModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -127,21 +132,108 @@
 <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+
 <!-- /.modal -->
-<div class="modal fade" id="imgPreviewModal">
+<div class="modal fade" id="mediaGalleryModal"   role="dialog"  data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Product Vendor Image Gallery</h3>
+            </div>
+            <div class="modal-body">
+                <form id="galleryFormUpload" method="post" action="<?php echo base_url()."cms/media/add_media"?>" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <input type="hidden" id="var_holder" value="">
+                            <input type="hidden" id="file_holder" value="">
+                            <input type="hidden" name="module" value="product_vendors">
+                            <input type="hidden" name="allowed_files" value="png|jpeg|jpg|gif">
+                            <input type="hidden" name="file_type" value="image">
+                            <input type="file" name="media_file" id="media_file" accept="*" class="form-control" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-success" id="startUpload">Start Upload</button></center>  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="uploadBox">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <center>
+                    <table id="imageGalleryTable" class="table table-bordered table-striped display nowrap" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th width="100px"></th>
+                            <th>ID</th>
+                            <th>Media</th>
+                            <th>Date Created</th>
+                            <th>Created By</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-info" id="selectImage">Select</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- /.modal -->
+<div class="modal fade" id="imgPreviewModal"   role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Product Vendors Image Preview</h3>
+             <h3 class="modal-title">Vendor Image Preview</h3>
             </div>
             <div class="modal-body">
                 <center><img src="" id="imgPreview" style="width:100%;"></center>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- /.modal -->
+<div class="modal fade" id="deleteImageModal"  role="dialog"  data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Delete this image?</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deleteImage">
+                <center><img src="" id="imgPreviewDel" style="width:100%;"></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="deleteImageBtn">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -164,7 +256,7 @@
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
             { "width": "20%",  "targets": [ 1 ] }
-        ]
+        ], "order": [[ 3, 'desc' ]]
         });
         $("#addBtn").click(function(){
             $("#productVendorsModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
@@ -195,86 +287,67 @@
                 formData.append('vendor_name', vendor_name);
                 formData.append('vendor_description', vendor_description);
                 // Attach file
-                formData.append('vendor_image', $('#inputProductVendorImage').prop("files")[0]);
+                formData.append('vendor_image', $('#inputProductVendorImage').val());
 
-                var fileUpload = document.getElementById("inputProductVendorImage");
-                
-                //Check whether the file is valid Image.
-                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
-                
-                if (regex.test(fileUpload.value.toLowerCase())) {
-
-                    //Check whether HTML5 is supported.
-                    if (typeof (fileUpload.files) != "undefined") {
-                        //Initiate the FileReader object.
-                        var reader = new FileReader();
-                        //Read the contents of Image File.
-                        reader.readAsDataURL(fileUpload.files[0]);
-                        reader.onload = function (e) {
-                            //Initiate the JavaScript Image object.
-                            var image = new Image();
-
-                            //Set the Base64 string return from FileReader as source.
-                            image.src = e.target.result;
-                                    
-                            //Validate the File Height and Width.
-                            image.onload = function () {
-                                if(this.width != "570" || this.height != "267")
-                                {
-                                    $("#coverError").html("<span style='color:red;'>Invalid cover size use 570x267</span>");                    
-                                    btn.button("reset"); 
-                                    return false;
-                                }
-                                else
-                                {
-                                    var url = "<?php echo base_url()."cms/product_vendors/add_product_vendors";?>";
-                                    var message = "New product_vendors successfully added";
-                                    if(action == "edit")
-                                    {
-                                        url =  "<?php echo base_url()."cms/product_vendors/edit_product_vendors";?>";
-                                        message = "ProductVendors successfully updated";
-                                    }
-                                    $.ajax({
-                                            data: formData,
-                                            type: "post",
-                                            processData: false,
-                                            contentType: false,
-                                            url: url ,
-                                            success: function(data){
-                                                if(!data)
-                                                {
-                                                    btn.button("reset");
-                                                    toastr.error(data);
-                                                }
-                                                else
-                                                {
-                                                    //alert("Data Save: " + data);
-                                                    btn.button("reset");
-                                                    table.draw();
-                                                    toastr.success(message);
-                                                    $("#productVendorsForm").validator('destroy');
-                                                    $("#productVendorsModal").modal("hide");     
-                                                }
-                                            
-                                            },
-                                            error: function (request, status, error) {
-                                                alert(request.responseText);
-                                            }
-                                    });
-                                }
-                            };
-
-                        }
-                    } else {
-                        alert("This browser does not support HTML5.");
-                        btn.button("reset"); 
-                        return false;
-                    }
-                } else {
-                    alert("Please select a valid Image file.");
-                    btn.button("reset"); 
-                    return false;
+                var url = "<?php echo base_url()."cms/product_vendors/add_product_vendors";?>";
+                var message = "New Product Vendor successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."cms/product_vendors/edit_product_vendors";?>";
+                    message = "Product Vendor successfully updated";
                 }
+                 $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
+                $.ajax({
+                    data: formData,
+                    type: "post",
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    url: url ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
+                        }
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(!data)
+                    {
+                        btn.button("reset");
+                        toastr.error(data);
+                    }
+                    else
+                    {
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        if(action == "edit")
+                        {
+                            table.draw("page");
+                        }
+                        else
+                        {
+                            table.draw();
+                        }
+                        toastr.success(message);
+                        $("#productVendorsForm").validator('destroy');
+                        $("#productVendorsModal").modal("hide");
+                        $('#uploadBoxMain').html('');        
+                    }
+                });              
             }
                return false;
         });
@@ -293,7 +366,7 @@
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
-                            table.draw();
+                            table.draw("page");
                             $("#deleteProductVendorsModal").modal("hide");
                             toastr.error('Product Vendors ' + deleteItem + ' successfully deleted');
                         },
@@ -311,9 +384,9 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            editor.setData("");
-            $("#inputStatus").val('1').trigger('change');
             $("#productVendorsForm").validator('destroy');
+            $("#vendorImgPrev").attr("src","");
+            $("#inputProductVendorImage").val("");
         });
 
         function resetForm($form) {
@@ -340,6 +413,8 @@
                     $("#inputProductVendorName").val(data.product_vendors.vendor_name);
                     $("#inputProductVendorDescription").val(data.product_vendors.vendor_description);
                     $("#productVendorsID").val(data.product_vendors.id);
+                    $("#vendorImgPrev").attr("src","<?php echo base_url()."uploads/product_vendors/";?>"+data.product_vendors.vendor_image);
+                    $("#inputProductVendorImage").val(data.product_vendors.vendor_image_id);
                     $("#productVendorsModal").modal("show");
                 },
                 error: function (request, status, error) {
@@ -360,5 +435,103 @@
         $("#imgPreview").attr("src","<?php echo base_url()."uploads/product_vendors/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
     }
+    
+    function set_image_loader(var_holder,file_holder)
+    {
+        $("#var_holder").val(var_holder);
+        $("#file_holder").val(file_holder);
+        $("#mediaGalleryModal").modal("show");
+    }
+
+    var new_table = $('#imageGalleryTable').DataTable({ 
+            "language": {                
+                "infoFiltered": ""
+            },
+            "processing" : true,
+            "serverSide" : true,
+            "searching" : false,
+            "pageLength": 10, "bLengthChange": false,
+            "ajax" : "<?php echo base_url()."cms/media/get_media_list?module=product_vendors";?>",
+            "initComplete": function(settings,json){
+                $('[data-toggle="tooltip"]').tooltip()
+            }
+            ,"columnDefs": [
+            { "visible": false,  "targets": [ 1 ] }
+        ], "order": [[ 0, 'desc' ]]
+        });
+
+    $('#galleryFormUpload').ajaxForm( {
+            dataType : 'json',
+            beforeSubmit: function() {
+                $("#startUpload").button("loading");
+                $('#uploadBox').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
+            },
+            uploadProgress: function ( event, position, total, percentComplete ) {
+                if (percentComplete == 100) {
+                    $('#progressBar').css('width',percentComplete+'%').html('Processing...');
+                } else {
+                    $('#progressBar').css('width',percentComplete+'%').html(percentComplete+'%');
+                }
+            },
+            success: function(data){
+                
+                if(!data)
+                {
+                    $("#startUpload").button("reset");
+                    toastr.error(data);
+                }
+                else
+                {   
+                    $("#startUpload").button("reset");
+                    new_table.draw();
+                    toastr.success("Upload Complete");
+                    $('#uploadBox').html('<div id="progressOverlay"><div class="progress progress-striped"><div class="bar" id="progressBar" style="width: 0%;">0%</div></div></div>');       
+                    $("#media_file").val('');     
+                    $('#uploadBox').html("");
+                }
+            
+            },
+            error: function (request, status, error) {
+                $("#startUpload").button("reset");
+                toastr.error(request.responseText);
+            }
+    });
+
+    $("#selectImage").click(function(){
+        $("#"+$("#var_holder").val()).val($('input[name=selected_image]:checked').val());
+        $("#"+$("#file_holder").val()).attr("src",$('input[name=selected_image]:checked').attr("data"));
+        $("#mediaGalleryModal").modal("hide"); 
+        new_table.draw();
+    });
+
+    function _delete_media(id,file_name)
+    {
+        $("#imgPreviewDel").attr("src",file_name);
+        $("#deleteImage").val(id);
+        $("#deleteImageModal").modal("show");
+    }
+
+    $("#deleteImageBtn").click(function(){
+        var btn = $(this);
+        var id = $("#deleteImage").val();
+        var data = { "id" : id };
+        btn.button("loading");
+
+        $.ajax({
+                data: data,
+                type: "post",
+                url: "<?php echo base_url()."cms/media/delete_media";?>",
+                success: function(data){
+                    //alert("Data Save: " + data);
+                    btn.button("reset");
+                    new_table.draw("page");
+                    $("#deleteImageModal").modal("hide");
+                    toastr.error('Image successfully deleted');
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+        });
+    });
     $(document).ready(main);
 </script>

@@ -49,7 +49,7 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="stationModal">
+<div class="modal fade" id="stationModal"  role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -127,6 +127,10 @@
                                         }
                                     ?>
                             </div>
+                            <div class="form-group">
+                                <div id="uploadBoxMain" class="col-md-12">
+                                </div>
+                            </div>
                         </div>
                     </form>
                     </div>
@@ -142,7 +146,7 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteStationModal">
+<div class="modal fade" id="deleteStationModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -167,7 +171,7 @@
 <!-- /.modal -->
 
 <!-- /.modal -->
-<div class="modal fade" id="stationMap">
+<div class="modal fade" id="stationMap" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -191,7 +195,7 @@
 
 
 <!-- /.modal -->
-<div class="modal fade" id="uploadPricesModal">
+<div class="modal fade" id="uploadPricesModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -203,6 +207,12 @@
             <div class="modal-body">
                 <a href="<?php echo base_url("cms/stations/download_station_prices");?>" download>Download Prices Template</a>
                 <center><input type="file" id="pricelist" accept=".csv" class="form-control"></center>
+                <center>
+                    <div class="form-group">
+                        <div id="uploadBoxMainUpload" class="col-md-12">
+                        </div>
+                    </div>
+                </center>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -236,7 +246,7 @@
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },            
             { "visible": false,  "targets": [ 1 ] }
-        ]
+        ], "order": [[ 4, 'desc' ]]
         });
         $("#addBtn").click(function(){
             $("#stationModal .modal-title").html("Add <?php echo ucwords(str_replace("_"," ",$module_name));?>");
@@ -250,6 +260,7 @@
             $("#stationForm").submit();
         });
         $("#stationForm").validator().on('submit', function (e) {
+            console.log(e.isDefaultPrevented());
            fuel_price = "";
             $('#fuelTextbox input[type=text]').each(function (){
                 fuel_price += $(this).attr('id') + "||" + $(this).val() + "__";//used || __ as delimiter
@@ -257,9 +268,8 @@
             var btn = $("#saveStation");
             var action = $("#action").val();
             btn.button("loading");
-            if (e.isDefaultPrevented()) {
-                btn.button("reset"); 
-            } else {
+            if (!e.isDefaultPrevented()) {
+               
                 e.preventDefault();
                 var station_name = $("#inputStationName").val();
                 var map_url = $("#inputMapUrl").val();
@@ -282,32 +292,61 @@
                     url =  "<?php echo base_url()."cms/stations/edit_station";?>";
                     message = "Station successfully updated";
                 }
+              
+                $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
-                        data: data,
-                        type: "post",
-                        url: url ,
-                        success: function(data){
-                            if(!data)
-                            {
-                                btn.button("reset");
-                                toastr.error(data);
-                            }
-                            else
-                            {
-                                //alert("Data Save: " + data);
-                                btn.button("reset");
-                                table.draw();
-                                toastr.success(message);
-                                $("#stationForm").validator('destroy');
-                                $("#stationModal").modal("hide");     
-                                $('#inputBranch').select2("val","").tigger("change");   
-                            }
-                           
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
+                    data: data,
+                    type: "post",
+                    url: url ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
                         }
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(!data)
+                    {
+                        btn.button("reset");
+                        toastr.error(data);
+                        $('#uploadBoxMain').html('<div id="progressOverlay"><div class="progress progress-striped"><div class="bar" id="progressBar" style="width: 0%;">0%</div></div></div>');       
+
+                    }
+                    else
+                    {
+                         //alert("Data Save: " + data);
+                         btn.button("reset");
+                         if(action == "edit")
+                         {
+                             table.draw("page");
+                         }
+                         else
+                         {
+                             table.draw();
+                         }
+                         toastr.success(message);
+                         $("#stationForm").validator('destroy');
+                         $("#stationModal").modal("hide");        
+                        $('#uploadBoxMain').html('');     
+    
+                    }
                 });
+            } else {
+                 btn.button("reset"); 
             }
                return false;
         });
@@ -319,22 +358,51 @@
             var formData = new FormData();
             formData.append('pricelist', $('#pricelist').prop("files")[0]);
 
+            $('#uploadBoxMainUpload').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMainUpload" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
             $.ajax({
-                        data: formData,
-                        type: "post",
-                        processData: false,
-                        contentType: false,
-                        url: "<?php echo base_url()."cms/stations/upload_prices";?>",
-                        success: function(data){
-                            //alert("Data Save: " + data);
-                            btn.button("reset");
-                            $("#uploadPricesModal").modal("hide");
-                            toastr.success('Station Prices Successfully Updated');
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
-                });
+                data: formData,
+                type: "post",
+                processData: false,
+                contentType: false,
+                cache: false,
+                url: "<?php echo base_url()."cms/stations/upload_prices";?>" ,
+                xhr: function(){
+                    //upload Progress
+                    var xhr = $.ajaxSettings.xhr();
+                    if (xhr.upload) {
+                        xhr.upload.addEventListener('progress', function(event) {
+                            var percent = 0;
+                            var position = event.loaded || event.position;
+                            var total = event.total;
+                            if (event.lengthComputable) {
+                                percent = Math.ceil(position / total * 100);
+                            }
+                            //update progressbar
+                            
+                            $('#progressBarMainUpload').css('width',percent+'%').html(percent+'%');
+                                                            
+                        }, true);
+                    }
+                    return xhr;
+                },
+                mimeType:"multipart/form-data"
+            }).done(function(data){ 
+                if(data == true)
+                {
+                    toastr.success('Station Prices Successfully Updated'); 
+                }
+                else
+                {                    
+                    toastr.error(data); 
+                }
+                btn.button("reset");
+                $("#uploadPricesModal").modal("hide");
+                
+                $('#pricelist').val("");
+                $('#uploadBoxMainUpload').html(''); 
+                
+            });
+
         });
 
         $("#deleteStation").click(function(){
@@ -351,7 +419,7 @@
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
-                            table.draw();
+                            table.draw("page");
                             $("#deleteStationModal").modal("hide");
                             toastr.error('Station ' + deleteItem + ' successfully deleted');
                         },
@@ -370,6 +438,7 @@
                 .prop("checked", "")
                 .end();
             $("#stationForm").validator('destroy');
+            $('#inputBranch').val("").trigger("change");
         });
 
         $('#inputBranch').select2(inputRoleConfig);

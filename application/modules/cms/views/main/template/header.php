@@ -34,8 +34,10 @@
 <!-- jQuery 3 -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
+<script src="<?php echo base_url();?>assets/bower_components/moment/min/moment.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
@@ -49,8 +51,10 @@
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
+
 <script src="<?php echo base_url();?>assets/bower_components/fastclick/lib/fastclick.js"></script>
+
+<!--<script src="<?php echo base_url();?>assets/bower_components/PACE/pace.min.js"></script> FastClick -->
 <!-- AdminLTE App -->
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
@@ -65,8 +69,9 @@
 <script src="<?php echo base_url();?>assets/select2/select2.min.js"></script>
 <!--toastr-->
 <link href="<?php echo base_url();?>assets/toastr/toastr.min.css" rel="stylesheet" />
-<!--toastr-->
+
 <script src="<?php echo base_url();?>assets/toastr/toastr.min.js"></script>
+<!--toastr  <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/pace/pace.min.css">-->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
 
@@ -79,8 +84,8 @@
 <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 <script>
   toastr.options = {
     "closeButton": false,
@@ -242,6 +247,7 @@
       opacity: 0.0;
    }
   }
+  .modal { overflow: auto !important; }
 </style>
 
 
@@ -260,7 +266,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="<?php echo base_url()."cms";?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><?php //echo SITE_NAME;?></span>
       <!-- logo for regular state and mobile devices -->
@@ -337,7 +343,7 @@
         <?php 
           if (in_array("banners", $menu) ) {
              ?>
-              <li class="<?php if($module_name == "banners" ){echo 'active ';}?>treeview">
+              <li class="<?php if($module_name == "banners" || $module_name == "mid_banners" ){echo 'active ';}?>treeview">
                 <a href="#">
                   <i class="glyphicon glyphicon-picture"></i> <span>Banners</span>
                   <span class="pull-right-container">
@@ -355,7 +361,7 @@
                   <?php 
                     if (in_array("banners", $menu)) {
                      ?>
-                       <li <?php if($module_name == "banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/mid_banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Mid Banners</span></a></li>
+                       <li <?php if($module_name == "mid_banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/mid_banners"?>"><i class="glyphicon glyphicon-picture"></i><span>Mid Banners</span></a></li>
                        <?php
                      } 
                   ?>
@@ -403,7 +409,7 @@
           if (in_array("products", $menu) ) {
              ?>
              <li class="header">PRODUCTS</li> 
-              <li class="<?php if($module_name == "vendors" || $module_name == "product_categories" || $module_name == "product_series" || $module_name == "products" ){echo 'active ';}?>treeview">
+              <li class="<?php if($module_name == "product_vendors" || $module_name == "product_categories" || $module_name == "product_series" || $module_name == "products" ){echo 'active ';}?>treeview">
                 <a href="#">
                   <i class="fa fa-tags"></i> <span>Products</span>
                   <span class="pull-right-container">
@@ -414,7 +420,7 @@
                   <?php 
                     if (in_array("product_vendors", $menu)) {
                      ?>
-                        <li <?php if($module_name == "vendors"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/product_vendors"?>"><i class="fa fa-users"></i> Product Vendors</a></li>
+                        <li <?php if($module_name == "product_vendors"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/product_vendors"?>"><i class="fa fa-users"></i> Product Vendors</a></li>
                      <?php
                      } 
                   ?>
