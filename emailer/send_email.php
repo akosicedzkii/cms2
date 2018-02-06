@@ -42,11 +42,14 @@ $mail->AddAddress($_POST["to"]);
     echo "Mailer Error: " . $mail->ErrorInfo;
  } else {
     echo "Message sent";
-    if($_POST["others"] =="")
-    {
+    
         if($_POST["attachment"] != "")
         {
-            unlink("attachment/".$_POST["attachment"]);
+            if($_POST["others"] =="")
+            
+            {
+                unlink("attachment/".$_POST["attachment"]);
+            }
         }
-    }
+    
  }
