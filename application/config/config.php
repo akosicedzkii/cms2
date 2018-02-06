@@ -27,6 +27,7 @@ $config['modules_locations'] = array(
 |
 */
 $config['base_url'] = 'http://localhost/cms2/';
+$config['base_url'] = 'http://35.227.75.229/unioil/';
 
 /*
 |--------------------------------------------------------------------------
