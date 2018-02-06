@@ -32,9 +32,12 @@ class Site_settings extends CI_Controller {
                 echo 'Invalid Logo type';
                 die();
             }
-            if(file_exists ( $upload_path.$result->row()->site_logo ))
+            if( $result->row()->site_logo != "")
             {
-                unlink($upload_path.$result->row()->site_logo);
+                if(file_exists ( $upload_path.$result->row()->site_logo ))
+                {
+                    unlink($upload_path.$result->row()->site_logo);
+                }
             }
             $config['upload_path'] = $upload_path;  
             
@@ -74,9 +77,12 @@ class Site_settings extends CI_Controller {
                 echo 'Invalid Icon type';
                 die();
             }
-            if(file_exists ( $upload_path.$result->row()->site_icon ))
+            if($result->row()->site_icon != "")
             {
-                unlink($upload_path.$result->row()->site_icon);
+                if(file_exists ( $upload_path.$result->row()->site_icon ))
+                {
+                    unlink($upload_path.$result->row()->site_icon);
+                }
             }
             $config_icon['upload_path'] = $upload_path;  
             $config_icon['allowed_types'] = 'ico';  
@@ -117,5 +123,23 @@ class Site_settings extends CI_Controller {
         $this->logs->created_by = $this->session->userdata("USERID");
         $this->logs->insert_log();
         
+    }
+
+    public function remove_file()
+    {
+        $file_name = $this->input->post("file_name");
+        $settings_module = $this->input->post("settings_module");
+        $folder = $this->input->post("folder");
+        
+        $path = './uploads/'.$folder.'/' . $file_name; 
+        unlink($path);
+        echo $path;
+        $data[$settings_module] = "";
+        $this->db->update("site_settings",$data);  
+         $this->logs->log = "Removed/Deleted ".$settings_module;
+        $this->logs->module = "site_settings";
+        $this->logs->created_by = $this->session->userdata("USERID");
+        $this->logs->insert_log();
+        echo true;
     }
 }

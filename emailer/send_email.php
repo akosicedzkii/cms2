@@ -27,7 +27,14 @@ $body .= "</body>\n";
 $body .= "</html>\n"; 
 if($_POST["attachment"] != "")
 {
-    $mail->AddAttachment("attachment/".$_POST["attachment"]);
+    if($_POST["others"] !="")
+    {
+        $mail->AddAttachment($_POST["attachment"]);
+    }  
+    else
+    {
+        $mail->AddAttachment("attachment/".$_POST["attachment"]);
+    }
 }
 $mail->Body = $body;
 $mail->AddAddress($_POST["to"]);
@@ -35,8 +42,11 @@ $mail->AddAddress($_POST["to"]);
     echo "Mailer Error: " . $mail->ErrorInfo;
  } else {
     echo "Message sent";
-    if($_POST["attachment"] != "")
+    if($_POST["others"] =="")
     {
-        unlink("attachment/".$_POST["attachment"]);
+        if($_POST["attachment"] != "")
+        {
+            unlink("attachment/".$_POST["attachment"]);
+        }
     }
  }

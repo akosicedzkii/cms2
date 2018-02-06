@@ -31,6 +31,7 @@
                 <?php if($site_settings->franchise_video != ""){
                     ?>
                             <br><input type="button" id="previewVideo" data-toggle="videoPreviewModal" class="btn btn-success" value="Preview">
+                            <input type="button" id="videoDeleteButton" data-toggle="videoDeleteModal" class="btn btn-danger" value="Remove">
                     <?php
                 }?>
                 <br>
@@ -45,9 +46,18 @@
                 <?php if($site_settings->franchise_video_poster != ""){
                     ?>
                             <br><input type="button" id="previewVideoPoster" data-toggle="videoPosterPreviewModal" class="btn btn-success" value="Preview">
+                            <input type="button" id="videoPosterDeleteButton" data-toggle="videoPosterDeleteModal" class="btn btn-danger" value="Remove">
                     <?php
                 }?>
                 <br>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputFranchiseOfficer" class="col-sm-2 control-label">Franchise Officer</label>
+
+                <div class="col-sm-4">
+                <input type="text" class="form-control" id="inputFranchiseOfficer" placeholder="Franchise Officer" value="<?php echo $site_settings->franchise_officer;?>">
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
@@ -82,7 +92,7 @@
                 <label for="inputCareersEmail" class="col-sm-2 control-label">Careers Email Address</label>
 
                 <div class="col-sm-4">
-                <input type="email" class="form-control" id="inputCareersEmail" placeholder="Careers Email Address" value="<?php echo $site_settings->franchise_email_address;?>">
+                <input type="email" class="form-control" id="inputCareersEmail" placeholder="Careers Email Address" value="<?php echo $site_settings->careers_email_address;?>">
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
@@ -95,7 +105,21 @@
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="inputCareersAttachment" class="col-sm-2 control-label">Careers File Attachment</label>
 
+                <div class="col-sm-4">
+                <input type="file" class="form-control" id="inputCareersAttachment" placeholder="Careers File Attachment">
+                <?php if($site_settings->careers_attachment != ""){
+                    ?>
+                            <br><a target="_blank" href="<?php echo base_url()."uploads/careers_attachment/".$site_settings->careers_attachment;?>" class="btn btn-success">View Attachment</a>
+                            <input id="careerAttachmentDeleteButton" type="button" data-toggle="careerAttachmentDeleteModal" class="btn btn-danger" value="Remove">
+                   <?php
+                }?>
+                <br>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="inputCareersReplyBody" class="col-sm-2 control-label">Careers Email Reply Body</label>
 
@@ -171,6 +195,33 @@
 </div>
 <!-- /.modal -->
 
+<!-- /.modal -->
+<div class="modal fade" id="removeModal" role="dialog"  data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body">
+                <center><h4 class="remove-title"></h4></center>
+                <input type="hidden" id="file">
+                <input type="hidden" id="modules">
+                <input type="hidden" id="folder">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger pull-right" id="removeFilebutton">Remove</button>
+            </div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
 
     var main = function(){
@@ -189,13 +240,16 @@
             var franchise_body_reply = $("#inputFranchiseReplyBody").val();
 
             var franchise_email_address = $("#inputFranchiseEmail").val();
+            var franchise_officer = $("#inputFranchiseOfficer").val();
             var careers_email_address = $("#inputCareersEmail").val();
 
             var formData = new FormData();
 
             formData.append('franchise_video', $('#inputFranchiseVideo').prop("files")[0]);
             formData.append('franchise_video_poster', $('#inputFranchiseVideoPoster').prop("files")[0]);
+            formData.append('careers_attachment', $('#inputCareersAttachment').prop("files")[0]);
             formData.append("careers_subject_reply" , careers_subject_reply);
+            formData.append("franchise_officer" , franchise_officer);
             formData.append("franchise_subject_reply" , franchise_subject_reply);
 
             formData.append("careers_body_reply" , careers_body_reply);
@@ -253,7 +307,60 @@
             $("#previewVideoPoster").click(function(){
                 $("#videoPosterPreviewModal").modal("show");
             });
-    };
+            
+            $("#videoDeleteButton").click(function(){
+                $(".modal-title").html("Remove Franchise Video");
+                $(".remove-title").html("Remove Franchise Video?");
+                $("#file").val("<?php echo $site_settings->franchise_video;?>");
+                $("#modules").val("franchise_video");
+                $("#folder").val("franchise_video");
+                $("#removeModal").modal("show");
+            });
 
+            $("#videoPosterDeleteButton").click(function(){
+                $(".modal-title").html("Remove Franchise Video Poster");
+                $(".remove-title").html("Remove Franchise Video Poster?");
+                $("#file").val("<?php echo $site_settings->franchise_video_poster;?>");
+                $("#modules").val("franchise_video_poster");
+                $("#folder").val("franchise_video");
+                $("#removeModal").modal("show");
+            });
+
+            $("#careerAttachmentDeleteButton").click(function(){
+                $(".modal-title").html("Remove Careers Attachment");
+                $(".remove-title").html("Remove Careers Attachment?");
+                $("#file").val("<?php echo $site_settings->careers_attachment?>");
+                $("#modules").val("careers_attachment");
+                $("#folder").val("careers_attachment");
+                $("#removeModal").modal("show");
+            });
+
+            $("#removeFilebutton").click(function(){
+                btn = $(this);
+                btn.button("loading");
+                var file = $("#file").val();
+                var modules = $("#modules").val();
+                var folder = $("#folder").val();
+                $.ajax({
+                    type : "post",
+                    data: {"file_name" : file , "settings_module" : modules,"folder": folder },
+                    url : "<?php echo base_url()."cms/opportunities/remove_file"?>",
+                    success : function(returns)
+                    {
+                        if(returns)
+                        {
+                            toastr.error("File Successfully Removed");
+                            $("removeModal").modal("hide");
+                            btn.button("reset");
+                            setTimeout(function() {
+                            window.location = "";
+                            }, 200);
+                        }
+                    }
+                });
+            });
+    };
+    
+    
     $(document).ready(main);
 </script>

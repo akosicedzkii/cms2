@@ -85,12 +85,13 @@
                                     <input type="file" id="careers-letter" class="careers-btn" data-fieldtype="file"  accept=".txt,.pdf,.docs,.docx" />
                                     <p class="error-msg"></p>
                                     <div class="submit-btn-container">
+                                    <input type="submit" id="careers-submit" value="SUBMIT APPLICATION" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-sm-6">
-                                    <input type="submit" id="careers-submit" value="SUBMIT APPLICATION" />
+                                    
                                 </div>
                             </div>
                         </form>

@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                         <h3>CONTACT DETAILS:</h3>
-                        <p>Franchise Officer : Edison Mark Caguicla<br>Email : <a href="mailto:franchise@unioil.com">franchise@unioil.com</a></p>
+                        <p>Franchise Officer : <?php echo FRANCHISE_OFFICER;?><br>Email : <a href="mailto:<?php echo FRANCHISE_EMAIL_ADDRESS;?>"><?php echo FRANCHISE_EMAIL_ADDRESS;?></a></p>
                     </div>
                 </div>
             </div>

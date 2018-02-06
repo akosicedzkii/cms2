@@ -17,7 +17,7 @@ class Sendemail extends CI_Controller {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=");
+		curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment="."&others=");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		$server_output = curl_exec ($ch);
@@ -30,7 +30,7 @@ class Sendemail extends CI_Controller {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=");
+		curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment="."&others=");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		echo $server_output = curl_exec ($ch);
@@ -55,7 +55,7 @@ class Sendemail extends CI_Controller {
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=".$_FILES['file']['name']);
+			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=".$_FILES['file']['name']."&others=");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 			$server_output = curl_exec ($ch);
@@ -68,7 +68,7 @@ class Sendemail extends CI_Controller {
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=");
+			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment="."&others=");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 			echo $server_output = curl_exec ($ch);
@@ -92,7 +92,7 @@ class Sendemail extends CI_Controller {
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=".$_FILES['file']['name']);
+			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=".$_FILES['file']['name']."&others=");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	
 			$server_output = curl_exec ($ch);
@@ -102,10 +102,18 @@ class Sendemail extends CI_Controller {
 			$to = $this->input->post("to");
 			$body = CAREERS_BODY_REPLY;
 			$subject = CAREERS_SUBJECT_REPLY;
+			$attachment = CAREERS_ATTACHMENT;
+
+			if($attachment != "")
+			{
+				$attachment = "&attachment=../uploads/careers_attachment/".CAREERS_ATTACHMENT."&others=careers";
+			}else{
+				$attachment = "&attachment=";
+			}
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,base_url("emailer/send_email.php"));
 			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject&attachment=");
+			curl_setopt($ch, CURLOPT_POSTFIELDS,"to=$to&body=$body&subject=$subject".$attachment);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 			echo $server_output = curl_exec ($ch);

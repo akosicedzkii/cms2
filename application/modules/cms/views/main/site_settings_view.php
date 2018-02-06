@@ -39,7 +39,8 @@
                 <?php if($site_settings->site_logo != ""){
                     ?>
                             <br><input type="button" id="previewImage" data-toggle="imgPreviewModal" class="btn btn-success" value="Preview">
-                    <?php
+                            <input id="logoDeleteButton" type="button" class="btn btn-danger" value="Remove">
+                 <?php
                 }?>
                 <br>
                 <div class="help-block with-errors"></div>
@@ -53,7 +54,8 @@
                 <?php if($site_settings->site_icon != ""){
                     ?>
                             <br><input type="button" id="previewIconImage" data-toggle="imgIconPreviewModal" class="btn btn-success" value="Preview">
-                    <?php
+                            <input id="iconDeleteButton" type="button" class="btn btn-danger" value="Remove">
+                 <?php
                 }?>
                 <br>
                 <div class="help-block with-errors"></div>
@@ -205,6 +207,32 @@
 </div>
 <!-- /.modal -->
 
+<!-- /.modal -->
+<div class="modal fade" id="removeModal" role="dialog"  data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body">
+                <center><h4 class="remove-title"></h4></center>
+                <input type="hidden" id="file">
+                <input type="hidden" id="modules">
+                <input type="hidden" id="folder">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger pull-right" id="removeFilebutton">Remove</button>
+            </div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script>
 
@@ -300,6 +328,50 @@
             $("#previewIconImage").click(function(){
                 $("#imgIconPreviewModal").modal("show");
             });
+
+            $("#iconDeleteButton").click(function(){
+                $(".modal-title").html("Remove Site Icon");
+                $(".remove-title").html("Remove Site Icon?");
+                $("#file").val("<?php echo $site_settings->site_icon;?>");
+                $("#modules").val("site_icon");
+                $("#folder").val("site_icon");
+                $("#removeModal").modal("show");
+            });
+
+            $("#logoDeleteButton").click(function(){
+                $(".modal-title").html("Remove Site Logo");
+                $(".remove-title").html("Remove Site Logo?");
+                $("#file").val("<?php echo $site_settings->site_logo;?>");
+                $("#modules").val("site_logo");
+                $("#folder").val("site_logo");
+                $("#removeModal").modal("show");
+            });
+
+            $("#removeFilebutton").click(function(){
+                btn = $(this);
+                btn.button("loading");
+                var file = $("#file").val();
+                var modules = $("#modules").val();
+                var folder = $("#folder").val();
+                $.ajax({
+                    type : "post",
+                    data: {"file_name" : file , "settings_module" : modules,"folder": folder },
+                    url : "<?php echo base_url()."cms/site_settings/remove_file"?>",
+                    success : function(returns)
+                    {
+                        if(returns)
+                        {
+                            toastr.error("File Successfully Removed");
+                            $("removeModal").modal("hide");
+                            btn.button("reset");
+                            setTimeout(function() {
+                            window.location = "";
+                            }, 200);
+                        }
+                    }
+                });
+            });
+
     };
 
     $(document).ready(main);
