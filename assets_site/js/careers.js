@@ -1,8 +1,14 @@
 $(document).ready(function() {
     //$('#careers-birthday').datepicker({ minDate: -20, maxDate: '0D'});
-    $('#careers-birthday').datepicker();
+    $('#careers-birthday').datepicker({
+		changeMonth: true,
+		changeYear: true, 
+		yearRange: '1910:2010'
+	});
 
     $('#careers-form').on('submit', function(e) {
+		$("#careers-submit").attr("disabled","disabled");
+		$("#careers-submit").val("SENDING..");
     	if(validateForm($(this))) {
     		e.preventDefault();
     	}else {
@@ -25,9 +31,11 @@ $(document).ready(function() {
 				"<br>Contact Number: " + $("#careers-number").val() + 
 				"<br>Email Address: " + $("#careers-email").val() + "<br>Applying For: " + $("#careers-opening option:selected").text() ;
 
+				var emailer_name =  "Unioil Applicant - " + $("#careers-lname").val() + "," + $("#careers-fname").val();
 				var file_data = $('#careers-letter').prop('files')[0];   
 				var form_data = new FormData();                  
 				form_data.append('file', file_data); 
+				form_data.append('emailer_name', emailer_name); 
 				form_data.append("subject", "Careers Form Response"); 
 				form_data.append("body", body); 
 				form_data.append("to",  $("#careers-email").val()); 

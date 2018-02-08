@@ -304,7 +304,8 @@ class Main extends CI_Controller {
 	}
 	public function opportunities()
     {
-		if (!in_array($this->router->fetch_method(), $this->user_access)) 
+		$page = $this->uri->segment(4);
+		if (!in_array($this->router->fetch_method()."_".$page, $this->user_access)) 
 		{
 			redirect(base_url()."cms/main/".$this->default_page);
 		}
@@ -312,6 +313,7 @@ class Main extends CI_Controller {
 		$module["menu"] = $this->user_access;
 		$module["site_settings"] = $this->db->get("site_settings")->row();
 		$this->load->view('main/template/header',$module);
+		$module["page"] = $page;
 		$this->load->view('main/opportunities_view',$module);
 		$this->load->view('main/template/footer');
 	}

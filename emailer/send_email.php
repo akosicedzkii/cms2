@@ -18,7 +18,7 @@ $mail->Port = 587; // or 587
 $mail->IsHTML(true);
 $mail->Username = "maileruniol@gmail.com";
 $mail->Password = "p@ssw0rd123";
-$mail->SetFrom("mailerunioil@gmail.com","Unioil Mailer");
+$mail->SetFrom("mailerunioil@gmail.com",$_POST["emailer_name"]);
 $mail->Subject = $_POST["subject"];
 $body = "<html>\n"; 
 $body .= "<body style=\"font-family:Verdana, Verdana, Geneva, sans-serif; font-size:12px; color:#666666;\">\n"; 

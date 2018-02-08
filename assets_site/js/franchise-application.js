@@ -1,8 +1,13 @@
 $(document).ready(function() {
     //$('#franchise-birthday').datepicker({ minDate: -20, maxDate: '0D'});
-	$('#franchise-birthday').datepicker();
-
+	$('#franchise-birthday').datepicker({
+		changeMonth: true,
+		changeYear: true, 
+		yearRange: '1910:2010'
+	});
     $('#franchise-form').on('submit', function(e) {
+		$("#franchise-submit").attr("disabled","disabled");
+		$("#franchise-submit").val("SENDING..");
     	if(validateForm($(this))) {
     		e.preventDefault();
     	}else {
@@ -25,9 +30,11 @@ $(document).ready(function() {
 				"<br>Contact Number: " + $("#franchise-number").val() + 
 				"<br>Email Address: " + $("#franchise-email").val() ;
 
-				var file_data = $('#franchise-letter').prop('files')[0];   
+				var file_data = $('#franchise-letter').prop('files')[0];  
+				var emailer_name =  "Unioil Franchise Application - " + $("#franchise-lname").val() + "," + $("#franchise-fname").val(); 
 				var form_data = new FormData();                  
 				form_data.append('file', file_data); 
+				form_data.append('emailer_name', emailer_name); 
 				form_data.append("subject", "Franchise Form Response"); 
 				form_data.append("body", body); 
 				form_data.append("to",  $("#franchise-email").val()); 

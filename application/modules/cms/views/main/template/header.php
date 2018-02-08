@@ -450,24 +450,33 @@
         <?php
           } 
         ?>
-        <?php  if ( in_array("careers", $menu) ||  in_array("opportunities", $menu)) {?>
+        <?php  if ( in_array("careers", $menu) ||  in_array("opportunities_careers", $menu)  ||  in_array("opportunities_franchise", $menu)) {?>
         <li class="header">OPPORTUNITIES</li> 
         <?php }?>
       <?php 
           if (in_array("careers", $menu)) {
              ?>
-              <li <?php if($module_name == "careers"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/careers"?>"><i class="fa fa-suitcase"></i><span>Careers</span></a></li>
+              <li <?php if($module_name == "careers"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/careers"?>"><i class="fa fa-suitcase"></i><span>Careers Job Posting</span></a></li>
             <?php
           } 
         ?> 
        
        <?php 
-        if (in_array("opportunities", $menu)) {
+        if (in_array("opportunities_careers", $menu)) {
            ?>
-            <li <?php if($module_name == "opportunities"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/opportunities"?>"><i class="fa fa-book"></i><span>Opportunities Settings</span></a></li>
+            <li <?php if($module_name == "opportunities_careers"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/opportunities/careers"?>"><i class="fa fa-book"></i><span>Careers Opportunities Settings</span></a></li>
           <?php
         } 
       ?>
+
+     <?php 
+        if (in_array("opportunities_franchise", $menu)) {
+           ?>
+            <li <?php if($module_name == "opportunities_franchise"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/opportunities/franchise"?>"><i class="fa fa-book"></i><span>Franchise Opportunities Settings</span></a></li>
+          <?php
+        } 
+      ?>
+
        <?php 
         if (in_array("achievements", $menu)) {
            ?>

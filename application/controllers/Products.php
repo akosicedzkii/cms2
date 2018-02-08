@@ -107,6 +107,7 @@ class Products extends CI_Controller {
 					}else{
 						$active = "";
 					}
+					$row->product_image = $this->db->where("id",$row->product_image)->get("media")->row()->file_name;
 					$return_ol .= '<li data-target="#product-carousel" data-slide-to="'.$count.'" class="'.ltrim($active." ").'">
 										<img src="'.base_url().'uploads/products/'.$row->product_image.'" alt="" class="img-fluid product-thumbnail">
 									</li>';
@@ -117,7 +118,6 @@ class Products extends CI_Controller {
 						$pdf = "<div class='btn-spacer' style='padding-left: 14px;padding-bottom: 14px;'><a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download</a></div>";
 					}
 					
-					$row->product_image = $this->db->where("id",$row->product_image)->get("media")->row()->file_name;
 					$return_carousel .= '<div class="carousel-item'.$active.'">
 											<div class="container">
 												<div class="row justify-content-center">

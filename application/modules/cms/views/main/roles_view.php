@@ -163,8 +163,14 @@
                               
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" id="modules" value="opportunities">
-                                        Opportunities Settings
+                                        <input type="checkbox" id="modules" value="opportunities_careers">
+                                        Careers Opportunities Settings
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="opportunities_franchise">
+                                        Franchise Opportunities Settings
                                         </label>
                                     </div>
 
@@ -234,11 +240,12 @@
                                 <option value="product_series">Product Series</option>
                                 <option value="product_vendors">Product Vendors</option>
                                 <option value="products">Products</option>
-                                <option value="careers">Careers</option>
                                 <option value="roles">Roles</option>
                                 <option value="users">Users</option>
                                 <option value="loyalty">Loyalty</option>
-                                <option value="opportunities">Opportunities</option>
+                                <option value="careers">Careers</option>
+                                <option value="opportunities_careers">Careers Opportunities Settings</option>
+                                <option value="opportunities_franchise">Franchise Opportunities Settings</option>
                                 <option value="achievements">Achievements</option>
                                 <option value="site_settings">Site Settings</option>
                                 <option value="logs">Logs</option>

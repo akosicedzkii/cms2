@@ -74,24 +74,28 @@ class Home extends CI_Controller {
 			{	
 				$price = $fuel_price_query->row()->price;
 			}
-			if($price != "00.00")
+			if($price != null || $price != "")
 			{
-				$return .='<tr>
-					<td>'.ucwords($row->product_name).'</td>
-				<td>
-					<div class="price-container" data-price="'.$price.'">';
-	
-					
-					$str_price = str_split($price);
-					foreach($str_price as $char  ) {
-						if($char != null){
-							$return .= '<div class="price-digit">'.$char.'</div>';
+				if($price != "00.00")
+				{
+					$return .='<tr>
+						<td>'.ucwords($row->product_name).'</td>
+					<td>
+						<div class="price-container" data-price="'.$price.'">';
+		
+						
+						$str_price = str_split($price);
+						foreach($str_price as $char  ) {
+							if($char != null){
+								$return .= '<div class="price-digit">'.$char.'</div>';
+							}
 						}
-					}
-					$return .= '</div>
-				</td>
-				</tr>';
+						$return .= '</div>
+					</td>
+					</tr>';
+				}
 			}
+			
 		}
 		$return .= "</tbody>";
 		echo $return;

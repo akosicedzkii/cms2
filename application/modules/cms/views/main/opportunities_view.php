@@ -4,25 +4,25 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-    <?php echo ucfirst($module_name)." Settings";?>
+    <?php echo ucfirst($page . " " . $module_name)." Settings";?>
     <small>Management</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><?php echo ucfirst($module_name);?></li>
+    <li class="active"><?php echo ucfirst($page . " " . $module_name);?></li>
     </ol>
 </section>
 <section class="content">
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title"><?php echo ucfirst($module_name)." Settings";?></h3>
+        <h3 class="box-title"><?php echo ucfirst($page . " " . $module_name)." Settings";?></h3>
     </div>
     <!-- /.box-header -->
 <div class="box-body">
     <form class="form-horizontal" id="settingsForm" data-toggle="validator">
         <div class="box-body">
             
-
+           <?php if($page == "franchise"){?>
             <div class="form-group">
                 <label for="inputFranchiseVideo" class="col-sm-2 control-label">Franchise Video</label>
 
@@ -87,7 +87,9 @@
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
-
+            <?php } ?>
+            
+           <?php if($page == "careers"){?>
             <div class="form-group">
                 <label for="inputCareersEmail" class="col-sm-2 control-label">Careers Email Address</label>
 
@@ -128,6 +130,7 @@
                 <div class="help-block with-errors"></div>
                 </div>
             </div>
+            <?php }?>
             <div class="form-group">
                 <div class="col-sm-12">
                 <input type="submit" class="btn btn-success pull-right" id="saveSettings" value="Save Settings">
@@ -233,30 +236,35 @@
             btn.button("loading");
 
 
-            var careers_subject_reply = $("#inputCareersReplySubject").val();
-            var franchise_subject_reply = $("#inputFranchiseReplySubject").val();
-            
-            var careers_body_reply = $("#inputCareersReplyBody").val();
-            var franchise_body_reply = $("#inputFranchiseReplyBody").val();
-
-            var franchise_email_address = $("#inputFranchiseEmail").val();
-            var franchise_officer = $("#inputFranchiseOfficer").val();
-            var careers_email_address = $("#inputCareersEmail").val();
-
             var formData = new FormData();
 
-            formData.append('franchise_video', $('#inputFranchiseVideo').prop("files")[0]);
-            formData.append('franchise_video_poster', $('#inputFranchiseVideoPoster').prop("files")[0]);
+            formData.append("page" , "<?php echo $page;?>");
+        <?php if($page == "careers"){?>
+
+            var careers_subject_reply = $("#inputCareersReplySubject").val();
+            var careers_email_address = $("#inputCareersEmail").val();
+            var careers_body_reply = $("#inputCareersReplyBody").val();
             formData.append('careers_attachment', $('#inputCareersAttachment').prop("files")[0]);
             formData.append("careers_subject_reply" , careers_subject_reply);
+            formData.append("careers_body_reply" , careers_body_reply);
+            formData.append("careers_email_address" , careers_email_address);
+
+        <?php }?>
+            
+        <?php if($page == "franchise"){?>
+
+            var franchise_body_reply = $("#inputFranchiseReplyBody").val();
+            var franchise_subject_reply = $("#inputFranchiseReplySubject").val();
+            var franchise_email_address = $("#inputFranchiseEmail").val();
+            var franchise_officer = $("#inputFranchiseOfficer").val();
+            formData.append('franchise_video', $('#inputFranchiseVideo').prop("files")[0]);
+            formData.append('franchise_video_poster', $('#inputFranchiseVideoPoster').prop("files")[0]);
             formData.append("franchise_officer" , franchise_officer);
             formData.append("franchise_subject_reply" , franchise_subject_reply);
-
-            formData.append("careers_body_reply" , careers_body_reply);
             formData.append("franchise_body_reply" , franchise_body_reply);
-            
             formData.append("franchise_email_address" , franchise_email_address);
-            formData.append("careers_email_address" , careers_email_address);
+
+        <?php }?>
 
             $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
@@ -290,7 +298,7 @@
                     if(data == true)
                     { 
                         btn.button("reset");
-                        toastr.success('Opportunities settings successfully updated');
+                        toastr.success('<?php echo ucfirst($page);?> opportunities settings successfully updated');
                         setTimeout(function() {
                         window.location = "";
                         }, 200);

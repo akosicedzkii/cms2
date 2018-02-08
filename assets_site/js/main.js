@@ -15,13 +15,16 @@ $(document).ready(function() {
 	var $activePage = $('.nav-item.active');
 
     $('#contact-form').on('submit', function(e) {
+		
+		$("#contact-submit").attr("disabled","disabled");
+		$("#contact-submit").val("SENDING..");
         if (validateForm($(this))) {
             e.preventDefault();
         }
 		else
 		{
 			e.preventDefault();
-			var values_contact_us_email = { "to": $("#contact-email").val() , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val() }
+			var values_contact_us_email = { "emailer_name" : "Unioil Contact Us - " + $("#contact-name").val() ,  "to": $("#contact-email").val() , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val() }
 
 			 $.ajax({
 					url: "./sendemail/send_contact_us",
