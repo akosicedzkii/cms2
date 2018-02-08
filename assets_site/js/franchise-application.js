@@ -6,8 +6,6 @@ $(document).ready(function() {
 		yearRange: '1910:2010'
 	});
     $('#franchise-form').on('submit', function(e) {
-		$("#franchise-submit").attr("disabled","disabled");
-		$("#franchise-submit").val("SENDING..");
     	if(validateForm($(this))) {
     		e.preventDefault();
     	}else {
@@ -22,7 +20,9 @@ $(document).ready(function() {
 				}
 			}
 			if(filename != "")
-			{      
+			{   
+				$("#franchise-submit").attr("disabled","disabled");
+				$("#franchise-submit").val("SENDING..");   
 				var body = "First Name: " + $("#franchise-fname").val() +  "<br>Last Name: " + $("#franchise-lname").val() + "<br>Franchise Address:" + $("#franchise-address").val() + 	
 				"<br>City: " + $("#franchise-city").val() + 
 				"<br>Zipcode: " + $("#franchise-zipcode").val() + 

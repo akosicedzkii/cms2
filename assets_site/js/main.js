@@ -16,8 +16,6 @@ $(document).ready(function() {
 
     $('#contact-form').on('submit', function(e) {
 		
-		$("#contact-submit").attr("disabled","disabled");
-		$("#contact-submit").val("SENDING..");
         if (validateForm($(this))) {
             e.preventDefault();
         }
@@ -26,6 +24,8 @@ $(document).ready(function() {
 			e.preventDefault();
 			var values_contact_us_email = { "emailer_name" : "Unioil Contact Us - " + $("#contact-name").val() ,  "to": $("#contact-email").val() , "body" : "Name:" + $("#contact-name").val() + " <br> Contact Number: " + $("#contact-mobile").val() + " <br> Contact Email: " + $("#contact-email").val() + " <br> Message: "+ $("#contact-message").val() }
 
+			$("#contact-submit").attr("disabled","disabled");
+			$("#contact-submit").val("SENDING..");
 			 $.ajax({
 					url: "./sendemail/send_contact_us",
 					type: "post",

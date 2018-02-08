@@ -7,8 +7,6 @@ $(document).ready(function() {
 	});
 
     $('#careers-form').on('submit', function(e) {
-		$("#careers-submit").attr("disabled","disabled");
-		$("#careers-submit").val("SENDING..");
     	if(validateForm($(this))) {
     		e.preventDefault();
     	}else {
@@ -24,6 +22,8 @@ $(document).ready(function() {
 			}
 			if(filename != "")
 			{      
+				$("#careers-submit").attr("disabled","disabled");
+				$("#careers-submit").val("SENDING..");
 				var body = "First Name: " + $("#careers-fname").val() +  "<br>Last Name: " + $("#careers-lname").val() + "<br>Careers Address:" + $("#careers-address").val() + 	
 				"<br>City: " + $("#careers-city").val() + 
 				"<br>Zipcode: " + $("#careers-zipcode").val() + 
