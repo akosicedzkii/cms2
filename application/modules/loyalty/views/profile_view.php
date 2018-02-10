@@ -382,3 +382,32 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="terms-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4>TERMS AND CONDITIONS</h4>
+                    <div class="terms-container">
+                        <?php echo $loyalty_settings->loyalty_terms_and_conditions; ?>
+                    </div>
+                    <form action="" id="terms-form">
+                        <div class="terms-field-group text-center">
+                            <input type="checkbox" class="terms-field" id="terms-agree" data-fieldtype="checkbox" />
+                            <label for="terms-agree" class="form-label">I have read the terms and conditions stated and accept the stipulations included therein.</label>
+                            <p class="error-msg"></p>
+                        </div>
+                        <div class="text-center">
+                            <input type="button" data-dismiss="modal" id="terms-cancel" value="CANCEL" />
+                            <input type="submit" id="terms-submit" value="SUBMIT" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

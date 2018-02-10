@@ -12,6 +12,7 @@ class Faq extends CI_Controller {
     public function index()
     {
         $data["page"] = $this->router->fetch_class();
+	    $data["loyalty_settings"] = $this->db->get("loyalty_settings")->row();
         $this->load->view("template/header",$data);
         $this->load->view("faq_view");
         $this->load->view("template/footer");

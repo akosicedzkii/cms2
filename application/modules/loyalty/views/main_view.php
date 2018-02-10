@@ -4,20 +4,29 @@
         <header id="header-carousel-container">
             <div id="main-carousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#main-carousel" data-slide-to="1"></li>
-                    <li data-target="#main-carousel" data-slide-to="2"></li>
+                <?php if($banners != null)
+                {
+                    $increment = 0;
+                    foreach($banners as $row)
+                    {?>
+                        <li data-target="#main-carousel" data-slide-to="<?php echo $increment;?>" <?php if($increment==0){ echo 'class="active"';}?>></li>
+                    <?php 
+                        $increment++;
+                    }
+                }?>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="carousel-bg" src="<?php echo base_url();?>/assets_loyalty/images/unioil-loyalty-img-banner-1.jpg">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url();?>/assets_loyalty/images/unioil-loyalty-img-banner-1.jpg">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="carousel-bg" src="<?php echo base_url();?>/assets_loyalty/images/unioil-loyalty-img-banner-1.jpg">
-                    </div>
+                    <?php if($banners != null)
+                    {
+                        $increment = 0;
+                        foreach($banners as $row)
+                        {?>
+                            <div class="carousel-item<?php if($increment==0){ echo ' active';}?>">
+                            <a <?php if($row->link != ""){ echo "href='".$row->link."' target='_blank'";}else{ echo "href='#' onclick='return false;'";}?>><img class="carousel-bg" src="<?php echo base_url()."uploads/"?>loyalty_banners/<?php echo $row->banner_image;?>"></a>
+                            </div>
+                    <?php 
+                        $increment++;   }
+                    }?>
                 </div>
                 <a class="carousel-control-prev" href="#main-carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a>
                 <a class="carousel-control-next" href="#main-carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>

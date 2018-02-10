@@ -186,11 +186,46 @@
                                     <b>Loyalty</b>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" id="modules" value="loyalty">
-                                        Loyalty
+                                        <input type="checkbox" id="modules" value="loyalty_banners">
+                                        Promotional Banners
                                         </label>
                                     </div>
-      
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty_contents">
+                                        Loyalty Page Contents
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty_privacy_policy">
+                                        Loyalty Privacy Policy
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty_terms_and_conditions">
+                                        Loyalty Terms and Condition
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty_faqs">
+                                        Loyalty FAQs
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                        <input type="checkbox" id="modules" value="loyalty_logs">
+                                        Loyalty Logs
+                                        </label>
+                                    </div>
+
                                     <b>System Administrator</b>
                                     <div class="checkbox">
                                         <label>
@@ -242,7 +277,12 @@
                                 <option value="products">Products</option>
                                 <option value="roles">Roles</option>
                                 <option value="users">Users</option>
-                                <option value="loyalty">Loyalty</option>
+                                <option value="loyalty_banners">Promotional Banners</option>
+                                <option value="loyalty_contents">Loyalty Page Contents</option>
+                                <option value="loyalty_privacy_policy">Loyalty Privacy Policy</option>
+                                <option value="loyalty_terms_and_conditions">Loyalty Terms and Condition</option>
+                                <option value="loyalty_faqs">Loyalty FAQs</option>
+                                <option value="loyalty_logs">Loyalty Logs</option>                                        
                                 <option value="careers">Careers</option>
                                 <option value="opportunities_careers">Careers Opportunities Settings</option>
                                 <option value="opportunities_franchise">Franchise Opportunities Settings</option>

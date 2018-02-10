@@ -486,10 +486,10 @@
         } 
       ?>
        <?php 
-        if (in_array("loyalty", $menu)) {
+        if (in_array("loyalty_privacy_policy", $menu) || in_array("loyalty_contents", $menu)|| in_array("loyalty_banners", $menu)|| in_array("loyalty_terms_and_conditions", $menu)|| in_array("loyalty_terms_and_conditions", $menu)|| in_array("loyalty_logs", $menu) || in_array("loyalty_faqs", $menu)) {
            ?>
             <li class="header">LOYALTY</li> 
-              <li class="<?php if($module_name == "loyalty"){echo 'active ';}?>treeview">
+              <li class="<?php if($module_name == "loyalty_banners" || $module_name == "loyalty_contents" || $module_name == "loyalty_privacy_policy" || $module_name == "loyalty_terms_and_conditions" || $module_name == "loyalty_logs" || $module_name == "loyalty_faqs"){echo 'active ';}?>treeview">
                   <a href="#">
                     <i class="fa fa-gear"></i> <span>Loyalty Menu</span>
                     <span class="pull-right-container">
@@ -498,35 +498,42 @@
                   </a>
                   <ul class="treeview-menu">
                     <?php 
-                      if (in_array("loyalty", $menu)) {
+                      if (in_array("loyalty_banners", $menu)) {
                       ?>
                           <li <?php if($module_name == "loyalty_banners"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_banners"?>"><i class="fa fa-user"></i> Promotional Banners</a></li>
                       <?php
                       } 
                     ?>
                     <?php 
-                      if (in_array("loyalty", $menu)) {
+                      if (in_array("loyalty_contents", $menu)) {
                       ?>
-                          <li <?php if($module_name == "loyalty_content"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_content"?>"><i class="fa fa-users"></i> Loyalty Page Content</a></li>
+                          <li <?php if($module_name == "loyalty_contents"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_contents"?>"><i class="fa fa-users"></i> Loyalty Page Content</a></li>
                       <?php
                       } 
                     ?>
                     <?php 
-                      if (in_array("loyalty", $menu)) {
+                      if (in_array("loyalty_privacy_policy", $menu)) {
                       ?>
                           <li <?php if($module_name == "loyalty_privacy_policy"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_privacy_policy"?>"><i class="fa fa-gear"></i> Loyalty Privacy Policy</a></li>
                       <?php
                       } 
                     ?>
                     <?php 
-                      if (in_array("loyalty", $menu)) {
+                      if (in_array("loyalty_terms_and_conditions", $menu)) {
                       ?>
                          <li <?php if($module_name == "loyalty_terms_and_conditions"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_terms_and_conditions"?>"><i class="fa fa-gear"></i> Loyalty Terms and Conditions</a></li>
                      <?php
                      } 
+                  ?>  
+                  <?php 
+                  if (in_array("loyalty_faqs", $menu)) {
+                  ?>
+                     <li <?php if($module_name == "loyalty_faqs"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_faqs"?>"><i class="fa fa-gear"></i> Loyalty FAQs</a></li>
+                    <?php
+                    } 
                   ?>
                    <?php 
-                      if (in_array("loyalty", $menu)) {
+                      if (in_array("loyalty_logs", $menu)) {
                       ?>
                          <li <?php if($module_name == "loyalty_logs"){echo 'class="active"';}?>><a href="<?php echo base_url()."cms/main/loyalty_logs"?>"><i class="fa fa-gear"></i> Loyalty Logs</a></li>
                      <?php

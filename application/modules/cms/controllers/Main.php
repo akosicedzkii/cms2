@@ -330,6 +330,74 @@ class Main extends CI_Controller {
 		$this->load->view('main/template/footer');
 	}
 
+	public function loyalty_banners()
+    {
+		if (!in_array("loyalty_banners", $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_banners_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function loyalty_contents()
+    {
+		if (!in_array("loyalty_contents", $this->user_access)) 
+		{
+			redirect(base_url()."cms/main/".$this->default_page);
+		}
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_contents_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function loyalty_logs()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_logs_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function loyalty_privacy_policy()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["page"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		$module["loyalty_settings"] = $this->db->get("loyalty_settings")->row();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_view',$module);
+		$this->load->view('main/template/footer');
+	}
+
+	public function loyalty_terms_and_conditions()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["page"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		
+		$module["loyalty_settings"] = $this->db->get("loyalty_settings")->row();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_view',$module);
+		$this->load->view('main/template/footer');
+	}
+	public function loyalty_faqs()
+    {
+		$module["module_name"] = $this->router->fetch_method();
+		$module["page"] = $this->router->fetch_method();
+		$module["menu"] = $this->user_access;
+		
+		$module["loyalty_settings"] = $this->db->get("loyalty_settings")->row();
+		$this->load->view('main/template/header',$module);
+		$this->load->view('main/loyalty_view',$module);
+		$this->load->view('main/template/footer');
+	}
 	public function get_profile_data()
     {
         $this->db->where("user_id",$this->session->userdata("USERID"));

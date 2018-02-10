@@ -1,45 +1,68 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-<!-- Content Header (Page header) -->
 <?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
+<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-    <?php echo ucfirst($module_name);?>
+    <?php echo ucfirst($module_name)."";?>
     <small>Management</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><?php echo ucfirst($module_name);?></li>
+    <li class="active"><?php echo ucfirst( $module_name);?></li>
     </ol>
 </section>
-<button class="btn btn-success btn-circle btn-lg fix-btn" id="addBtn"  data-toggle="tooltip" title="Add New">
-    <span class="glyphicon glyphicon-plus"></span>
-</button>
-<!-- Main content -->
 <section class="content">
-<div class="box" id="main-list">
+<div class="box">
     <div class="box-header">
-        <h3 class="box-title"><?php echo ucfirst($module_name);?> List</h3>
+        <h3 class="box-title"><?php echo ucfirst($module_name)."";?></h3>
     </div>
     <!-- /.box-header -->
-    <div class="box-body">
-        <table id="careerList" class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Career</th>
-            <th>Description</th>
-            <th>Date Created</th>
-            <th>Created By</th>
-            <th>Date Modified</th>
-            <th>Modified By</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        </table>
-    </div>
+<div class="box-body">
+    <form class="form-horizontal" id="LoyaltyPrivacyPolicyForm" data-toggle="validator">
+        <div class="box-body">
+            <?php if($page == "loyalty_terms_and_conditions"){?>
+            <div class="form-group">
+
+                <div class="col-md-12">
+                <textarea id="inputText" class="form-control" style="height:500px;" ><?php echo $loyalty_settings->loyalty_terms_and_conditions;?></textarea>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <?php }?>
+
+            <?php if($page == "loyalty_privacy_policy"){?>
+            <div class="form-group">
+
+                <div class="col-md-12">
+                <textarea id="inputText" class="form-control" style="height:500px;"><?php echo $loyalty_settings->loyalty_privacy_policy;?></textarea>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <?php }?>
+            <?php if($page == "loyalty_faqs"){?>
+            <div class="form-group">
+
+                <div class="col-md-12">
+                <textarea id="inputText" class="form-control" style="height:500px;"><?php echo $loyalty_settings->loyalty_faqs;?></textarea>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <?php }?>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                <input type="submit" class="btn btn-success pull-right" id="saveSettings" value="Save">
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="uploadBoxMain" class="col-md-12">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
     <!-- /.box-body -->
     </div>
     <!-- /.box -->
@@ -48,234 +71,78 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="careerModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-           
-             <h3 class="modal-title">Add Career</h3>
-             <input type="hidden" id="action">
-             <input type="hidden" id="careerID">
-            </div>
-            <div class="modal-body">
-                <div>
-                    <form class="form-horizontal" id="careerForm" data-toggle="validator">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="inputCareerTitle" class="col-sm-2 control-label">Job title</label>
-
-                                <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputCareerTitle" placeholder="Job title" required>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputCareerDescription" class="col-sm-2 control-label">Category Description</label>
-
-                                <div class="col-sm-10">
-                                <textarea class="form-control" id="inputCareerDescription" placeholder="Category Description" style="resize:none" required></textarea>
-                                <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveCareer">Save Career</button>
-            </div>
-        </div>
-    <!-- /.modal-content -->
-    </div>
-<!-- /.modal-dialog -->
-</div>
-
-<!-- /.modal -->
-<div class="modal fade" id="deleteCareerModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-           
-             <h3 class="modal-title">Delete Career</h3>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="deleteKey">
-                <center><h4>Are you sure to delete <label id="deleteItem"></label></h4></center>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteCareer">Delete</button>
-            </div>
-        </div>
-    <!-- /.modal-content -->
-    </div>
-<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
 <script>
-
-    var editor = CKEDITOR.replace('inputCareerDescription');
+    var editor = CKEDITOR.replace('inputText');
+    editor.config.height = 500;
     var main = function(){
-        /*var table = $('#careerList').DataTable({  
-            'autoWidth'   : true,
-            "processing" : true,
-            "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/loyalty/get_career_list";?>",
-            "initComplete": function(settings,json){
-                $('[data-toggle="tooltip"]').tooltip()
-            }
-            ,"columnDefs": [
-            { "visible": false,  "targets": [ 0 ] },
-            { "width": "20%",  "targets": [ 1 ] }
-        ]
-        });*/
-        $("#addBtn").click(function(){
-            $("#careerModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
-            $("#action").val("add");
-            $("#inputCoverImage").attr("required","required");
-            $('#careerForm').validator();
-            $("#careerModal").modal("show");
-        });
+        
+        $("#LoyaltyPrivacyPolicyForm").submit(function(e){
+          e.preventDefault();
+          var btn =  $("#saveSettings");
 
-        $("#saveCareer").click(function(){
-            $("#careerForm").submit();
-        });
-        $("#careerForm").validator().on('submit', function (e) {
-           
-            var btn = $("#saveCareer");
-            var action = $("#action").val();
             btn.button("loading");
-            if (e.isDefaultPrevented()) {
-                btn.button("reset"); 
-            } else {
-                e.preventDefault();
-                var job_title = $("#inputCareerTitle").val();
-                var job_description = editor.getData();
-                var career_id = $("#careerID").val();
 
-                var data = {
-                    'id':career_id,
-                    "job_title" : job_title,
-                    "job_description" : job_description
-                };
-               
-                var url = "<?php echo base_url()."cms/loyalty/add_career";?>";
-                var message = "New Career successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/loyalty/edit_career";?>";
-                    message = "Career successfully updated";
-                }
+
+            var formData = new FormData();
+
+            formData.append("page" , "<?php echo $page;?>");
+        <?php if($page == "loyalty_terms_and_conditions"){?>
+            var loyalty_terms_and_conditions  = editor.getData();
+            formData.append("loyalty_terms_and_conditions" , loyalty_terms_and_conditions);
+        <?php }?>
+        <?php if($page == "loyalty_privacy_policy"){?>
+            var loyalty_privacy_policy  = editor.getData();
+            formData.append("loyalty_privacy_policy" , loyalty_privacy_policy);
+        <?php }?>
+        <?php if($page == "loyalty_faqs"){?>
+            var loyalty_faqs  = editor.getData();
+            formData.append("loyalty_faqs" , loyalty_faqs);
+        <?php }?>
+            $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
-                        data: data,
-                        type: "post",
-                        url: url ,
-                        success: function(data){
-                            if(!data)
-                            {
-                                btn.button("reset");
-                                toastr.error(data);
-                            }
-                            else
-                            {
-                                //alert("Data Save: " + data);
-                                btn.button("reset");
-                                table.draw();
-                                toastr.success(message);
-                                $("#careerForm").validator('destroy');
-                                $("#careerModal").modal("hide");     
-                            }
-                        
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
+                    data: formData,
+                    type: "post",
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    url: "<?php echo base_url()."cms/loyalty/update_settings";?>" ,
+                    xhr: function(){
+                        //upload Progress
+                        var xhr = $.ajaxSettings.xhr();
+                        if (xhr.upload) {
+                            xhr.upload.addEventListener('progress', function(event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //update progressbar
+                                
+                                $('#progressBarMain').css('width',percent+'%').html(percent+'%');
+                                                                
+                            }, true);
                         }
-                });
-            }              
-               return false;
-        });
+                        return xhr;
+                    },
+                    mimeType:"multipart/form-data"
+                }).done(function(data){ 
+                    if(data == true)
+                    { 
+                        btn.button("reset");
+                        toastr.success('<?php echo str_replace("_"," ",ucfirst($page));?> successfully updated');
+                        setTimeout(function() {
+                        window.location = "";
+                        }, 200);
 
-        $("#deleteCareer").click(function(){
-            var btn = $(this);
-            var id = $("#deleteKey").val();
-            var deleteItem = $("#deleteItem").html();
-            var data = { "id" : id };
-            btn.button("loading");
-
-            $.ajax({
-                        data: data,
-                        type: "post",
-                        url: "<?php echo base_url()."cms/loyalty/delete_career";?>",
-                        success: function(data){
-                            //alert("Data Save: " + data);
+                    }else{
                             btn.button("reset");
-                            table.draw();
-                            $("#deleteCareerModal").modal("hide");
-                            toastr.error('Career ' + deleteItem + ' successfully deleted');
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
-                });
-        });
-
-        $('#careerModal').on('hidden.bs.modal', function (e) {
-            $(this)
-                .find("input,textarea,select")
-                .val('')
-                .end()
-                .find("input[type=checkbox], input[type=radio]")
-                .prop("checked", "")
-                .end();
-            editor.setData("");
-            $("#inputStatus").val('1').trigger('change');
-            $("#careerForm").validator('destroy');
-        });
-
-        function resetForm($form) {
-            $form.find('input:text, input:password, input:file, textarea').val('');
-            $form.find('input:radio, input:checkbox')
-                .removeAttr('checked').removeAttr('selected');
-        }
-      
+                            toastr.error(data); $('#uploadBoxMain').html('');     
+                    }
+                });   
+            });         
     };
-    function _edit(id)
-    {
-        $("#careerModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
-        $(".add").hide();    
-        $('#careerForm').validator();    
-        $("#action").val("edit");
-        $("#inputCoverImage").removeAttr("required");
-        var data = { "id" : id }
-        $.ajax({
-                data: data,
-                type: "post",
-                url: "<?php echo base_url()."cms/loyalty/get_career_data";?>",
-                success: function(data){
-                    data = JSON.parse(data);
-                    $("#inputCareerTitle").val(data.career.job_title);
-                    editor.setData(data.career.job_description);
-                    $("#careerID").val(data.career.id);
-                    $("#careerModal").modal("show");
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                }
-        });
-    }
-    function _delete(id,item)
-    {
-        $("#deleteCareerModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
-        $("#deleteItem").html(item);
-        $("#deleteKey").val(id);
-        $("#deleteCareerModal").modal("show");
-    }
+    
     
     $(document).ready(main);
 </script>

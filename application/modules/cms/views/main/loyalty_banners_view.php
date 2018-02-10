@@ -1,5 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+<?php $module_name = ucwords(str_replace("_"," ",$module_name));?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -22,12 +23,13 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <table id="newsList" class="table table-bordered table-striped">
+        <table id="loyalty_bannersList" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Cover Image</th>
+            <th>Banner</th>
+            <th>Link</th>
             <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
@@ -48,26 +50,26 @@
 <!-- /.content -->
 </div>
 
-<div class="modal fade" id="newsModal" role="dialog"  data-backdrop="static">
+<div class="modal fade" id="loyalty_bannersModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add News</h3>
+             <h3 class="modal-title">Add Loyalty Banners</h3>
              <input type="hidden" id="action">
-             <input type="hidden" id="newsID">
+             <input type="hidden" id="loyalty_bannersID">
             </div>
             <div class="modal-body">
                 <div>
-                    <form class="form-horizontal" id="newsForm" data-toggle="validator">
+                    <form class="form-horizontal" id="loyalty_bannersForm" data-toggle="validator">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="inputNewsTitle" class="col-sm-2 control-label">Title</label>
+                                <label for="inputLoyaltyBannersTitle" class="col-sm-2 control-label">Title</label>
 
                                 <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputNewsTitle" placeholder="Title" required>
+                                <input type="text" class="form-control" id="inputLoyaltyBannersTitle" placeholder="Title" required>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -81,22 +83,22 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="inputCoverImage" class="col-sm-2 control-label">Cover Image (Required Size: 582x498)</label>
+                                <label for="inputBannerImage" class="col-sm-2 control-label">Banner Image (Required Size: 1920x1003)</label>
 
                                 <div class="col-sm-10">
-                                    <center><img id="coverImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"></center>
-                                    <input type="hidden" id="inputCoverImage" value="">
-                                    <center><a class="btn btn-info" onclick="set_image_loader('inputCoverImage','coverImgPrev');">Select from Gallery</a></center>
-                                    <center><div class="help-block with-errors" id="coverError"></div></center>
+                                    <center><img id="bannerImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"></center>
+                                    <input type="hidden" id="inputBannerImage" value="">
+                                    <center><a class="btn btn-info" onclick="set_image_loader('inputBannerImage','bannerImgPrev');">Select from Gallery</a></center>
+                                    <center><div class="help-block with-errors" id="inputBannerImageError"></div></center>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputContent" class="col-sm-2 control-label">Content</label>
+                                <label for="inputLink" class="col-sm-2 control-label">Link</label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" id="inputContent" placeholder="Content" style="resize:none" required></textarea>
-                                <div class="help-block with-errors" id="ckEditorError"></div>
+                                <textarea class="form-control" id="inputLink" placeholder="Link" style="resize:none"></textarea>
+                                <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -120,7 +122,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="saveNews">Save News</button>
+            <button type="button" class="btn btn-primary" id="saveLoyaltyBanners">Save Loyalty Banner</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -129,14 +131,14 @@
 </div>
 
 <!-- /.modal -->
-<div class="modal fade" id="deleteNewsModal"  role="dialog"  data-backdrop="static">
+<div class="modal fade" id="deleteLoyaltyBannersModal" role="dialog"  data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete News</h3>
+             <h3 class="modal-title">Delete Loyalty Banners</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
@@ -144,7 +146,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" id="deleteNews">Delete</button>
+            <button type="button" class="btn btn-danger" id="deleteLoyaltyBanners">Delete</button>
             </div>
         </div>
     <!-- /.modal-content -->
@@ -152,6 +154,7 @@
 <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
 
 <!-- /.modal -->
 <div class="modal fade" id="mediaGalleryModal"   role="dialog"  data-backdrop="static">
@@ -161,7 +164,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">News Cover Image Gallery</h3>
+             <h3 class="modal-title">Banner Image Gallery</h3>
             </div>
             <div class="modal-body">
                 <form id="galleryFormUpload" method="post" action="<?php echo base_url()."cms/media/add_media"?>" enctype="multipart/form-data">
@@ -169,7 +172,7 @@
                         <div class="col-sm-8">
                             <input type="hidden" id="var_holder" value="">
                             <input type="hidden" id="file_holder" value="">
-                            <input type="hidden" name="module" value="news">
+                            <input type="hidden" name="module" value="loyalty_banners">
                             <input type="hidden" name="allowed_files" value="png|jpeg|jpg|gif">
                             <input type="hidden" name="file_type" value="image">
                             <input type="file" name="media_file" id="media_file" accept="*" class="form-control" required>
@@ -221,7 +224,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Cover Image Preview</h3>
+             <h3 class="modal-title">Loyalty Banner Image Preview</h3>
             </div>
             <div class="modal-body">
                 <center><img src="" id="imgPreview" style="width:100%;"></center>
@@ -270,53 +273,50 @@
         placeholder: "--- Select Item ---"
     };
 
-    var editor = CKEDITOR.replace('inputContent');
 
     var main = function(){
-        var table = $('#newsList').DataTable({
-            "language": {                
-                "infoFiltered": ""
-            },  
+        var table = $('#loyalty_bannersList').DataTable({  
             'autoWidth'   : true,
             "processing" : true,
             "serverSide" : true, 
-            "ajax" : "<?php echo base_url()."cms/news/get_news_list";?>",
+            "responsive" : true,
+            "ajax" : "<?php echo base_url()."cms/loyalty_banners/get_loyalty_banners_list";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
             { "width": "20%",  "targets": [ 1 ] }
-        ], "order": [[ 4, 'desc' ]]
+        ], "order": [[ 5, 'desc' ]]
         });
         $("#addBtn").click(function(){
-            $("#newsModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
+            $("#loyalty_bannersModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
             $("#action").val("add");
-            $("#inputCoverImage").attr("required","required");
-            $('#newsForm').validator();
-            $("#newsModal").modal("show");
+            $("#inputBannerImage").attr("required","required");
+            $('#loyalty_bannersForm').validator();
+            $("#loyalty_bannersModal").modal("show");
         });
 
-        $("#saveNews").click(function(){
-            $("#newsForm").submit();
+        $("#saveLoyaltyBanners").click(function(){
+            $("#loyalty_bannersForm").submit();
         });
 
         var image_correct = true;
         var image_error = "";
-        $("#newsForm").validator().on('submit', function (e) {
+        $("#loyalty_bannersForm").validator().on('submit', function (e) {
            
-            var btn = $("#saveNews");
+            var btn = $("#saveLoyaltyBanners");
             var action = $("#action").val();
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
             } else {
                 e.preventDefault();
-                var title = $("#inputNewsTitle").val();
+                var title = $("#inputLoyaltyBannersTitle").val();
                 var description = $("#inputDescription").val();
-                var content = editor.getData();
+                var link = $("#inputLink").val();
                 var status = $("#inputStatus").val();
-                var news_id = $("#newsID").val();
+                var loyalty_banners_id = $("#loyalty_bannersID").val();
 
                 if(title == "" || description == "")
                 {
@@ -325,56 +325,44 @@
                 }
 
                 var formData = new FormData();
-                formData.append('id', news_id);
+                formData.append('id', loyalty_banners_id);
                 formData.append('title', title);
+                formData.append('link', link);
                 formData.append('description', description);
-                formData.append('content', content);
                 formData.append('status', status);
                 // Attach file
-                formData.append('cover_image', $('#inputCoverImage').val());
-                var messageLength = content.replace(/<[^>]*>/gi, '').trim().length;
-                if($('#inputCoverImage').val() == "")
-                {   
-                    img_error = "<span style='color:red;'>Banner image is required</span>";   
-                    btn.button("reset");
-                    $("#coverError").html(img_error);
-                    return false;
+                formData.append('banner_image', $('#inputBannerImage').val());
+
+                var url = "<?php echo base_url()."cms/loyalty_banners/add_loyalty_banner";?>";
+                var message = "New Loyalty Banner successfully added";
+                if(action == "edit")
+                {
+                    url =  "<?php echo base_url()."cms/loyalty_banners/edit_loyalty_banner";?>";
+                    message = "Loyalty Banner successfully updated";
                 }
-                
-                var img = document.getElementById('coverImgPrev'); 
+
+                var img = document.getElementById('bannerImgPrev'); 
                 //or however you get a handle to the IMG
                 var width = img.naturalWidth;
                 var height = img.naturalHeight;
-              
-                
-                if(width != "582" || height != "498")
-                {                  
-                    img_error = "<span style='color:red;'>Invalid cover size use 582x498</span>";   
+                if($('#inputBannerImage').val() == "")
+                {   
+                    img_error = "<span style='color:red;'>Banner image is required</span>";   
                     btn.button("reset");
-                    $("#coverError").html(img_error);
+                    $("#inputBannerImageError").html(img_error);
+                    return false;
+                }
+                if(width != "1920" || height != "1003")
+                {                  
+                    img_error = "<span style='color:red;'>Invalid cover size use 1920x1003</span>";   
+                    btn.button("reset");
+                    $("#inputBannerImageError").html(img_error);
                     return false;
                 }
                 else
                 {
-                    $("#coverError").html("");  
+                    $("#inputBannerImageError").html("");  
                 }
-                if( !messageLength ) {
-                    $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
-                    btn.button("reset"); 
-                    return false;
-                }else{
-                    $("#ckEditorError").html("");
-                }
-
-                 //fromthis    
-                 var url = "<?php echo base_url()."cms/news/add_news";?>";
-                var message = "New news successfully added";
-                if(action == "edit")
-                {
-                    url =  "<?php echo base_url()."cms/news/edit_news";?>";
-                    message = "News successfully updated";
-                }
-
 
                 $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
@@ -412,28 +400,27 @@
                     }
                     else
                     {
-                         //alert("Data Save: " + data);
-                         btn.button("reset");
-                         if(action == "edit")
-                         {
-                             table.draw("page");
-                         }
-                         else
-                         {
-                             table.draw();
-                         }
-                         toastr.success(message);
-                         editor.setData('');
-                         $("#newsForm").validator('destroy');
-                         $("#newsModal").modal("hide"); 
-                         $('#uploadBoxMain').html('');          
+                        //alert("Data Save: " + data);
+                        btn.button("reset");
+                        if(action == "edit")
+                        {
+                            table.draw("page");
+                        }
+                        else
+                        {
+                            table.draw();
+                        }
+                        toastr.success(message);
+                        $("#loyalty_bannersForm").validator('destroy');
+                        $('#uploadBoxMain').html('');       
+                        $("#loyalty_bannersModal").modal("hide");         
                     }
                 });
             }
                return false;
         });
 
-        $("#deleteNews").click(function(){
+        $("#deleteLoyaltyBanners").click(function(){
             var btn = $(this);
             var id = $("#deleteKey").val();
             var deleteItem = $("#deleteItem").html();
@@ -443,13 +430,13 @@
             $.ajax({
                         data: data,
                         type: "post",
-                        url: "<?php echo base_url()."cms/news/delete_news";?>",
+                        url: "<?php echo base_url()."cms/loyalty_banners/delete_loyalty_banner";?>",
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
                             table.draw("page");
-                            $("#deleteNewsModal").modal("hide");
-                            toastr.error('News ' + deleteItem + ' successfully deleted');
+                            $("#deleteLoyaltyBannersModal").modal("hide");
+                            toastr.error('Loyalty Banner ' + deleteItem + ' successfully deleted');
                         },
                         error: function (request, status, error) {
                             alert(request.responseText);
@@ -457,7 +444,7 @@
                 });
         });
 
-        $('#newsModal').on('hidden.bs.modal', function (e) {
+        $('#loyalty_bannersModal').on('hidden.bs.modal', function (e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')
@@ -465,11 +452,10 @@
                 .find("input[type=checkbox], input[type=radio]")
                 .prop("checked", "")
                 .end();
-            editor.setData("");
             $("#inputStatus").val('1').trigger('change');
-            $('#inputCoverImage').val("");
-            $('#coverImgPrev').attr("src","");
-            $("#newsForm").validator('destroy');
+            $('#inputBannerImage').val("");
+            $('#bannerImgPrev').attr("src","");
+            $("#loyalty_bannersForm").validator('destroy');
         });
 
         $('#inputStatus').select2(inputRoleConfig);
@@ -482,26 +468,27 @@
     };
     function _edit(id)
     {
-        $("#newsModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
+        $("#loyalty_bannersModal .modal-title").html("Edit <?php echo ucfirst($module_name);?>");
         $(".add").hide();    
-        $('#newsForm').validator();    
+        $('#loyalty_bannersForm').validator();    
         $("#action").val("edit");
-        $("#inputCoverImage").removeAttr("required");
+        $("#inputBannerImage").removeAttr("required");
+        $("#inputInnerBannerImage").removeAttr("required");
         var data = { "id" : id }
         $.ajax({
                 data: data,
                 type: "post",
-                url: "<?php echo base_url()."cms/news/get_news_data";?>",
+                url: "<?php echo base_url()."cms/loyalty_banners/get_banner_data";?>",
                 success: function(data){
                     data = JSON.parse(data);
-                    $("#inputNewsTitle").val(data.news.title);
-                    $("#inputDescription").val(data.news.description);
-                    editor.setData(data.news.content);
-                    $('#inputCoverImage').val(data.news.cover_image_id);
-                    $('#coverImgPrev').attr("src","<?php echo base_url()."/uploads/news/"; ?>" + data.news.cover_image);
-                    $("#inputStatus").val(data.news.status).trigger('change');
-                    $("#newsID").val(data.news.id);
-                    $("#newsModal").modal("show");
+                    $("#inputLoyaltyBannersTitle").val(data.loyalty_banners.title);
+                    $("#inputDescription").val(data.loyalty_banners.description);
+                    $("#inputLink").val(data.loyalty_banners.link);
+                    $("#inputStatus").val(data.loyalty_banners.status).trigger('change');
+                    $("#loyalty_bannersID").val(data.loyalty_banners.id);
+                    $("#inputBannerImage").val(data.loyalty_banners.banner_image_id);
+                    $("#bannerImgPrev").attr("src","<?php echo base_url()."uploads/loyalty_banners/";?>"+ data.loyalty_banners.banner_image);
+                    $("#loyalty_bannersModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -510,15 +497,14 @@
     }
     function _delete(id,item)
     {
-        $("#deleteNewsModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteLoyaltyBannersModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
-        $("#deleteNewsModal").modal("show");
+        $("#deleteLoyaltyBannersModal").modal("show");
     }
-    
     function img_preview(img_src)
     {
-        $("#imgPreview").attr("src","<?php echo base_url()."uploads/news/"?>"+img_src);
+        $("#imgPreview").attr("src","<?php echo base_url()."uploads/loyalty_banners/"?>"+img_src);
         $("#imgPreviewModal").modal("show");
     }
 
@@ -539,7 +525,7 @@
             "serverSide" : true,
             "searching" : false,
             "pageLength": 10, "bLengthChange": false,
-            "ajax" : "<?php echo base_url()."cms/media/get_media_list?module=news";?>",
+            "ajax" : "<?php echo base_url()."cms/media/get_media_list?module=loyalty_banners";?>",
             "initComplete": function(settings,json){
                 $('[data-toggle="tooltip"]').tooltip()
             }
@@ -621,6 +607,5 @@
                 }
         });
     });
-
     $(document).ready(main);
 </script>

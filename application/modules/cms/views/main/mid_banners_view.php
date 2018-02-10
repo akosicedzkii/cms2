@@ -57,7 +57,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Add MidBanners</h3>
+             <h3 class="modal-title">Add Mid Banner</h3>
              <input type="hidden" id="action">
              <input type="hidden" id="mid_bannersID">
             </div>
@@ -138,7 +138,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
            
-             <h3 class="modal-title">Delete MidBanners</h3>
+             <h3 class="modal-title">Delete Mid Banner</h3>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="deleteKey">
