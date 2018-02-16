@@ -239,7 +239,8 @@
                         toastr.success(message);
                         $("#profileForm").validator('destroy');
                         $("#profileModal").modal("hide");
-                        $('#uploadBoxMainProfile').html('');        
+                        $('#uploadBoxMainProfile').html('');
+                        window.location = "<?php echo base_url()."cms/logout";?>";        
                     }
                 });              
            }

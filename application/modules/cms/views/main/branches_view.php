@@ -308,7 +308,7 @@
     }
     function _delete(id,item)
     {
-        $("#deleteBranchModal .modal-title").html("Delete <?php echo rtrim(ucwords(str_replace("_"," ",$module_name)),"s");?>");
+        $("#deleteBranchModal .modal-title").html("Delete Branch");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
         $("#deleteBranchModal").modal("show");

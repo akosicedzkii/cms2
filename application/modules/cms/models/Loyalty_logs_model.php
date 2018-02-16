@@ -11,7 +11,7 @@ class Loyalty_logs_model extends CI_Model {
         public function insert_log()
         {
             $this->date_created = date("Y-m-d H:i:s A");
-            $this->db->insert("logs",$this);
+            $this->db->insert("loyalty_logs",$this);
         }
 
 }

@@ -12,4 +12,12 @@ $(document).ready(function() {
             e.preventDefault();
         }
     });
+
+    $.ajax({
+        "url" : base_url + "main/api_retrieve_info",
+        "method" : "post",
+        "success" : function(data){
+            console.log(JSON.parse(data));
+        }
+    });
 });

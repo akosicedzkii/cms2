@@ -6,7 +6,11 @@ class Profile extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-		$this->settings_model->get_settings();  
+        $this->settings_model->get_settings();
+        if($this->session->userdata("card_number") == null)
+        {
+            redirect(base_url()."loyalty");
+        }  
 	}
     
     public function index()

@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('cms/settings_model','cms/logs_model' => 'logs',"visitor_counter_model" => 'v_counter',"cms/emailer_model" => "emailer");
+$autoload['model'] = array('cms/loyalty_logs_model' => 'loyalty_logs','cms/settings_model','cms/logs_model' => 'logs',"visitor_counter_model" => 'v_counter',"cms/emailer_model" => "emailer");

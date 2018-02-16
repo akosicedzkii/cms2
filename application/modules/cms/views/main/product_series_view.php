@@ -536,7 +536,7 @@
     }
     function _delete(id,item)
     {
-        $("#deleteProductSeriessModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteProductSeriessModal .modal-title").html("Delete Product Series");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
         $("#deleteProductSeriessModal").modal("show");

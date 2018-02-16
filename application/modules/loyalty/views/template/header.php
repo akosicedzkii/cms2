@@ -44,15 +44,15 @@
                             </select>
                             <select name="" id="login-birthday-month" class="login-birthday date-month" disabled data-fieldtype="select-date" >
                                 <option disabled selected value="default">MM</option>
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                                <option value="6">06</option>
-                                <option value="7">07</option>
-                                <option value="8">08</option>
-                                <option value="9">09</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
@@ -62,6 +62,7 @@
                             </select>
                             <p class="error-msg"></p>
                         </div>
+                            <p class="error-msg" id="login-error"></p>
                         <input type="submit" id="login-submit" value="SUBMIT" />
                     </form>
                 </div>
@@ -103,18 +104,38 @@
         <a class="navbar-brand" href="<?php echo base_url()."loyalty";?>"><img src="<?php echo base_url();?>/assets_loyalty/images/unioil-loyalty-header-logo.png" alt=""></a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li id="home-link" class="nav-item active">
+                <li id="home-link" class="nav-item<?php if($page == "main"){ echo " active";}?>">
                     <a class="nav-link" href="<?php echo base_url()."loyalty";?>">HOME</a>
                 </li>
-                 <li id="privlink" class="nav-item">
+                <?php
+                if($this->session->userdata("card_number") != null)
+                { 
+                ?>
+                 <li id="privlink" class="nav-item<?php if($page == "profile"){ echo " active";}?>">
                     <a class="nav-link" href="<?php echo base_url()."loyalty/profile";?>">PROFILE</a>
                 </li>
-                <li id="about-link" class="nav-item">
+                <?php 
+                }
+                ?>
+                <li id="about-link" class="nav-item<?php if($page == "faq"){ echo " active";}?>">
                     <a class="nav-link" href="<?php echo base_url()."loyalty/faq";?>">FAQs</a>
                 </li>
                 <li id="account-control-link" class="nav-item">
                     <div class="login-button-container">
-                        <a class="nav-link" data-toggle="modal" href="#privacy-modal">LOG IN</a>
+                        <?php 
+                        if($this->session->userdata("card_number") != null)
+                        {   
+                            ?>
+                                <a class="nav-link" href="<?php echo base_url()."loyalty/main/logout"?>">LOG OUT</a>
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                                <a class="nav-link" data-toggle="modal" href="#privacy-modal">LOG IN</a>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </li>
             </ul>

@@ -10,8 +10,8 @@
                         </label>
                     </div>
                     <div class="col-12 col-md-auto profile-info-container">
-                        <p class="profile-info" id="profile-name">Patricia Marie Zeta</p>
-                        <p class="profile-info"><span id="profile-card-label">Card #:</span> <span id="profile-card-number">00000001</span></p>
+                        <p class="profile-info" id="profile-name"><?php echo ucwords($this->session->userdata("first_name")." ".$this->session->userdata("middle_innitial").". ".$this->session->userdata("last_name") );?></p>
+                        <p class="profile-info"><span id="profile-card-label">Card #:</span> <span id="profile-card-number"><?php echo $this->session->userdata("card_number");?></span></p>
                         <a class="ghost-btn white profile-edit-btn" data-toggle="modal" href="#edit-modal">EDIT PROFILE</a>
                         <input type="text" id="profile-points" readonly value="000000000" />
                         <p class="profile-points-label">CURRENT POINTS</p>
@@ -107,13 +107,13 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-12 col-md-4">
-                                    <p class="text-center"><span class="primary-label">Card No.:</span> <span id="edit-card-number" class="primary-value">00000001</span></p>
+                                    <p class="text-center"><span class="primary-label">Card No.:</span> <span id="edit-card-number" class="primary-value"><?php echo $this->session->userdata("card_number");?></span></p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p class="text-center"><span class="primary-label">Name:</span> <span id="edit-card-number" class="primary-value">Patricia Marie Zeta</span></p>
+                                    <p class="text-center"><span class="primary-label">Name:</span> <span id="edit-card-number" class="primary-value"><?php echo ucwords($this->session->userdata("first_name")." ".$this->session->userdata("middle_innitial").". ".$this->session->userdata("last_name") );?></span></p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p class="text-center"><span class="primary-label">Birthday:</span> <span id="edit-card-number" class="primary-value">February 16, 1993</span></p>
+                                    <p class="text-center"><span class="primary-label">Birthday:</span> <span id="edit-card-bday" class="primary-value"><?php echo date("F d, Y",strtotime($this->session->userdata("bday_long")));?></span></p>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <div class="edit-field-group">
-                                        <input type="text" id="edit-contact-number" class="text-field" data-fieldtype="email" />
+                                        <input type="text" id="edit-email-address" class="text-field" data-fieldtype="email" />
                                         <p class="error-msg"></p>
                                     </div>
                                 </div>

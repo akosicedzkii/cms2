@@ -302,7 +302,7 @@
     }
     function _delete(id,item)
     {
-        $("#deleteProductCategoryModal .modal-title").html("Delete <?php echo rtrim(ucfirst($module_name),"s");?>");
+        $("#deleteProductCategoryModal .modal-title").html("Delete Category");
         $("#deleteItem").html(item);
         $("#deleteKey").val(id);
         $("#deleteProductCategoryModal").modal("show");
