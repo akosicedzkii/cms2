@@ -16,6 +16,7 @@ class Main extends CI_Controller {
        $data["banners"] = $this->db->query($query)->result();
        
 	   $data["loyalty_settings"] = $this->db->get("loyalty_settings")->row();
+	   $data["loyalty_contents"] = $this->db->where("status","1")->get("loyalty_contents")->result();
        $this->load->view("template/header",$data);
        $this->load->view("main_view");
        $this->load->view("template/footer");
