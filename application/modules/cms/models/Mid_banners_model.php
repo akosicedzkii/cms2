@@ -17,10 +17,8 @@ class Mid_banners_model extends CI_Model {
                 $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["banner_image"] = $this->banner_image;
                 
-                if($this->link != null)
-                {
-                     $data["link"] = $this->link;
-                }
+               $data["link"] = $this->link;
+                
 
                 $data["status"] = $this->status;
                 $data["content"] = $this->content;
@@ -48,10 +46,8 @@ class Mid_banners_model extends CI_Model {
                      $data["banner_image"] = $this->banner_image;
                 }
                 
-                if($this->link != null)
-                {
-                     $data["link"] = $this->link;
-                }
+                $data["link"] = $this->link;
+                
                 $data["status"] = $this->status;
                 $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);
