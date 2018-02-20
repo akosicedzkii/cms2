@@ -3,10 +3,18 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-4 col-lg-3">
-                        <img src="<?php echo base_url();?>/assets_loyalty/images/sample-profile-img.jpg" class="profile-img">
+                        <?php if($checked->image != null){
+                            
+                           ?>  
+                            <img src="<?php echo base_url();?>/uploads/card_profile_images/<?php echo $checked->image;?>" class="profile-img">
+                           <?php
+                        }else{?>
+                            <img src="<?php echo base_url();?>/assets_loyalty/images/sample-profile-img.png" class="profile-img">
+                         <?php
+                        }?>
                         <label class="upload-img-label">
                             UPLOAD IMAGE
-                            <input type="file" class="upload-img-btn" />
+                            <input type="file" class="upload-img-btn" id="image" accept = ".png, .jpg"/>
                         </label>
                     </div>
                     <div class="col-12 col-md-auto profile-info-container">
@@ -127,7 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-2 label-container">
-                                    <label for="edit-contact-number">Email Address:</label>
+                                    <label for="edit-email-address">Email Address:</label>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <div class="edit-field-group">

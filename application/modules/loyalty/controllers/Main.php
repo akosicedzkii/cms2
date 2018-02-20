@@ -22,6 +22,9 @@ class Main extends CI_Controller {
        $this->load->view("template/footer");
     }
 
+   
+
+    public $api_url = "http://13.229.0.154/cgi-bin/uni_web.cgi";
     public function api_login()
     {
         $ch = curl_init();
@@ -32,7 +35,7 @@ class Main extends CI_Controller {
         $date = date("Ymd");
         $random_key = rand(1001,5000);
         $vendor_key = md5("UNI".$random_key.$date.$card_number);
-        curl_setopt($ch, CURLOPT_URL,"http://13.229.0.154/cgi-bin/uni_web.cgi");
+        curl_setopt($ch, CURLOPT_URL,$this->api_url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,
                     "state=state_login&card_number=$card_number&birth_date=$birthdate&random_key=$random_key&yyyymmdd=$date&vendor_key=$vendor_key");
@@ -50,6 +53,9 @@ class Main extends CI_Controller {
             $this->session->set_userdata("bday",$birthdate);
             $bday_long = substr($birthdate, 0, 4) . "-".substr($birthdate, 4, 2)."-".substr($birthdate, 6, 2);
             $this->session->set_userdata("bday_long",$bday_long);
+            $this->load->model("api_login_model");
+            $this->api_login_model->card_number = $card_number;
+            $this->api_login_model->insert_loyalty_login();
             //var_dump($this->session->userdata);
             $this->loyalty_logs->log = "Logged in" ;
             $this->loyalty_logs->details = $card_number;
@@ -64,100 +70,7 @@ class Main extends CI_Controller {
         }
     }
 
-    public function api_validate()
-    {
-        $ch = curl_init();
-        //$card_number = "1100000000090097";
-        $card_number = $this->session->userdata("card_number");
-        //$birthdate = "19800814";
-        $birthdate = $this->session->userdata("bday");
-        $mobile = $this->session->userdata("mobile");
-        $date = date("Ymd");
-        $random_key = rand(1001,5000);
-        $vendor_key = md5("UNI".$random_key.$date.$card_number);
-        curl_setopt($ch, CURLOPT_URL,"http://13.229.0.154/cgi-bin/uni_web.cgi");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    "mobile=$mobile&state=state_validate&card_number=$card_number&birth_date=$birthdate&random_key=$random_key&yyyymmdd=$date&vendor_key=$vendor_key");
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $array_val = json_decode($server_output,true);
-        var_dump($array_val);
-        if($array_val["loyalty"]["status"]["result"] == "ok")
-        {
-             //echo $array_val["loyalty"]["data"][0];
-        }
-        else
-        {
-            echo "Failed";
-        }
-    }
-
-    public function api_retrieve_info()
-    {
-        $ch = curl_init();
-        //$card_number = "1100000000090097";
-        $card_number = $this->session->userdata("card_number");
-        //$birthdate = "19800814";
-        $birthdate = $this->session->userdata("bday");
-        $date = date("Ymd");
-        $random_key = rand(1001,5000);
-        $vendor_key = md5("UNI".$random_key.$date.$card_number);
-        curl_setopt($ch, CURLOPT_URL,"http://13.229.0.154/cgi-bin/uni_web.cgi");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    "state=state_retrieve_info&card_number=$card_number&birth_date=$birthdate&random_key=$random_key&yyyymmdd=$date&vendor_key=$vendor_key");
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $array_val = json_decode($server_output,true);
-        echo json_encode($array_val["loyalty"]);
-    }
-
-
-    public function api_transaction()
-    {
-        $ch = curl_init();
-        //$card_number = "1100000000090097";
-        $card_number = $this->session->userdata("card_number");
-        //$birthdate = "19800814";
-        $startdate = $this->input->get("startdate");
-        $enddate = $this->input->get("enddate");
-        $date = date("Ymd");
-        $random_key = rand(1001,5000);
-        $vendor_key = md5("UNI".$random_key.$date.$card_number);
-        curl_setopt($ch, CURLOPT_URL,"http://13.229.0.154/cgi-bin/uni_web.cgi");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    "state=state_trans_history&start_date=$startdate&end_date=$enddate&card_number=$card_number&random_key=$random_key&yyyymmdd=$date&vendor_key=$vendor_key");
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $array_val = json_decode($server_output,true);
-        var_dump($array_val);
-        if($array_val["loyalty"]["status"]["rows"] == "ok")
-        {
-             if($array_val["loyalty"]["status"]["sql"] == "no records")
-             {
-                echo "No Records";
-             }
-             else
-             {
-
-             }
-        }
-        else
-        {
-            echo "Failed";
-        }
-    }
+   
 
     public function session()
     {

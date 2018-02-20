@@ -18,7 +18,7 @@ class Loyalty_logs extends CI_Controller {
     public function get_loyalty_logs_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.log","t1.date_created","t2.username as created_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.log","t1.date_created","t1.created_by");  
         $this->dt_model->where  = array("t1.id","t1.log","t1.date_created","t2.username");  
         $select_columns = array("id","log","date_created","created_by");  
         $this->dt_model->table = "loyalty_logs AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by";  
@@ -50,12 +50,8 @@ class Loyalty_logs extends CI_Controller {
     {
         $this->db->where("id",$this->input->post("id"));
         $log = $this->db->get("loyalty_logs")->row();
-        $this->db->where("id",$log->created_by);
-        $username = $this->db->get("user_accounts")->row()->username;
         
-        $this->db->where("user_id",$log->created_by);
         $profile = $this->db->get("user_profiles")->row();
-        $log->created_by = str_replace("  "," ",$profile->first_name . " " . $profile->middle_name . " " . $profile->last_name). "(".$username.")" ;
         $data["log"] = $log;
         echo json_encode($data);
     }

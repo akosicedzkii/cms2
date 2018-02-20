@@ -7,11 +7,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="social-media-container">
-                                <a href="#">
+                                <a href="<?php echo FACEBOOK_URL;?>">
                                     <img src="<?php echo base_url();?>/assets_loyalty/images/unioil-thumbnail-facebook.png" class="social-media-link" alt=""></a>
-                                <a href="#">
+                                <a href="<?php echo TWITTER_URL;?>">
                                     <img src="<?php echo base_url();?>/assets_loyalty/images/unioil-thumbnail-twitter.png" class="social-media-link" alt=""></a>
-                                <a href="#">
+                                <a href="<?php echo INSTAGRAM_URL;?>">
                                     <img src="<?php echo base_url();?>/assets_loyalty/images/unioil-thumbnail-instagram.png" class="social-media-link" alt=""></a>
                             </div>
                         </div>
@@ -23,12 +23,12 @@
                             <img src="<?php echo base_url();?>/assets_loyalty/images/unioil-thumbnail-phone.png" class="contact-detail-thumbnail" alt="">
                             <p class="contact-detail-info">
                                 <span class="bold-text">Tel. no.</span>
-                                <br> (632) 687 8877 loc. 269
+                                <br> <?php echo nl2br(CONTACT_NUMBER);?>
                             </p>
                         </div>
                         <div class="col-12 col-md-6 contact-detail">
                             <img src="<?php echo base_url();?>/assets_loyalty/images/unioil-thumbnail-pin.png" class="contact-detail-thumbnail" alt="">
-                            <p class="contact-detail-info">2702A West Tower building, PSE Exchange Center, Exchange Road, Ortigas Center, Pasig City 1600 </p>
+                            <p class="contact-detail-info"><?php echo nl2br(COMPANY_ADDRESS);?> </p>
                         </div>
                     </div>
                 </div>
@@ -48,6 +48,10 @@
     <script src="<?php echo base_url();?>/assets_loyalty/js/main.js"></script>
     <?php }?>
     <?php if($page == "profile"){?>
+    <script>
+        var checked = "<?php if($checked->is_first_time != null || $checked->is_first_time != ""){ echo "true";}else{ echo "false";}?>";
+
+    </script>
     <script src="<?php echo base_url();?>/assets_loyalty/js/profile.js"></script>
     <?php }?>
     <script src="<?php echo base_url();?>/assets_loyalty/js/scroll-events.js"></script>
