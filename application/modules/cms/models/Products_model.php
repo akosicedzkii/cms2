@@ -13,6 +13,7 @@ class Products_model extends CI_Model {
         public $product_series_id;
         public $pdf;
         public $visibility;
+        public $status;
 
         public function insert_products()
         {
@@ -25,6 +26,7 @@ class Products_model extends CI_Model {
                 $data["product_series_id"] = $this->product_series_id;
                 $data["product_category_id"] = $this->product_category_id;
                 $data["visibility"] = $this->visibility;
+                $data["status"] = $this->status;
                 if($this->product_sub_image != null)
                 {
                      $data["product_sub_image"] = $this->product_sub_image;
@@ -32,6 +34,10 @@ class Products_model extends CI_Model {
                 if($this->pdf != null)
                 {
                      $data["pdf"] = $this->pdf;
+                }
+                if($this->mds != null)
+                {
+                     $data["mds"] = $this->mds;
                 }
                 $data["created_by"] =  $this->session->userdata("USERID");
                 echo $result = $this->db->insert('products', $data);
@@ -56,6 +62,7 @@ class Products_model extends CI_Model {
                 $data["product_category_id"] = $this->product_category_id;
                 $data["specification"] = $this->specification;
                 $data["visibility"] = $this->visibility;
+                $data["status"] = $this->status;
                 if($this->product_image != null)
                 {
                      $data["product_image"] = $this->product_image;
@@ -67,6 +74,10 @@ class Products_model extends CI_Model {
                 if($this->pdf != null)
                 {
                      $data["pdf"] = $this->pdf;
+                }
+                if($this->mds != null)
+                {
+                     $data["mds"] = $this->mds;
                 }
                 $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);

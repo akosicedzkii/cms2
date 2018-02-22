@@ -23,29 +23,14 @@
                                 <p class="product-description"></p>
                             </div>
                             <div class="col-12 col-md-6 my-auto" id="prod-specs">
-                                <h4>EURO 5 GASOLINE 97</h4>
-                                <div class="modal-divider"></div>
-                                <p>
-                                    Cleaner emissions<br>
-                                    Protects the engine from ethanol's corrosive effect<br>
-                                    Instantly improves fuel efficiency and power by enhancing engine lubrication<br>
-                                    Restores maximum engine performance by removing deposits
-                                </p>
-                                <h4>EURO 5 GASOLINE 95</h4>
-                                <div class="modal-divider"></div>
-                                <p>
-                                    Cleaner emissions<br>
-                                    Protects the engine from ethanol's corrosive effect<br>
-                                    Prevents power loss by keeping the engine clean<br>
-                                    Instantly improves fuel efficiency and power by enhancing engine lubrication
-                                </p>
-                                <h4>EURO 5 GASOLINE 91</h4>
-                                <div class="modal-divider"></div>
-                                <p>
-                                    Cleaner emissions<br>
-                                    Protects the engine from ethanol's corrosive effect<br>
-                                    Prevents power loss by keeping the engine clean
-                                </p>
+                                
+                            </div>
+                        </div>
+                        <div class="row"  id="dl">
+                            <div class="col-12 col-md-6 my-auto">
+                            </div>
+                            <div class="col-12 col-md-6 my-auto" id="">
+                                <div class='btn-spacer' style='padding-left: 14px;padding-bottom: 14px;cursor:pointer;'><a style='font-size: 13px;' id="dl_link" class='ghost-btn blue' href='' target=_blank>Download PDF</a></div>
                             </div>
                         </div>
                     </div>
@@ -68,6 +53,15 @@
                         $(".product-description").html(data.product_description);
                         $("#prod-specs").html(data.specification);
                         $("#product-modal").modal("show");
+                        if(data.pdf != null)
+                        {
+                            $("#dl").show();
+                            $("#dl_link").attr("href","<?php echo base_url()."uploads/";?>products/" +data.pdf);
+                        }
+                        else
+                        {
+                            $("#dl").hide();
+                        }
                     },
                     error: function (request, status, error) {
                         alert(request.responseText);

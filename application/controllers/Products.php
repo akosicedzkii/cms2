@@ -33,7 +33,7 @@ class Products extends CI_Controller {
 					</div>
 					<div class="custom-column fuel-item animate fade-in from-right">';
 					
-						$products = $this->db->where("visibility","promotion_only")->where("product_series_id",$row->id)->get("products")->result();
+						$products = $this->db->where("status","1")->where("visibility","promotion_only")->where("product_series_id",$row->id)->get("products")->result();
 										
 						if($products != null){
 							foreach($products as $row_prod){
@@ -93,6 +93,7 @@ class Products extends CI_Controller {
 		
 			$id = $this->input->post("id");
 			$this->db->where("product_series_id",$id);
+			$this->db->where("status","1");
 			$return = $this->db->get("products")->result();
 			$return_ol = '<ol class="carousel-indicators">';
 			$return_carousel = '<div class="carousel-inner">';
@@ -111,13 +112,17 @@ class Products extends CI_Controller {
 					$return_ol .= '<li data-target="#product-carousel" data-slide-to="'.$count.'" class="'.ltrim($active." ").'">
 										<img src="'.base_url().'uploads/products/'.$row->product_image.'" alt="" class="img-fluid product-thumbnail">
 									</li>';
-					$pdf = "";
+					$pdf = $mds = "";
 					if($row->pdf != null)
 					{
 
-						$pdf = "<div class='btn-spacer' style='padding-left: 14px;padding-bottom: 14px;'><a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download</a></div>";
+						$pdf = "<a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->pdf)."' target=_blank>Download PDS</a>";
 					}
-					
+					if($row->mds != null)
+					{
+
+						$mds = "<a style='font-size: 13px;' class='ghost-btn blue' href='".base_url("uploads/products/".$row->mds)."' target=_blank>Download MDS</a>";
+					}
 					$return_carousel .= '<div class="carousel-item'.$active.'">
 											<div class="container">
 												<div class="row justify-content-center">
@@ -132,7 +137,7 @@ class Products extends CI_Controller {
 															'.$row->specification.'
 														</p>
 														<p>
-															'.$pdf.'
+														<div class="btn-spacer" style="padding-left: 14px;padding-bottom: 14px;">'.$pdf.'&emsp;'.$mds.'</div>
 														</p>
 													</div>
 												</div>

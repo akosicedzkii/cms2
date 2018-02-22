@@ -30,8 +30,8 @@ $(document).ready(function() {
 				"<br>Birthday:" + $("#careers-birthday").val() + 
 				"<br>Contact Number: " + $("#careers-number").val() + 
 				"<br>Email Address: " + $("#careers-email").val() + "<br>Applying For: " + $("#careers-opening option:selected").text() ;
-
-				var emailer_name =  "Unioil Applicant - " + $("#careers-lname").val() + "," + $("#careers-fname").val();
+ 
+				var emailer_name =  "Unioil Applicant For " + $("#careers-opening option:selected").text() +" - " + $("#careers-lname").val() + "," + $("#careers-fname").val();
 				var file_data = $('#careers-letter').prop('files')[0];   
 				var form_data = new FormData();                  
 				form_data.append('file', file_data); 
@@ -51,6 +51,9 @@ $(document).ready(function() {
 						   {
 							   alert("Message successfully sent");
 							   window.location = "";
+						   }else{
+							alert(response);
+							window.location = "";
 						   }						   
 	
 						},

@@ -33,6 +33,7 @@
             <th>Product Type</th>
             <th>Product Series</th>
             <th>Vendor</th>
+            <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -155,7 +156,7 @@
                             </div>
 
                             <div class="form-group product_image">
-                                <label for="inputProductImage" class="col-sm-2 control-label">Product Image</label>
+                                <label for="inputProductImage" id="lblImage" class="col-sm-2 control-label">Product Image</label>
 
                                 <div class="col-sm-10">
                                 <center><img id="prodImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"><center>
@@ -168,7 +169,7 @@
                             </div>
 
                             <div class="form-group product_sub_image">
-                                <label for="inputProductSubImage" class="col-sm-2 control-label">Product Sub Image(For Fuels)</label>
+                                <label for="inputProductSubImage" class="col-sm-2 control-label">Product Sub Image(For Fuels)(Recommended Size: 399x206)</label>
 
                                 <div class="col-sm-10"> 
                                 <center><img id="prodSubImgPrev" src="#" class='img-thumbnail' style='height:100px;width:200px' onerror="this.src='<?php echo base_url()."assets/images/img_bg.png";?>'"><center>
@@ -179,14 +180,33 @@
                             </div>
 
                             <div class="form-group pdf">
-                                <label for="inputProductPdf" class="col-sm-2 control-label">PDF file</label>
+                                <label for="inputProductPdf" class="col-sm-2 control-label">PDS/PDF file</label>
 
                                 <div class="col-sm-10">
-                                <input type="file" class="form-control" id="inputProductPdf" placeholder="PDF file" style="resize:none" accept=".pdf">
-                                <div class="help-block with-errors" id="pdfError"></div>
+                                <input type="file" class="form-control" id="inputProductPdf" placeholder="PDS/PDF file" style="resize:none" accept=".pdf">
+                                <div class="help-block with-errors" id="pdsError"></div>
                                 </div>
                             </div>
 
+                            <div class="form-group mds">
+                                <label for="inputProductMds" class="col-sm-2 control-label">MDS file</label>
+
+                                <div class="col-sm-10">
+                                <input type="file" class="form-control" id="inputProductMds" placeholder="MDS file" style="resize:none" accept=".pdf">
+                                <div class="help-block with-errors" id="mdsError"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputStatus" class="col-sm-2 control-label">Status</label>
+
+                                <div class="col-sm-10">
+                                <select class="form-control" id="inputStatus" placeholder="Content" style="resize:none" required>
+                                    <option value="1">Enable</option>
+                                    <option value="0">Disable</option>
+                                </select>
+                                <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div id="uploadBoxMain" class="col-md-12">
                                 </div>
@@ -345,6 +365,7 @@
         };
 
    
+    $('#inputStatus').select2(inputRoleConfig);
     var editor = CKEDITOR.replace('inputSpecification');
     var main = function(){
         var table = $('#productsList').DataTable({  
@@ -357,29 +378,45 @@
             }
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] }
-        ], "order": [[ 7, 'desc' ]]
+        ], "order": [[ 8, 'desc' ]]
         });
         
         $('#inputProductCategoryID,#inputProductVendorID').select2(inputRoleConfig);
-        $('#inputProductCategoryID').on('change', function() {
+        $('#inputProductCategoryID,#inputProductVendorID').on('change', function() {
             check_series();
 
+            $("#inputProductMds").removeAttr("required");
+            $("#inputProductPdf").removeAttr("required");
             if($("#inputProductCategoryID").val() == "1")
             {
                 $("#inputVisibility").change();
                 $(".visibility").show();
                 $(".specification").show();
                 $(".product_image").show();
+                $("#lblImage").html("Product Image(Recommended Size: 846x203)");
                 $(".product_sub_image").show();
-                $(".pdf").hide();
+                $(".mds").hide();
             }
             else if($("#inputProductCategoryID").val() == "2")
             {
                 $(".visibility").hide();
                 $(".specification").show();
                 $(".product_image").show();
+                $("#lblImage").html("Product Image(Recommended Size: 450x450)");
                 $(".product_sub_image").hide();
                 $(".pdf").show();
+                $(".mds").show();
+                var action = $("#action").val();
+                if(action == "edit")
+                {
+                    $("#inputProductMds").removeAttr("required");
+                    $("#inputProductPdf").removeAttr("required");
+                }
+                else
+                {
+                    $("#inputProductPdf").attr("required","required");
+                    $("#inputProductMds").attr("required","required");
+                }
             }
             else if($("#inputProductCategoryID").val() == "3")
             {
@@ -388,6 +425,7 @@
                 $(".product_image").hide();
                 $(".product_sub_image").hide();
                 $(".pdf").hide();
+                $(".mds").hide();
             } 
             
 
@@ -401,19 +439,28 @@
                     $(".specification").hide();
                     $(".product_image").hide();
                     $(".product_sub_image").hide();
+                    $(".pdf").hide();
+                    $("#inputProductPdf").removeAttr("required");
                 }
                 else
                 { 
                     $(".specification").show();
                     $(".product_image").show();
                     $(".product_sub_image").show();
+                    $(".pdf").show();
+                    var action = $("#action").val();
+                    if(action == "edit")
+                    {
+                        $("#inputProductPdf").removeAttr("required");
+                    }
+                    else
+                    {
+                        $("#inputProductPdf").attr("required","required");
+                    }
                 }
             }
         });
         
-        $('#inputProductVendorID').on('change', function() {
-            check_series();
-        })
         
         check_series();
         $("#addBtn").click(function(){
@@ -426,6 +473,7 @@
             $(".product_image").hide();
             $(".product_sub_image").hide();
             $(".pdf").hide();
+            $(".mds").hide();
 
             $("#inputProductImage").val("");
             $("#inputProductSubImage").val("");
@@ -450,9 +498,10 @@
             placeholder: "--- Select Item ---"
         });
         $("#productForm").validator().on('submit', function (e) {
-           
+          
             var btn = $("#saveProducts");
             var action = $("#action").val();
+           
             btn.button("loading");
             if (e.isDefaultPrevented()) {
                 btn.button("reset"); 
@@ -466,6 +515,7 @@
                 var product_category_id = $("#inputProductCategoryID").val();
                 var product_series_id = $("#inputProductSeriesID").val();
                 var visibility = $("#inputVisibility").val();
+                var status = $("#inputStatus").val();
                 if(product_name == "" || product_description == "" || vendor_id == "" || product_category_id == "")
                 {
                     btn.button("reset"); 
@@ -474,18 +524,37 @@
                 var formData = new FormData();
                 formData.append('id', products_id);
                 formData.append('product_name', product_name);
-                formData.append('specification', specification);
                 formData.append('product_description', product_description);
                 formData.append('vendor_id', vendor_id);
                 formData.append('product_category_id', product_category_id);
                 formData.append('product_series_id', product_series_id);
-                formData.append('visibility', visibility);
-                // Attach file
-                formData.append('product_image', $('#inputProductImage').val());
-                formData.append('product_sub_image', $('#inputProductSubImage').val());
-                formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
-                var messageLength = specification.replace(/<[^>]*>/gi, '').trim().length;
+                    formData.append('status', status);
+                if($("#inputProductCategoryID").val() == "1")
+                {
+                    formData.append('specification', specification);
+                    formData.append('visibility', visibility);
+                    // Attach file
+                    formData.append('product_image', $('#inputProductImage').val());
+                    formData.append('product_sub_image', $('#inputProductSubImage').val());
+                    formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
+                }
+                else if($("#inputProductCategoryID").val() == "2")
+                {
+                    formData.append('specification', specification);
+                    formData.append('vendor_id', vendor_id);
+                    // Attach file
+                    formData.append('product_image', $('#inputProductImage').val());
+                    formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
+                    formData.append('mds', $('#inputProductMds').prop("files")[0]);
+                }
+                else if($("#inputProductCategoryID").val() == "3")
+                {
+                    formData.append('specification', specification);
+                    formData.append('vendor_id', vendor_id);
+                    // Attach file
+                } 
 
+                var messageLength = specification.replace(/<[^>]*>/gi, '').trim().length;
                 if( !messageLength && ( $(".specification").css('display') != 'none')) {
                     $("#ckEditorError").html("<span style='color:red;'>Please fill out this field.</span>");
                     btn.button("reset"); 
@@ -497,13 +566,70 @@
                     btn.button("reset"); 
                     return false;
                 }
+                else
+                {
 
+                    var img = document.getElementById('prodImgPrev'); 
+                    //or however you get a handle to the IMG
+                    var width = img.naturalWidth;
+                    var height = img.naturalHeight;
+                    if($("#inputProductCategoryID").val() == "1")
+                    {
+                        if(width != "846" || height != "203")
+                        {                  
+                            img_error = "<span style='color:red;'>Invalid cover size use 846x203</span>";   
+                            btn.button("reset");
+                            $("#productImageError").html(img_error);
+                            return false;
+                        }
+                        else
+                        {
+                            $("#productImageError").html("");  
+                        }
+                    }
+                    else if($("#inputProductCategoryID").val() == "2")
+                    {  
+                        if(width != "450" || height != "450")
+                        {                  
+                            img_error = "<span style='color:red;'>Invalid cover size use 450x450</span>";   
+                            btn.button("reset");
+                            $("#productImageError").html(img_error);
+                            return false;
+                        }
+                        else
+                        {
+                            $("#productImageError").html("");  
+                        }
+                    }
+
+                }
                 
                 if( $(".product_sub_image").css('display') != 'none'  && $("#inputProductSubImage").val() == "")
                 {
+                    
                     $("#productSubImageError").html("<span style='color:red;'>Please fill out this field.</span>");
                     btn.button("reset"); 
                     return false;
+                }
+                else
+                {
+                    if($("#inputProductCategoryID").val() == "1")
+                    {
+                        img = document.getElementById('prodSubImgPrev');  
+                        width = img.naturalWidth;
+                        height = img.naturalHeight;
+                        if(width != "399" || height != "206")
+                        {                  
+                            img_error = "<span style='color:red;'>Invalid cover size use 399x206</span>";   
+                            btn.button("reset");
+                            $("#productSubImageError").html(img_error);
+                            return false;
+                        }
+                        else
+                        {
+                            $("#productImageError").html("");  
+                        }
+                    }
                 }
 
                 var url = "<?php echo base_url()."cms/products/add_products";?>";
@@ -513,6 +639,7 @@
                     url =  "<?php echo base_url()."cms/products/edit_products";?>";
                     message = "Products successfully updated";
                 }
+                
                 $('#uploadBoxMain').html('<div class="progress"><div class="progress-bar progress-bar-aqua" id = "progressBarMain" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">20% Complete</span></div></div>');
                 $.ajax({
                     data: formData,
@@ -585,7 +712,7 @@
                         success: function(data){
                             //alert("Data Save: " + data);
                             btn.button("reset");
-                            table.draw();
+                            table.draw("page");
                             $("#deleteProductsModal").modal("hide");
                             toastr.error('Product ' + deleteItem + ' successfully deleted');
                         },
@@ -607,6 +734,7 @@
             $("#inputProductCategoryID,#inputProductVendorID,#inputProductCategoryID,#inputProductSeriesID").val('').trigger('change');
             $("#inputVisibility").val("promotion_only");
             $("#productForm").validator('destroy');
+            $("#inputStatus").val('1').trigger("change");
         });
 
         function resetForm($form) {
@@ -624,6 +752,7 @@
         $(".add").hide();    
         $('#productForm').validator();    
         $("#action").val("edit");
+        
         var data = { "id" : id }
         $.ajax({
                 data: data,
@@ -642,7 +771,8 @@
                     $("#inputProductCategoryID").val(data.products.product_category_id).trigger("change");
                     $("#inputVisibility").val(data.products.visibility).trigger("change");
                     $("#inputProductVendorID").val(data.products.product_vendor_id).trigger("change");
-                    set_series(data.products.product_series_id);
+                    $("#inputStatus").val(data.products.status).trigger("change");
+                    setTimeout(set_series(data.products.product_series_id), 1000);
                     $("#productModal").modal("show");
                 },
                 error: function (request, status, error) {

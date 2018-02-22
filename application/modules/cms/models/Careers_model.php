@@ -5,11 +5,13 @@ class Careers_model extends CI_Model {
         public $id;
         public $job_title;
         public $job_description;
+        public $status;
 
         public function insert_career()
         {
                 $data["job_title"] = $this->job_title ; 
                 $data["job_description"] = $this->job_description;
+                $data["status"] = $this->status;
                 $data["date_created"] = date("Y-m-d H:i:s A");
                 $data["created_by"] =  $this->session->userdata("USERID");
                 echo $result = $this->db->insert('careers', $data);
@@ -28,6 +30,7 @@ class Careers_model extends CI_Model {
         {
                 $data["job_title"] = $this->job_title ; 
                 $data["job_description"] = $this->job_description;
+                $data["status"] = $this->status;
                 $data["date_modified"] = date("Y-m-d H:i:s A");
                 $data["modified_by"] =  $this->session->userdata("USERID");
                 $this->db->where("id",$this->id);

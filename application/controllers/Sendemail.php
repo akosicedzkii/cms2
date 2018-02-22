@@ -15,6 +15,21 @@ class Sendemail extends CI_Controller {
 	
 	public function send_contact_us()
 	{
+		$session = $this->session->userdata('submission');
+
+		if(!empty($session))
+		{
+			if($session == 2)
+			{
+				echo "Max submission reached. Limit is only 2 submissions per 2 hours";
+				die();
+			}
+			$this->session->set_userdata("submission",$this->session->userdata('submission') + 1);   
+		}else{
+	 
+			 $this->session->set_userdata("submission",1);     
+		}  
+
 		$to = CONTACT_US_EMAIL_ADDRESS;
 		$body = $this->input->post("body");
 		$subject = "Contact Us Response";
@@ -45,10 +60,26 @@ class Sendemail extends CI_Controller {
 
 		$this->db->query("UPDATE submissions_counter SET contact_us = contact_us + 1");
 
+		  
 	}
 
 	public function send_franchise()
 	{
+		$session = $this->session->userdata('submission');
+
+		if(!empty($session))
+		{
+			if($session == 2)
+			{
+				echo "Max submission reached. Limit is only 2 submissions per 2 hours";
+				die();
+			}
+			$this->session->set_userdata("submission",$this->session->userdata('submission') + 1);   
+		}else{
+	 
+			 $this->session->set_userdata("submission",1);     
+		}  
+
 		if ( 0 < $_FILES['file']['error'] ) {
 			echo 'Error';
 		}
@@ -89,6 +120,20 @@ class Sendemail extends CI_Controller {
 
 	public function send_careers()
 	{	
+		$session = $this->session->userdata('submission');
+
+		if(!empty($session))
+		{
+			if($session == 2)
+			{
+				echo "Max submission reached. Limit is only 2 submissions per 2 hours";
+				die();
+			}
+			$this->session->set_userdata("submission",$this->session->userdata('submission') + 1);   
+		}else{
+	 
+			 $this->session->set_userdata("submission",1);     
+		}  
 		if ( 0 < $_FILES['file']['error'] ) {
 			echo 'Error';
 		}

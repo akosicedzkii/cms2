@@ -12,7 +12,7 @@ class Careers extends CI_Controller {
 		$this->v_counter->insert_visitor();   
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "CAREERS - Unioil";
-		$data["jobs"] =$this->db->order_by("id","desc")->get("careers")->result();
+		$data["jobs"] =$this->db->where("status","1")->order_by("id","desc")->get("careers")->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('careers_view');
 		$this->load->view('template/footer.php',$data);

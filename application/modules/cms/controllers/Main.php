@@ -35,7 +35,12 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		
+		if($this->default_page == "opportunities_careers"){
+			$this->default_page = "opportunities/careers";
+		}
+		if($this->default_page == "opportunities_franchise"){
+			$this->default_page = "opportunities/franchise";
+		}
 		redirect(base_url()."cms/main/".$this->default_page);
     }
 	public function dashboard()

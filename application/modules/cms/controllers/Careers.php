@@ -19,6 +19,7 @@ class Careers extends CI_Controller {
 	{
         $this->careers_model->job_title = $this->input->post("job_title");
         $this->careers_model->job_description = $this->input->post("job_description");
+        $this->careers_model->status = $this->input->post("status");
         echo $this->careers_model->insert_career();
 	}
 
@@ -27,6 +28,7 @@ class Careers extends CI_Controller {
         $careers_id = $this->input->post("id");
         $this->careers_model->job_title = $this->input->post("job_title");
         $this->careers_model->job_description = $this->input->post("job_description");
+        $this->careers_model->status = $this->input->post("status");
         $this->careers_model->id = $careers_id;
         echo $this->careers_model->update_career();
 	}
@@ -61,9 +63,9 @@ class Careers extends CI_Controller {
     public function get_career_list()
     {
         $this->load->model("cms/data_table_model","dt_model");  
-        $this->dt_model->select_columns = array("t1.id","t1.job_title","t1.job_description","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
-        $this->dt_model->where  = array("t1.id","t1.job_title","t1.job_description","t1.date_created","t2.username","t1.date_modified","t3.username");  
-        $select_columns = array("id","job_title","job_description","date_created","created_by","date_modified","modified_by");  
+        $this->dt_model->select_columns = array("t1.id","t1.job_title","t1.job_description","t1.status","t1.date_created","t2.username as created_by","t1.date_modified","t3.username as modified_by");  
+        $this->dt_model->where  = array("t1.id","t1.job_title","t1.job_description","t1.status","t1.date_created","t2.username","t1.date_modified","t3.username");  
+        $select_columns = array("id","job_title","job_description","status","date_created","created_by","date_modified","modified_by");  
         $this->dt_model->table = "careers AS t1 LEFT JOIN user_accounts AS t2 ON t2.id = t1.created_by LEFT JOIN user_accounts AS t3 ON t3.id = t1.modified_by";  
         $this->dt_model->index_column = "t1.id";
         $result = $this->dt_model->get_table_list();
@@ -76,6 +78,17 @@ class Careers extends CI_Controller {
                     if($col == "username" || $col == "created_by" || $col == "modified_by")
                     {
                         $row[] = $aRow[$col];
+                    }
+                    else if($col == "status")
+                    {
+                        if( $aRow[$col] == "1")
+                        {
+                            $row[] = "Enabled";
+                        }
+                        else
+                        {
+                            $row[] = "Disabled";
+                        }
                     }
                     else
                     {

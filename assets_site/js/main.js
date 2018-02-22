@@ -35,7 +35,11 @@ $(document).ready(function() {
 					   {
 						   alert("Message successfully sent");
 						   window.location = "";
+					   }else{
+						alert(response);
+						window.location = "";
 					   }						   
+						   
 
 					},
 					error: function(jqXHR, textStatus, errorThrown) {

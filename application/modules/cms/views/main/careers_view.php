@@ -29,6 +29,7 @@
             <th>ID</th>
             <th>Career</th>
             <th>Description</th>
+            <th>Status</th>
             <th>Date Created</th>
             <th>Created By</th>
             <th>Date Modified</th>
@@ -78,6 +79,17 @@
                                 <textarea class="form-control" id="inputCareerDescription" placeholder="Job Description" style="resize:none" required></textarea>
                                 <div class="help-block with-errors" id="ckEditorError"></div>
                                 </div>
+                            </div> 
+                            <div class="form-group">
+                                <label for="inputStatus" class="col-sm-2 control-label">Status</label>
+
+                                <div class="col-sm-10">
+                                <select class="form-control" id="inputStatus" placeholder="Content" style="resize:none" required>
+                                    <option value="1">Enable</option>
+                                    <option value="0">Disable</option>
+                                </select>
+                                <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div id="uploadBoxMain" class="col-md-12">
@@ -123,7 +135,11 @@
 <!-- /.modal -->
 
 <script>
-
+    $("#inputStatus").select2({
+        dropdownAutoWidth : true,
+        width: 'auto',
+        placeholder: "--- Select Item ---"
+    });
     var editor = CKEDITOR.replace('inputCareerDescription');
     var main = function(){
         var table = $('#careerList').DataTable({  
@@ -137,7 +153,7 @@
             ,"columnDefs": [
             { "visible": false,  "targets": [ 0 ] },
             { "width": "20%",  "targets": [ 1 ] }
-        ], "order": [[ 3, 'desc' ]]
+        ], "order": [[ 5, 'desc' ]]
         });
         $("#addBtn").click(function(){
             $("#careerModal .modal-title").html("Add <?php echo ucfirst($module_name);?>");
@@ -162,7 +178,8 @@
                 var job_title = $("#inputCareerTitle").val();
                 var job_description = editor.getData();
                 var career_id = $("#careerID").val();
-                if(job_title == "")
+                var status  = $("#inputStatus").val();
+                if(job_title == "" || status == "")
                 {
                     btn.button("reset"); 
                     return false;
@@ -178,7 +195,8 @@
                 var data = {
                     'id':career_id,
                     "job_title" : job_title,
-                    "job_description" : job_description
+                    "job_description" : job_description,
+                    "status" : status
                 };
                
                 var url = "<?php echo base_url()."cms/careers/add_career";?>";
@@ -303,6 +321,7 @@
                     $("#inputCareerTitle").val(data.career.job_title);
                     editor.setData(data.career.job_description);
                     $("#careerID").val(data.career.id);
+                    $("#inputStatus").val(data.career.status).trigger('change');;
                     $("#careerModal").modal("show");
                 },
                 error: function (request, status, error) {
