@@ -71,7 +71,8 @@ class Products extends CI_Controller {
 	public function edit_products()
 	{
         $products_id = $this->input->post("id");
-       
+        $this->db->where("id",$products_id);
+        $result = $this->db->get("products")->row();
         $this->products_model->product_sub_image = $this->input->post("product_sub_image");
         $this->products_model->product_image = $this->input->post("product_image");
        
@@ -83,6 +84,14 @@ class Products extends CI_Controller {
             $new_filename_pdf = str_replace(" ","_",$this->input->post("product_name"))."_pdf_pds_".date("YmdHisU");
             $config_pdf['file_name']= $new_filename_pdf ;
             $this->load->library('upload', $config_pdf); 
+            $this->upload->initialize($config_pdf);
+            if($result->pdf != "")
+            {
+                if(file_exists($upload_path.$result->pdf))
+                {
+                    unlink($upload_path.$result->pdf);
+                }
+            }
             if(!$this->upload->do_upload('pdf',$new_filename_pdf))  
             {  
                 echo $this->upload->display_errors(); 
@@ -100,6 +109,14 @@ class Products extends CI_Controller {
             $new_filename_mds = str_replace(" ","_",$this->input->post("product_name"))."_mds_".date("YmdHisU");
             $config_mds['file_name']= $new_filename_mds ;
             $this->load->library('upload', $config_mds); 
+            $this->upload->initialize($config_mds);
+            if($result->mds != "")
+            {
+                if(file_exists($upload_path.$result->mds))
+                {
+                    unlink($upload_path.$result->mds);
+                }
+            }
             if(!$this->upload->do_upload('mds',$new_filename_mds))  
             {  
                 echo $this->upload->display_errors(); 
@@ -133,7 +150,22 @@ class Products extends CI_Controller {
         $data_products = $this->db->get("products");
         $this->db->where("id",$id);
         echo $result = $this->db->delete("products");
-        unlink($dir.$data_products->row()->pdf);
+        if($data_products->row()->mds != "")
+        {
+            if(file_exists($dir.$data_products->row()->mds))
+            {
+                unlink($dir.$data_products->row()->mds);
+            }
+        }
+
+        if($data_products->row()->pdf != "")
+        {
+            if(file_exists($dir.$data_products->row()->pdf))
+            {
+                unlink($dir.$data_products->row()->pdf);
+            }
+        }
+
         $data = json_encode($data_products->row());
         $this->logs->log = "Deleted Products - ID:". $data_products->row()->id .", Products Name: ".$data_products->row()->product_name ;
         $this->logs->details = json_encode($data);

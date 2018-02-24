@@ -58,7 +58,7 @@ class Products extends CI_Controller {
 		$this->v_counter->insert_visitor(); 
 		$data["module_name"] = strtolower($this->router->fetch_class());
 		$data["title"] = "ASPHALT - Unioil";
-		$data["asphalt_products"] = $this->db->where("product_category_id","3")->get("products")->result();
+		$data["asphalt_products"] = $this->db->where("product_category_id","3")->where("status","1")->get("products")->result();
 		$this->load->view('template/header.php',$data);
 		$this->load->view('asphalt_view');
 		$this->load->view('template/footer.php',$data);

@@ -123,8 +123,8 @@
 
                                     <div class="col-sm-10">
                                     <select class="form-control" id="inputVisibility"  style="resize:none">
-                                        <option value="promotion_only">Promotion</option>
                                         <option value="price_only">Price</option>
+                                        <option value="promotion_only">Promotion</option>
                                         <!--<option value="price_and_promotion">Price And Promotion</option>-->
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -184,6 +184,7 @@
 
                                 <div class="col-sm-10">
                                 <input type="file" class="form-control" id="inputProductPdf" placeholder="PDS/PDF file" style="resize:none" accept=".pdf">
+                                <div class="help-block" id="pdfInfo"></div>
                                 <div class="help-block with-errors" id="pdsError"></div>
                                 </div>
                             </div>
@@ -193,6 +194,7 @@
 
                                 <div class="col-sm-10">
                                 <input type="file" class="form-control" id="inputProductMds" placeholder="MDS file" style="resize:none" accept=".pdf">
+                                <div class="help-block" id="mdsInfo"></div>
                                 <div class="help-block with-errors" id="mdsError"></div>
                                 </div>
                             </div>
@@ -389,13 +391,7 @@
             $("#inputProductPdf").removeAttr("required");
             if($("#inputProductCategoryID").val() == "1")
             {
-                $("#inputVisibility").change();
                 $(".visibility").show();
-                $(".specification").show();
-                $(".product_image").show();
-                $("#lblImage").html("Product Image(Recommended Size: 846x203)");
-                $(".product_sub_image").show();
-                $(".mds").hide();
             }
             else if($("#inputProductCategoryID").val() == "2")
             {
@@ -440,6 +436,7 @@
                     $(".product_image").hide();
                     $(".product_sub_image").hide();
                     $(".pdf").hide();
+                    $(".mds").hide();
                     $("#inputProductPdf").removeAttr("required");
                 }
                 else
@@ -448,6 +445,8 @@
                     $(".product_image").show();
                     $(".product_sub_image").show();
                     $(".pdf").show();
+                    $("#lblImage").html("Product Image(Recommended Size: 846x203)");
+                    $(".mds").hide();
                     var action = $("#action").val();
                     if(action == "edit")
                     {
@@ -479,6 +478,8 @@
             $("#inputProductSubImage").val("");
             $("#prodImgPrev").attr("src","#");
             $("#prodSubImgPrev").attr("src","#");
+            $("#pdfInfo").html("");
+            $("#mdsInfo").html("");
             $('#productForm').validator();
             $("#productModal").modal("show");
         });
@@ -516,7 +517,7 @@
                 var product_series_id = $("#inputProductSeriesID").val();
                 var visibility = $("#inputVisibility").val();
                 var status = $("#inputStatus").val();
-                if(product_name == "" || product_description == "" || vendor_id == "" || product_category_id == "")
+                if(product_name == "" || product_description == "" || vendor_id == "" || product_category_id == "" || status == "")
                 {
                     btn.button("reset"); 
                     return false;
@@ -528,15 +529,18 @@
                 formData.append('vendor_id', vendor_id);
                 formData.append('product_category_id', product_category_id);
                 formData.append('product_series_id', product_series_id);
-                    formData.append('status', status);
+                formData.append('status', status);
                 if($("#inputProductCategoryID").val() == "1")
                 {
                     formData.append('specification', specification);
                     formData.append('visibility', visibility);
                     // Attach file
-                    formData.append('product_image', $('#inputProductImage').val());
-                    formData.append('product_sub_image', $('#inputProductSubImage').val());
-                    formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
+                    if($("#inputVisibility").val() == "promotion_only")
+                    {
+                        formData.append('product_image', $('#inputProductImage').val());
+                        formData.append('product_sub_image', $('#inputProductSubImage').val());
+                        formData.append('pdf', $('#inputProductPdf').prop("files")[0]);
+                    }
                 }
                 else if($("#inputProductCategoryID").val() == "2")
                 {
@@ -575,17 +579,21 @@
                     var height = img.naturalHeight;
                     if($("#inputProductCategoryID").val() == "1")
                     {
-                        if(width != "846" || height != "203")
-                        {                  
-                            img_error = "<span style='color:red;'>Invalid cover size use 846x203</span>";   
-                            btn.button("reset");
-                            $("#productImageError").html(img_error);
-                            return false;
-                        }
-                        else
+                        if($("#inputVisibility").val() == "promotion_only")
                         {
-                            $("#productImageError").html("");  
+                            if(width != "846" || height != "203")
+                            {                  
+                                img_error = "<span style='color:red;'>Invalid cover size use 846x203</span>";   
+                                btn.button("reset");
+                                $("#productImageError").html(img_error);
+                                return false;
+                            }
+                            else
+                            {
+                                $("#productImageError").html("");  
+                            }
                         }
+                        
                     }
                     else if($("#inputProductCategoryID").val() == "2")
                     {  
@@ -615,20 +623,23 @@
                 {
                     if($("#inputProductCategoryID").val() == "1")
                     {
-                        img = document.getElementById('prodSubImgPrev');  
-                        width = img.naturalWidth;
-                        height = img.naturalHeight;
-                        if(width != "399" || height != "206")
-                        {                  
-                            img_error = "<span style='color:red;'>Invalid cover size use 399x206</span>";   
-                            btn.button("reset");
-                            $("#productSubImageError").html(img_error);
-                            return false;
-                        }
-                        else
+                        if($("#inputVisibility").val() == "promotion_only")
                         {
-                            $("#productImageError").html("");  
-                        }
+                            img = document.getElementById('prodSubImgPrev');  
+                            width = img.naturalWidth;
+                            height = img.naturalHeight;
+                            if(width != "399" || height != "206")
+                            {                  
+                                img_error = "<span style='color:red;'>Invalid cover size use 399x206</span>";   
+                                btn.button("reset");
+                                $("#productSubImageError").html(img_error);
+                                return false;
+                            }
+                            else
+                            {
+                                $("#productImageError").html("");  
+                            }
+                        }   
                     }
                 }
 
@@ -735,6 +746,8 @@
             $("#inputVisibility").val("promotion_only");
             $("#productForm").validator('destroy');
             $("#inputStatus").val('1').trigger("change");
+            $("#pdfInfo").html("");
+            $("#mdsInfo").html("");
         });
 
         function resetForm($form) {
@@ -772,8 +785,15 @@
                     $("#inputVisibility").val(data.products.visibility).trigger("change");
                     $("#inputProductVendorID").val(data.products.product_vendor_id).trigger("change");
                     $("#inputStatus").val(data.products.status).trigger("change");
-                    setTimeout(set_series(data.products.product_series_id), 1000);
-                    $("#productModal").modal("show");
+                    setTimeout(set_series(data.products.product_series_id), 1500);
+                    if(data.products.pdf != null)
+                    {
+                        $("#pdfInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.pdf+"' target=_blank >Preview</a>");
+                    }
+                    if(data.products.mds != null)
+                    {
+                        $("#mdsInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.mds+"' target=_blank >Preview</a>");
+                    }
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -843,6 +863,8 @@
                         id = "None";
                     }
                     $("#inputProductSeriesID").val(id).trigger("change");
+                    
+                    $("#productModal").modal("show");
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);

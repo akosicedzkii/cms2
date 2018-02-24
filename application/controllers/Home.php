@@ -61,7 +61,7 @@ class Home extends CI_Controller {
 		$result = $this->db->query($query);
 
 
-		$query = "SELECT * from products where product_category_id = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
+		$query = "SELECT * from products where product_category_id = 1 AND status = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
 		$fuel_list =  $this->db->query($query)->result();
 		$return = "<tbody>";
 		foreach($fuel_list as $row)

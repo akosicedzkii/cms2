@@ -152,7 +152,7 @@ class Main extends CI_Controller {
 		$module["module_name"] = $this->router->fetch_method();
 		$module["menu"] = $this->user_access;
 		$module["branches"] = $this->db->get("branches")->result();
-		$query = "SELECT * from products where product_category_id = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
+		$query = "SELECT * from products where product_category_id = 1 AND status = 1 AND (visibility = 'price_only' OR visibility = 'price_and_promotion')";
 		$module["fuel_list"] = $this->db->query($query)->result();
 		$this->load->view('main/template/header',$module);
 		$this->load->view('main/stations_view',$module);

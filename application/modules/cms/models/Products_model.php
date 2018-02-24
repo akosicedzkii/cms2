@@ -12,6 +12,7 @@ class Products_model extends CI_Model {
         public $product_category_id;
         public $product_series_id;
         public $pdf;
+        public $mds;
         public $visibility;
         public $status;
 
