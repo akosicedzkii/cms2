@@ -156,7 +156,7 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="carousel-bg" src="<?php echo base_url()."assets_site/"?>images/banner 2.png">
+                        <img class="carousel-bg" src="<?php echo base_url()."uploads/"?>mid_banner_image/<?php echo MID_BANNER_IMAGE;?>">
                         <div class="carousel-content-container">
                             <h3 class="animate fade-in" data-group="fb-banner">Instantly see updates and promos!</h3>
                             <a href="<?php echo FACEBOOK_URL;?>"><img class="fb-img-btn animate fade-in" data-group="fb-banner" src="<?php echo base_url()."assets_site/"?>images/unioil-fb-button.png" alt="" /></a>

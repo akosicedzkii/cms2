@@ -52,6 +52,16 @@ $(document).ready(function() {
         }
     });
 
+    
+    $.ajax({
+        "url" : base_url + "loyalty/profile/api_transaction",
+        "method" : "post",
+        "success" : function(data){
+            data = JSON.parse(data);
+
+        }
+    });
+
     var fileNode = document.querySelector('#image'),
     form = new FormData(),
     xhr = new XMLHttpRequest();
