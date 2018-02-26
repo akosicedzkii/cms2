@@ -175,6 +175,40 @@ class Products extends CI_Controller {
         
 	}
 
+    public function remove_file()
+    {
+        $id = $this->input->post("id");
+        $type = $this->input->post("type");
+        $this->db->where("id",$id);
+        $result = $this->db->get("products")->row();
+        $upload_path = './uploads/products/'; 
+        if($type == "mds")
+        {
+            $data["mds"] = null;
+            if($result->mds != "")
+            {
+                if(file_exists($upload_path.$result->mds))
+                {
+                    unlink($upload_path.$result->mds);
+                }
+            }
+            $this->db->where("id",$id);
+            echo $this->db->update("products",$data);
+        }
+        else if($type == "pdf")
+        {
+            $data["pdf"] = null;
+            if($result->pdf != "")
+            {
+                if(file_exists($upload_path.$result->pdf))
+                {
+                    unlink($upload_path.$result->pdf);
+                }
+            }
+            $this->db->where("id",$id);
+            echo $this->db->update("products",$data);
+        }
+    }
     public function get_products_data()
     {
         $id = $this->input->post("id");

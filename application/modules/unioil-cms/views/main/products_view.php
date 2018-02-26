@@ -310,7 +310,30 @@
 <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
+<!-- /.modal -->
+<div class="modal fade" id="deleteFileModal"  data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+           
+             <h3 class="modal-title">Remove Product</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deleteFileKey">
+                <input type="hidden" id="deleteFileType">
+                <center><h4>Are you sure to remove the file?</label></h4></center>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="deleteFile">Delete</button>
+            </div>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
 <!-- /.modal -->
 <div class="modal fade" id="imgPreviewModal"   role="dialog"  data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -788,11 +811,11 @@
                     setTimeout(set_series(data.products.product_series_id), 1500);
                     if(data.products.pdf != null)
                     {
-                        $("#pdfInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.pdf+"' target=_blank >Preview</a>");
+                        $("#pdfInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.pdf+"' target=_blank >Preview</a>&emsp;<a class='btn btn-danger' onclick='remove_file("+data.products.id+",\"pdf\");return false;' href='#'>Remove</a>");
                     }
                     if(data.products.mds != null)
                     {
-                        $("#mdsInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.mds+"' target=_blank >Preview</a>");
+                        $("#mdsInfo").html("<a class='btn btn-success' href='<?php echo base_url()."uploads/products/";?>"+data.products.mds+"' target=_blank >Preview</a>&emsp;<a class='btn btn-danger' onclick='remove_file("+data.products.id+",\"mds\");return false;' href='#'>Remove</a>");
                     }
                 },
                 error: function (request, status, error) {
@@ -815,6 +838,39 @@
         $("#imgPreviewModal").modal("show");
     }
 
+    function remove_file(id,filetype)
+    {
+        $("#deleteFileModal .modal-title").html("Remove "+ filetype );
+        $("#deleteFile").html("Remove "+filetype);
+        $("#deleteFileKey").val(id);
+        $("#deleteFileType").val(filetype);
+        $("#deleteFileModal").modal("show");
+    }
+    $("#deleteFile").click(function(){
+        $("#deleteFile").button("loading");
+        var type = $("#deleteFileType").val();
+        var data = {"type" : type , "id": $("#deleteFileKey").val() };
+            $.ajax({
+                data: data,
+                type: "post",
+                url: "<?php echo base_url()."unioil-cms/products/remove_file";?>",
+                success: function(data){
+                    $("#deleteFileModal").modal("hide");
+                    $("#deleteFile").button("reset");
+                    if(type == "mds")
+                    {
+                        $("#mdsInfo").html("");
+                    }
+                    else  if(type == "pdf")
+                    {
+                        $("#pdfInfo").html("");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+    });
     function check_series()
     {
         if($("#inputProductCategoryID").val() == "" || $("#inputProductVendorID").val() == "")

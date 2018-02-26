@@ -150,9 +150,9 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <div class="edit-field-group">
-                                        <input id="gender-male" class="radio-btn" type="radio" value="male" name="edit-gender" checked />
+                                        <input id="gender-male" class="radio-btn" type="radio" value="M" name="edit-gender" checked />
                                         <label for="gender-male">Male</label>
-                                        <input id="gender-female" class="radio-btn" type="radio" value="female" name="edit-gender" />
+                                        <input id="gender-female" class="radio-btn" type="radio" value="F" name="edit-gender" />
                                         <label for="gender-female">Female</label>
                                         <p class="error-msg"></p>
                                     </div>
@@ -162,14 +162,14 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <div class="edit-field-group">
-                                        <input id="gender-male" class="radio-btn" type="radio" value="single" name="edit-status" checked />
+                                        <input id="gender-male" class="radio-btn" type="radio" value="S" name="edit-status" checked />
                                         <label for="status-single">Single</label>
-                                        <input id="gender-female" class="radio-btn" type="radio" value="married" name="edit-status" />
+                                        <input id="gender-female" class="radio-btn" type="radio" value="M" name="edit-status" />
                                         <label for="status-married">Married</label>
                                         <br>
-                                        <input id="gender-male" class="radio-btn" type="radio" value="widow" name="edit-status" />
+                                        <input id="gender-male" class="radio-btn" type="radio" value="W" name="edit-status" />
                                         <label for="status-widow">Widow</label>
-                                        <input id="gender-female" class="radio-btn" type="radio" value="separated" name="edit-status" />
+                                        <input id="gender-female" class="radio-btn" type="radio" value="P" name="edit-status" />
                                         <label for="status-separated">Separated</label>
                                         <p class="error-msg"></p>
                                     </div>

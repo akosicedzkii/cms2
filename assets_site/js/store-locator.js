@@ -109,13 +109,13 @@ var populateStoreList = function() {
 			itemLimit = 1;
 		break;
 		case 'sm':
-			itemLimit = 9;
+			itemLimit = 4;
 		break;
 		case 'md':
-			itemLimit = 12;
+			itemLimit = 4;
 		break;
 		default:
-			itemLimit = 12;
+			itemLimit = 4;
 		break;
 	}
 
@@ -124,19 +124,19 @@ var populateStoreList = function() {
 		$listAreaGroup = null;
 		$branchList = null;
 
-		hasMultipleColumn = (branchCount > 5) ? 'multiple-column' : '';
-		$branchList = $('<ul>');
+		hasMultipleColumn = (branchCount > 20) ? 'multiple-column' : '';
+		$branchList = $('<ul>')
 
 		for(branch in stores[area]['branches']) {
 			$branchList.append('<li><a class="branch-link" data-area="' + area + '" data-branch="' + branch + '">' + stores[area]['branches'][branch]['name'] + '</a></li>');
 			branchCount++;
 		}
 
-		if(branchCount > 5) {
+		if(branchCount > 20) {
 			$branchList.addClass('multiple-column');
 		}
 
-		$listAreaGroup = $('<div>', {'class': 'col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 list-area-group', });
+		$listAreaGroup = $('<div>', {'class': 'col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3 list-area-group', });
 		$listAreaGroup.append($('<p>').text(stores[area]['name']));
 		$listAreaGroup.append($branchList);
 		$page.append($listAreaGroup)
