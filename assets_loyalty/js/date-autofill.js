@@ -16,11 +16,11 @@ var dayAutofill = function($day, month, year) {
     var days;
 
     switch (month) {
-        case '1':
-        case '3':
-        case '5':
-        case '7':
-        case '8':
+        case '01':
+        case '03':
+        case '05':
+        case '07':
+        case '08':
         case '10':
         case '12':
             days = 31;
@@ -38,6 +38,10 @@ var dayAutofill = function($day, month, year) {
     }
     $day.html('<option value="default">DD</option>');
     for (var dcount = 1; dcount <= days; dcount++) {
+        if(dcount <= 9)
+        {
+            dcount = "0" + dcount;
+        }
         $day.append('<option value="' + dcount + '">' + dcount + '</option>');
     }
 }

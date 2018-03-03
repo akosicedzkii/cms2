@@ -20,7 +20,7 @@
                     <div class="col-12 col-md-auto profile-info-container">
                         <p class="profile-info" id="profile-name"><?php echo ucwords($this->session->userdata("first_name")." ".$this->session->userdata("middle_innitial").". ".$this->session->userdata("last_name") );?></p>
                         <p class="profile-info"><span id="profile-card-label">Card #:</span> <span id="profile-card-number"><?php echo $this->session->userdata("card_number");?></span></p>
-                        <a class="ghost-btn white profile-edit-btn" data-toggle="modal" href="#edit-modal">EDIT PROFILE</a>
+                        <a class="ghost-btn white profile-edit-btn" id="editBtn" style="cursor:pointer;">EDIT PROFILE</a>
                         <input type="text" id="profile-points" readonly value="000000000" />
                         <p class="profile-points-label">CURRENT POINTS</p>
                     </div>
@@ -32,6 +32,7 @@
                 <div class="row">
                     <div class="col-12">
                         <h4 class="text-center">TRANSACTION HISTORY</h4>
+                        <div><label>Transaction Date: </label>&emsp;<input type="text" id="datepick" class="pull-right" placeholder="Transaction Date" style="text-align:center;width:100px;"></div>
                         <div class="table-responsive">
                             <table id="transaction-table" class="table">
                                 <thead>
@@ -44,55 +45,9 @@
                                         <th>POINTS EARNED</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEST</td>
-                                        <td>TEST</td>
-                                        <td>000</td>
-                                        <td>TEST</td>
-                                        <td>0.00</td>
-                                        <td>0</td>
-                                    </tr>
+                                <tbody id = "tbl_content">
+                                   
+                                   
                                 </tbody>
                             </table>
                         </div>
